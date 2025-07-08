@@ -1,44 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Custom Parameter Image Viewer</title>
+  <meta charset="UTF-8" />
+  <title>Amplitude Viewer</title>
   <style>
     body {
       font-family: sans-serif;
       padding: 20px;
       text-align: center;
+      margin: 0;
+      background: #fff;
     }
-    input[type=range] {
-      width: 300px;
-    }
-    img {
+
+    /* Logo container */
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 20px;
       margin-top: 20px;
-      max-width: 80%;
+    }
+
+    .logo {
+      height: 60px;
+      width: auto;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+      justify-items: center;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .slider-container {
+      width: 100%;
+      max-width: 200px;
+      text-align: left;
+    }
+
+    input[type=range] {
+      width: 100%;
+    }
+
+    select {
+      width: 100%;
+      padding: 5px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      max-width: 1000px;
+      margin: 0 auto;
+      justify-items: center;
+    }
+
+    img {
+      max-width: 100%;
+      width: 100%;
+      max-height: 1000px;
+      object-fit: contain;
       border: 1px solid #ccc;
+    }
+
+    .convergence-container {
+      max-width: 1500px;
+      margin: 40px auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .convergence-container img {
+      width: 100%;
+      max-width: 1500px;
+      max-height: 300px;
+      border: 1px solid #ccc;
+      object-fit: contain;
+    }
+
+    /* Almond controls styled as a 3-column grid */
+    .almond-controls {
+      max-width: 800px;
+      margin: 40px auto 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      justify-items: center;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    footer a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <h1>Image Viewer</h1>
+
+  <h1>S-matrix Bootstrap Extremal Amplitudes Viewer</h1>
+
+  <div class="controls">
+    <div class="slider-container">
+      <label for="paramD">Dimension d: <span id="valD">4</span></label><br />
+      <input type="range" id="paramD" min="4" max="6" step="2" value="4" />
+    </div>
+
+    <div class="slider-container">
+      <label for="paramCI">Low Energy ci: <span id="valCI">0</span></label><br />
+      <input type="range" id="paramCI" min="0" max="5" value="0" />
+    </div>
+
+    <div class="slider-container">
+      <label for="paramL">Momentum L: <span id="valL">0</span></label><br />
+      <input type="range" id="paramL" min="0" max="6" step="2" value="0" />
+    </div>
+
+    <div class="slider-container">
+      <label for="paramLmax">lmax: <span id="valLmax">16</span></label><br />
+      <input type="range" id="paramLmax" min="0" max="16" step="2" value="16" />
+    </div>
+
+    <div class="slider-container">
+      <label for="paramNmax">Nmax: <span id="valNmax">11</span></label><br />
+      <input type="range" id="paramNmax" min="0" max="11" value="11" />
+    </div>
+
+    <div class="slider-container">
+      <label for="paramImprov">Improvement:</label><br />
+      <select id="paramImprov">
+        <option value="SPC">SPC (Subtracted Positivity Constraints)</option>
+        <option value="TH, SPC">TH (Threshold) + SPC</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid">
+    <img id="img1" alt="Amplitude Max" />
+    <img id="img2" alt="Amplitude Min" />
+    <img id="img3" alt="ComplexAmplitude Max" />
+    <img id="img4" alt="ComplexAmplitude Min" />
+  </div>
+
+  <div class="convergence-container">
+    <img id="convImgMax" alt="Convergence Max" />
+    <img id="convImgMin" alt="Convergence Min" />
+  </div>
+
+  <!-- Almond image controls -->
+  <div class="almond-controls">
+    <div class="slider-container">
+      <label for="paramNbpts">nbpoints: <span id="valNbpts">4</span></label><br />
+      <input type="range" id="paramNbpts" min="4" max="" value="4" />
+    </div>
+
+    <div class="slider-container">
+      <label for="paramX">x: <span id="valX">0</span></label><br />
+      <input type="range" id="paramX" min="0" max="5" value="0" />
+    </div>
+
+    <div class="slider-container">
+      <label for="paramY">y: <span id="valY">2</span></label><br />
+      <input type="range" id="paramY" min="0" max="5" value="2" />
+    </div>
+  </div>
+
+  <div style="max-width: 800px; margin: 0 auto 60px;">
+    <img id="almondImg" alt="Almond Image" style="width: 100%; max-width: 800px; border: 1px solid #ccc; object-fit: contain; max-height: 600px;" />
+  </div>
+
+  <script>
+    const dSlider = document.getElementById("paramD");
+    const ciSlider = document.getElementById("paramCI");
+    const LSlider = document.getElementById("paramL");
+    const lmaxSlider = document.getElementById("paramLmax");
+    const NmaxSlider = document.getElementById("paramNmax");
+    const improvSelect = document.getElementById("paramImprov");
+
+    const img1 = document.getElementById("img1");
+    const img2 = document.getElementById("img2");
+    const img3 = document.getElementById("img3");
+    const img4 = document.getElementById("img4");
+
+    const convImgMax = document.getElementById("convImgMax");
+    const convImgMin = document.getElementById("convImgMin");
+
+    // Almond controls and image
+    const nbptsSlider = document.getElementById("paramNbpts");
+    const xSlider = document.getElementById("paramX");
+    const ySlider = document.getElementById("paramY");
+    const almondImg = document.getElementById("almondImg");
+
+    function updateLabels() {
+      document.getElementById("valD").textContent = dSlider.value;
+      document.getElementById("valCI").textContent = ciSlider.value;
+      document.getElementById("valL").textContent = LSlider.value;
+      document.getElementById("valLmax").textContent = lmaxSlider.value;
+      document.getElementById("valNmax").textContent = NmaxSlider.value;
+
+      document.getElementById("valNbpts").textContent = nbptsSlider.value;
+      document.getElementById("valX").textContent = xSlider.value;
+      document.getElementById("valY").textContent = ySlider.value;
+    }
+
+    function updateImages() {
+      updateLabels();
+
+      const d = dSlider.value;
+      const ci = ciSlider.value;
+      const L = LSlider.value;
+      const lmax = lmaxSlider.value;
+      const Nmax = NmaxSlider.value;
+      const improv = improvSelect.value;
+
+      const prefix1 = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
+      const prefix2 = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
+
+      img1.src = `images/${prefix1}_minmax=max_improv={${improv}}.png`;
+      img2.src = `images/${prefix1}_minmax=min_improv={${improv}}.png`;
+      img3.src = `images/${prefix2}_minmax=max_improv={${improv}}.png`;
+      img4.src = `images/${prefix2}_minmax=min_improv={${improv}}.png`;
+
+      const convPrefix = `ConvergenceTable_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
+
+      convImgMax.src = `images/${convPrefix}_minmax=max_improv={${improv}}.png`;
+      convImgMin.src = `images/${convPrefix}_minmax=min_improv={${improv}}.png`;
+
+      // Almond image update
+      const nbpts = nbptsSlider.value;
+      const x = xSlider.value;
+      const y = ySlider.value;
+
+      const almondPrefix = `Almond_d=${d}_x=${x}_y=${y}_lmax=${lmax}_Nmax=${Nmax}_nbpts=${nbpts}`;
+
+      almondImg.src = `images/${almondPrefix}_improv={${improv}}.png`;
+    }
+
+    // Attach event listeners
+    [ciSlider, LSlider, dSlider, lmaxSlider, NmaxSlider, improvSelect].forEach(el =>
+      el.addEventListener("input", updateImages)
+    );
+
+    [nbptsSlider, xSlider, ySlider].forEach(el =>
+      el.addEventListener("input", updateImages)
+    );
+
+    // Initial load
+    updateImages();
+  </script>
   
-  <div>
-    <label for="paramI">Param i: <span id="valI">0</span></label><br>
-    <input type="range" id="paramI" min="0" max="5" value="0">
+  <footer>
+    Made by Simon Metayer — contact <a href="mailto:simonmetayer@neuf.fr">simonmetayer@neuf.fr</a> to request missing plots.
+  </footer>
+   <div class="logo-container">
+    <img src="images/cnrs-logo.png" alt="CNRS Logo" class="logo" />
+    <img src="images/lapth-logo.png" alt="LAPTH Logo" class="logo" />
   </div>
-
-  <div>
-    <label for="paramJ">Param j: <span id="valJ">0</span></label><br>
-    <input type="range" id="paramJ" min="0" max="5" value="0">
-  </div>
-
-  <div>
-    <label for="paramK">Param k: <span id="valK">0</span></label><br>
-    <input type="range" id="paramK" min="0" max="5" value="0">
-  </div>
-
-  <img id="outputImage" src="images/c0(c0)k0d.png" alt="Image will appear here" />
-
-  <script src="script.js"></script>
+  
 </body>
 </html>
+
