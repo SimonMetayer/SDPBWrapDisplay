@@ -124,6 +124,9 @@
       text-decoration: underline;
     }
   </style>
+
+  <!-- MathJax for LaTeX rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 </head>
 <body>
 
@@ -255,6 +258,73 @@
 
     updateImages();
   </script>
+
+
+
+<!-- LaTeX explanation section -->
+<div id="latex-explanation" style="max-width: 1000px; margin: 40px auto; text-align: left; font-size: 1rem; line-height: 1.4;">
+  <h2>S-matrix Bootstrap Framework</h2>
+
+  <p>The 2-to-2 scalar scattering amplitude \(\mathcal{M}(s,t)\) satisfies <b>unitarity</b> above threshold \(s > 4m^2\):</p>
+  <p style="font-style: italic;">
+    \[
+      \mathrm{Im}\, f_\ell(s) \geq |f_\ell(s)|^2, \quad s > 4m^2,
+    \]
+    where partial waves \(f_\ell(s)\) appear in the <b>partial wave expansion</b> in \(d\) dimensions:
+  </p>
+  <p style="font-style: italic;">
+    \[
+      \mathcal{M}(s,t) = 16\pi \sum_{\ell=0}^\infty (2\ell + d - 3) \, C_\ell^{\left(\frac{d-3}{2}\right)}\left(1 + \frac{2t}{s - 4m^2}\right) \, f_\ell(s),
+    \]
+    with Gegenbauer polynomials \(C_\ell^{(\alpha)}\).
+  </p>
+
+  <p>Unitarity bounds imply positivity constraints on \(\mathrm{Im} f_\ell(s)\):</p>
+  <p style="font-style: italic;">
+    \[
+      0 \leq \mathrm{Im} f_\ell(s) \leq 1, \quad |f_\ell(s)|^2 \leq \mathrm{Im} f_\ell(s).
+    \]
+  </p>
+
+  <p><b>Crossing symmetry</b> relates the amplitude under interchange:</p>
+  <p style="font-style: italic;">
+    \[
+      \mathcal{M}(s,t) = \mathcal{M}(t,s).
+    \]
+  </p>
+
+  <p>Analyticity and the cut structure are implemented via the <b>conformal map</b> to the unit disk:</p>
+  <p style="font-style: italic;">
+    \[
+      \rho(s) = \frac{\sqrt{4m^2 - s_0} - \sqrt{4m^2 - s}}{\sqrt{4m^2 - s_0} + \sqrt{4m^2 - s}},
+      \quad s_0 < 4m^2 \text{ (free parameter below threshold)}.
+    \]
+  </p>
+  <p>This map sends the physical cut \(s \geq 4m^2\) onto the unit circle \(|\rho|=1\).</p>
+
+  <p><b>Wavelet ansatz</b> for the amplitude expands in powers of \(\rho(s)\) and \(\rho(t)\), enforcing crossing:</p>
+  <p style="font-style: italic;">
+    \[
+      \mathcal{M}(s,t) = \sum_{n,m=0}^N \alpha_{nm} \, \rho(s)^n \rho(t)^m + (s \leftrightarrow t).
+    \]
+  </p>
+
+  <p>To improve convergence near the <b>threshold</b> \(s=4m^2\), a threshold factor is introduced:</p>
+  <p style="font-style: italic;">
+    \[
+      \mathcal{M}(s,t) = (s - 4m^2)^{p} \sum_{n,m=0}^N \alpha_{nm} \, \rho(s)^n \rho(t)^m + (s \leftrightarrow t),
+    \]
+    where \(p\) encodes the threshold behavior of the amplitude.</p>
+
+  <p><b>Subtracted Positivity Constraints (SPC)</b> impose linear inequalities on the coefficients \(\alpha_{nm}\), ensuring:</p>
+  <p style="font-style: italic;">
+    \[
+      \sum_{n,m} \alpha_{nm} \, g_{nm}^{(\ell)}(s) \geq 0,
+    \]
+    where \(g_{nm}^{(\ell)}(s)\) are positive kernels encoding unitarity and analyticity in partial waves.</p>
+</div>
+
+
 
   <footer>
     Made by Simon Metayer — contact <a href="mailto:simonmetayer@neuf.fr">simonmetayer@neuf.fr</a> to request missing plots.
