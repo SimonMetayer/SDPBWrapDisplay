@@ -94,17 +94,17 @@
 
     .almond-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 20px;
-      max-width: 1400px;
+      max-width: 2000px;
       margin: 40px auto;
       justify-items: center;
     }
 
     .almond-grid img {
       width: 100%;
-      max-width: 800px;
-      max-height: 600px;
+      max-width: 900px;
+      max-height: 800px;
       border: 1px solid #ccc;
       object-fit: contain;
     }
@@ -193,14 +193,14 @@
 
   <div class="almond-grid" id="almondGrid"></div>
 
-  <div class="cid-grid" id="cidGrid">
-    <img id="cidImgMax" alt="CI Max" />
-    <img id="cidImgMin" alt="CI Min" />
-  </div>
-
   <div class="convergence-container">
     <img id="convImgMax" alt="Convergence Max" />
     <img id="convImgMin" alt="Convergence Min" />
+  </div>
+  
+  <div class="cid-grid" id="cidGrid">
+    <img id="cidImgMax" alt="CI Max" />
+    <img id="cidImgMin" alt="CI Min" />
   </div>
 
   <script>
@@ -226,9 +226,6 @@
     const almondCoords = [
       [0, 2],
       [0, 3],
-      [0, 4],
-      [0, 5],
-      [0, 6],
       [2, 3]
     ];
 
