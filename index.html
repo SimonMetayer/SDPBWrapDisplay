@@ -12,7 +12,6 @@
       background: #fff;
     }
 
-    /* Logo container */
     .logo-container {
       display: flex;
       justify-content: center;
@@ -88,29 +87,21 @@
     .convergence-container img {
       width: 100%;
       max-width: 2000px;
-      max-height: 300px;
+      max-height: 500px;
       border: 1px solid #ccc;
       object-fit: contain;
     }
 
-    /* Almond controls styled as a 3-column grid */
-    .almond-controls {
-      max-width: 700px;
-      margin: 40px auto 20px;
+    .almond-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 20px;
+      max-width: 1400px;
+      margin: 40px auto;
       justify-items: center;
     }
 
-    .almond-container {
-      max-width: 800px;
-      margin: 0 auto 60px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .almond-container img {
+    .almond-grid img {
       width: 100%;
       max-width: 800px;
       max-height: 600px;
@@ -180,32 +171,14 @@
     <img id="img4" alt="ComplexAmplitude Min" />
   </div>
 
+  <!-- Almond grid displayed BEFORE convergence plots -->
+  <div class="almond-grid" id="almondGrid">
+    <!-- Images will be injected by JavaScript -->
+  </div>
+
   <div class="convergence-container">
     <img id="convImgMax" alt="Convergence Max" />
     <img id="convImgMin" alt="Convergence Min" />
-  </div>
-
-  <!-- Almond image controls -->
-  <div class="almond-controls">
-    <div class="slider-container">
-      <label for="paramNbpts">nbpoints: <span id="valNbpts">4</span></label><br />
-      <input type="range" id="paramNbpts" min="4" max="4" value="4" />
-    </div>
-
-    <div class="slider-container">
-      <label for="paramX">cx: <span id="valX">0</span></label><br />
-      <input type="range" id="paramX" min="0" max="5" value="0" />
-    </div>
-
-    <div class="slider-container">
-      <label for="paramY">cy: <span id="valY">2</span></label><br />
-      <input type="range" id="paramY" min="2" max="5" value="2" />
-    </div>
-  </div>
-
-  <!-- Almond image viewer -->
-  <div class="almond-container">
-    <img id="almondImg" alt="Almond Image" />
   </div>
 
   <script>
@@ -224,10 +197,16 @@
     const convImgMax = document.getElementById("convImgMax");
     const convImgMin = document.getElementById("convImgMin");
 
-    const nbptsSlider = document.getElementById("paramNbpts");
-    const xSlider = document.getElementById("paramX");
-    const ySlider = document.getElementById("paramY");
-    const almondImg = document.getElementById("almondImg");
+    const almondGrid = document.getElementById("almondGrid");
+
+    const almondCoords = [
+      [0, 2],
+      [0, 3],
+      [0, 4],
+      [0, 5],
+      [0, 6],
+      [2, 3]
+    ];
 
     function updateLabels() {
       document.getElementById("valD").textContent = dSlider.value;
@@ -235,10 +214,6 @@
       document.getElementById("valL").textContent = LSlider.value;
       document.getElementById("valLmax").textContent = lmaxSlider.value;
       document.getElementById("valNmax").textContent = NmaxSlider.value;
-
-      document.getElementById("valNbpts").textContent = nbptsSlider.value;
-      document.getElementById("valX").textContent = xSlider.value;
-      document.getElementById("valY").textContent = ySlider.value;
     }
 
     function updateImages() {
@@ -260,23 +235,21 @@
       img4.src = `images/${prefix2}_minmax=min_improv={${improv}}.png`;
 
       const convPrefix = `ConvergenceTable_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
-
       convImgMax.src = `images/${convPrefix}_minmax=max_improv={${improv}}.png`;
       convImgMin.src = `images/${convPrefix}_minmax=min_improv={${improv}}.png`;
 
-      const nbpts = nbptsSlider.value;
-      const x = xSlider.value;
-      const y = ySlider.value;
-
-      const almondPrefix = `Almond_d=${d}_x=${x}_y=${y}_lmax=${lmax}_Nmax=${Nmax}_nbpts=${nbpts}`;
-      almondImg.src = `images/${almondPrefix}_improv={${improv}}.png`;
+      // Almond image grid
+      almondGrid.innerHTML = "";
+      almondCoords.forEach(([x, y]) => {
+        const almondPrefix = `Almond_d=${d}_x=${x}_y=${y}_lmax=${lmax}_Nmax=${Nmax}_nbpts=4`;
+        const img = document.createElement("img");
+        img.src = `images/${almondPrefix}_improv={${improv}}.png`;
+        img.alt = `Almond (${x},${y})`;
+        almondGrid.appendChild(img);
+      });
     }
 
     [ciSlider, LSlider, dSlider, lmaxSlider, NmaxSlider, improvSelect].forEach(el =>
-      el.addEventListener("input", updateImages)
-    );
-
-    [nbptsSlider, xSlider, ySlider].forEach(el =>
       el.addEventListener("input", updateImages)
     );
 
