@@ -1,0 +1,9 @@
+# Ignore files
+*.log
+*.sif
+*.sqlite*
+*copy*
+temp/
+.zip
+*.old
+*.save

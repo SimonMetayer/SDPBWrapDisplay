@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Parameter Image Viewer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    input[type=range] {
+      width: 300px;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 80%;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Image Viewer</h1>
+  
+  <div>
+    <label for="paramI">Param i: <span id="valI">0</span></label><br>
+    <input type="range" id="paramI" min="0" max="5" value="0">
+  </div>
+
+  <div>
+    <label for="paramJ">Param j: <span id="valJ">0</span></label><br>
+    <input type="range" id="paramJ" min="0" max="5" value="0">
+  </div>
+
+  <div>
+    <label for="paramK">Param k: <span id="valK">0</span></label><br>
+    <input type="range" id="paramK" min="0" max="5" value="0">
+  </div>
+
+  <img id="outputImage" src="images/c0(c0)k0d.png" alt="Image will appear here" />
+
+  <script src="script.js"></script>
+</body>
+</html>
