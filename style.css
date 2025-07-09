@@ -145,6 +145,49 @@ font-weight: bold;
 text-align: center;
 }
 
+
+  .reference-container {
+    max-width: 1000px;      /* container width */
+    margin: 40px auto 0;   /* center horizontally with top margin */
+    padding: 0 15px;       /* some horizontal padding on small screens */
+    text-align: left;      /* all text left aligned */
+    font-family: Arial, sans-serif;
+  }
+
+  .reference-container h2 {
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .reference-container ul {
+    list-style-type: none; /* no bullets */
+    padding-left: 0;       /* remove default indent */
+  }
+
+  .reference-container li {
+    margin-bottom: 15px;
+    line-height: 1.5;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;             /* space between title and link */
+    flex-wrap: wrap;       /* wrap on small screens */
+  }
+
+  .reference-container .title {
+    /* keep title text normal weight */
+    font-weight: normal;
+  }
+
+  .reference-container a {
+    color: #0077cc;
+    text-decoration: none;
+    white-space: nowrap;  /* prevent link breaking into two lines */
+  }
+
+  .reference-container a:hover {
+    text-decoration: underline;
+  }
+  
 footer {
 margin-top: 60px;
 font-size: 0.9rem;
@@ -160,37 +203,3 @@ footer a:hover {
 text-decoration: underline;
 }
 
-#references {
-text-align: center;
-margin-top: 40px;
-}
-
-#references .container {
-max-width: 600px;
-margin: 0 auto;
-padding: 0 20px;
-}
-
-#references h3 {
-text-align: center;
-margin-bottom: 20px;
-}
-
-#references ul {
-list-style-type: none;
-padding-left: 0;
-}
-
-#references li {
-margin-bottom: 12px;
-line-height: 1.5;
-}
-
-#references a {
-color: #0077cc;
-text-decoration: none;
-}
-
-#references a:hover {
-text-decoration: underline;
-}
