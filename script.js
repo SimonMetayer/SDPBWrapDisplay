@@ -99,27 +99,28 @@ ciSlider.addEventListener("input", () => {
 updateImages();
 
 fetch('explanation.tex')
-  .then(response => response.text())
+  .then(res => res.text())
   .then(tex => {
+    // Replace \textbf{} with <strong>
     tex = tex.replace(/\\textbf\{([^}]+)\}/g, '<strong>$1</strong>');
+
+    // Replace \section or \section* with <h2>
     tex = tex.replace(/\\section\*?\{([^}]+)\}/g, '<h2>$1</h2>');
-    
-    // wrap rest in math delimiters
-    const mathContent = `\\[${tex}\\]`;
-    document.getElementById('latex-explanation').innerHTML = mathContent;
-    
-    if (window.MathJax && window.MathJax.typeset) {
+
+    // Insert the processed content directly (without wrapping in \[ \])
+    document.getElementById('latex-explanation').innerHTML = tex;
+
+    // Typeset MathJax after inserting content
+    if (window.MathJax?.typeset) {
       MathJax.typeset();
     }
   });
   
-fetch('/image-count')
-  .then(response => response.json())
+fetch('image_count.json')
+  .then(res => res.json())
   .then(data => {
-    const div = document.getElementById('image-count');
-    div.textContent = `Plots available: ${data.count}`;
+    document.getElementById('image-count').textContent = `Plots available: ${data.count}`;
   })
-  .catch(err => {
-    document.getElementById('image-count').textContent = 'Could not fetch plot count.';
-    console.error(err);
+  .catch(() => {
+    document.getElementById('image-count').textContent = 'Could not load plot count.';
   });

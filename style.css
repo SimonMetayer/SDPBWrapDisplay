@@ -146,47 +146,47 @@ text-align: center;
 }
 
 .reference-container {
-  max-width: 700px;
-  margin: 40px auto 0;
-  padding: 0 15px;
-  text-align: left;
-  font-family: Arial, sans-serif;
-  font-size: 1rem;
+max-width: 700px;
+margin: 40px auto 0;
+padding: 0 15px;
+text-align: left;
+font-family: Arial, sans-serif;
+font-size: 1rem;
 }
 
 .reference-container h2 {
-  margin-bottom: 20px;
-  font-weight: bold;
+margin-bottom: 20px;
+font-weight: bold;
 }
 
 .reference-container ul {
-  list-style-type: none;
-  padding-left: 0;
+list-style-type: none;
+padding-left: 0;
 }
 
 .reference-container li {
-  margin-bottom: 15px;
-  line-height: 1.5;
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  flex-wrap: wrap;
+margin-bottom: 15px;
+line-height: 1.5;
+display: flex;
+justify-content: flex-start;
+gap: 10px;
+flex-wrap: wrap;
 }
 
 .reference-container .title {
-  font-weight: normal;
+font-weight: normal;
 }
 
 .reference-container a {
-  color: #0077cc;
-  text-decoration: none;
-  white-space: nowrap;
+color: #0077cc;
+text-decoration: none;
+white-space: nowrap;
 }
 
 .reference-container a:hover {
-  text-decoration: underline;
+text-decoration: underline;
 }
-  
+
 footer {
 margin-top: 60px;
 font-size: 0.9rem;
