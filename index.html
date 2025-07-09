@@ -159,7 +159,7 @@
       <label for="paramCI">Low Energy ci: <span id="valCI">0</span></label><br />
       <input type="range" id="paramCI" min="0" max="0" value="0" />
     </div>
-
+  
     <div class="slider-container">
       <label for="paramL">Momentum L: <span id="valL">0</span></label><br />
       <input type="range" id="paramL" min="0" max="6" step="2" value="0" />
@@ -271,7 +271,7 @@
 
       almondGrid.innerHTML = "";
       almondCoords.forEach(([x, y]) => {
-        const almondPrefix = `Almond_d=${d}_x=${x}_y=${y}_lmax=${lmax}_Nmax=${Nmax}_nbpts=4`;
+        const almondPrefix = `Almond_d=${d}_x=${x}_y=${y}_lmax=${lmax}_Nmax=${Nmax}`;
         const img = document.createElement("img");
         img.src = `images/${almondPrefix}_improv={${improv}}.png`;
         img.alt = `Almond (${x},${y})`;
