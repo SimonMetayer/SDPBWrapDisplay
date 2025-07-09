@@ -98,15 +98,16 @@ ciSlider.addEventListener("input", () => {
 
 updateImages();
 
-// Fetch and render LaTeX explanation
 fetch('explanation.tex')
   .then(response => response.text())
   .then(tex => {
-    // Simple replacements for bold and sections
     tex = tex.replace(/\\textbf\{([^}]+)\}/g, '<strong>$1</strong>');
     tex = tex.replace(/\\section\*?\{([^}]+)\}/g, '<h2>$1</h2>');
-    // Inject the (modified) content as HTML
-    document.getElementById('latex-explanation').innerHTML = tex;
+    
+    // wrap rest in math delimiters
+    const mathContent = `\\[${tex}\\]`;
+    document.getElementById('latex-explanation').innerHTML = mathContent;
+    
     if (window.MathJax && window.MathJax.typeset) {
       MathJax.typeset();
     }
