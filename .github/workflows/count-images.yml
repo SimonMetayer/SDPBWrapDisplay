@@ -1,21 +1,24 @@
 name: Update image count
 
+permissions:
+  contents: write
+
 on:
   push:
-    # You can restrict to images/ or scripts/ folder later if you want
+    # You can limit this later to specific paths if you want:
     # paths:
     #   - 'images/**'
-    #   - 'image_count.py
+    #   - 'image_count.py'
 
 jobs:
   update-image-count:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Show current directory and files (debug)
+      - name: Show current directory and files (for debug)
         run: |
           pwd
           ls -la
@@ -24,12 +27,12 @@ jobs:
       - name: Run image count script
         run: python image_count.py
 
-      - name: Configure git for commit
+      - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit and push updated count
+      - name: Commit and push updated image_count.json
         run: |
           git add image_count.json
           git commit -m "Update image count" || echo "No changes to commit"
