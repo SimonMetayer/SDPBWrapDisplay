@@ -1,27 +1,32 @@
 
+
 \section*{Setup and conventions (Work in progress)}
 
-\subsection*{Wavelet ansatz}
-
-The 2-to-2 all massive ($m=1$) scalar scattering matrix amplitude $S_\ell(s,t)$ satisfies \textbf{unitarity} above threshold $s > 4$
+The 2-to-2 scattering of all massive ($m=1$) scalar particles is encoded by the S-matrix $S_\ell(s,t)$, satisfying elastic \textbf{unitarity} above threshold $s > 4$
 $$
-|S_\ell(s)|\leq 1
+|S(s,t,u)|^2\leq1
+$$
+
+
+$$
+|S_\ell(s)|^2\leq 1
 $$
 where
 $$
 S_\ell(s)=1+\mathrm{i}\,\phi^2(s)\,f_\ell(s), 
 $$
-with $\phi(s)=(s-4)^{\frac{d-3}{4}}s^{-1/4}$ and the partial wave
+with $\phi(s)=(s-4)^{\frac{d-3}{4}}s^{-1/4}$ and the partial wave coefficients
 $$
 f_\ell(s)=\int_{-1}^{1}\mathrm{d}x\,\Pi_\ell(x)\,M(s,t(s,x))
 $$
+where the amplitude $M(s,t)$ satisfies \textbf{crossing} $M(s,t)=M(t,u)=M(s,u)$
 with $s+t+u=4$ and $x=\cos\theta=1+2t/(s-4)$, i.e. $t(s,x)=(s-4)(x-1)/2$ as well as
 $$
 \Pi_\ell(x)=\frac{\mathcal{N}_d}{2}\,(1-x^2)^{\frac{d-4}{2}}\,P_\ell(x), 
 \quad 
 P_\ell(x)={}_2F_1\left(-\ell,d+\ell-3,\frac{d-2}{2},\frac{1-x}{2}\right), 
 $$
-with $\mathcal{N}_d=(16\pi)^{\frac{d-2}{2}}/\Gamma\left(\frac{d-2}{2}\right)$. The amplitude ansatz
+with Mandelstam variables $\mathcal{N}_d=(16\pi)^{\frac{d-2}{2}}/\Gamma\left(\frac{d-2}{2}\right)$. The amplitude ansatz
 $$
 M(s,t)=\sum_{ijab\in \mathcal{D}_{ijab}}\alpha_{ijab}\,R_{\sigma_i\sigma_jab}(s,t)
 $$
@@ -42,7 +47,6 @@ a\leq b \land
 a\leq \min(\pi_i,\pi_j) \land
 b\leq \max(\pi_i,\pi_j)
 $. 
-
 
 The unitarity matrix is
 $$
@@ -69,7 +73,6 @@ $$
 U_\ell(s)\succeq 0
 $$
 Sampled over $\ell=\{0,2,...,\ell_\mathrm{max}\}$ and $s=$ (some Chebychev grid with $s_{\mathrm{max}}$ typically 300 points $\in]4,\infty]$).
-
 
 \section*{Improvements (Work in progress)}
 
@@ -102,7 +105,4 @@ which normalized so that $\alpha_{\mathrm{th}}\in[0,1]$.
 \section*{References (Work in progress)}
 An Analytical Toolkit for the S-matrix Bootstrap (\href{https://arxiv.org/abs/2006.08221}{arXiv:2006.08221})\\
 Bridging Positivity and S-matrix Bootstrap Bounds (\href{https://arxiv.org/abs/2210.01502}{arXiv:2210.01502}) \\
-
-
-
 
