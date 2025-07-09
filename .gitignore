@@ -8,3 +8,4 @@ temp/
 *.old
 *.save
 *.yml
+image_count.json
