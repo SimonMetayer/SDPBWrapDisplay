@@ -112,3 +112,14 @@ fetch('explanation.tex')
       MathJax.typeset();
     }
   });
+  
+fetch('/image-count')
+  .then(response => response.json())
+  .then(data => {
+    const div = document.getElementById('image-count');
+    div.textContent = `Plots available: ${data.count}`;
+  })
+  .catch(err => {
+    document.getElementById('image-count').textContent = 'Could not fetch plot count.';
+    console.error(err);
+  });
