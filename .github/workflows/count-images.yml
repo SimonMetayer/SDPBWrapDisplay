@@ -5,7 +5,7 @@ on:
     # You can restrict to images/ or scripts/ folder later if you want
     # paths:
     #   - 'images/**'
-    #   - 'count_images.py'
+    #   - 'image_count.py
 
 jobs:
   update-image-count:
@@ -22,7 +22,7 @@ jobs:
           ls -la images/
 
       - name: Run image count script
-        run: python count_images.py
+        run: python image_count.py
 
       - name: Configure git for commit
         run: |
