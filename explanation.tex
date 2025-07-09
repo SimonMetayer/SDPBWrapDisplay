@@ -1,40 +1,68 @@
 
 
-\section*{Setup and conventions (Work in progress)}
+\section*{Basics of amplitudes (Work in progress)}
 
-The 2-to-2 scattering of all massive ($m=1$) scalar particles is encoded by the S-matrix $S_\ell(s,t)$, satisfying elastic \textbf{unitarity} above threshold $s > 4$
+The 2-to-2 scattering of all massive ($m=1$) scalar particles is encoded by the S-matrix $S(s,t)$, satisfying elastic \textbf{unitarity} above threshold $s > 4$
 $$
-|S(s,t,u)|^2\leq1
+|S(s,t,u)|^2\leq1, 
+\qquad
+S(s,t,u)=1+i M(s,t,u)\,,
+$$
+with Mandelstam variables $s,t,u$. The amplitude $M$ satisfies \textbf{crossing} symmetry
+$$
+M(s,t)=M(t,s)=M(u,t), \qquad s+t+u=4
+$$
+as well as real \textbf{analyticity} 
+$$
+M(s^*,t^*)=M^*(s,t).
 $$
 
+\section*{Partial Wave decomposition (Work in progress)}
 
+Partial Wave decomposition
 $$
-|S_\ell(s)|^2\leq 1
+M(s,t)=\sum_{\ell=0}^{\ell_{\mathrm{max}}}n_{d,\ell}\,P_\ell(x)\,f_\ell(s)
 $$
-where
+with
+$
+P_\ell(x)={}_2F_1\left(-\ell,d+\ell-3,\frac{d-2}{2},\frac{1-x}{2}\right)
+$
+and a conventional normalization factor $n_{d,\ell}$.
+Inversing it using orthogonality of the $P_\ell(x)$ gives the partial wave coefficients
 $$
+f_\ell(s)=\int_{-1}^{1}\mathrm{d}x\,\Pi_\ell(x)\,M(s,t(s,x)), 
+\qquad
+x=\cos\theta=1+\frac{2t}{s-4}
+$$
+with kernel
+$
+\Pi_\ell(x)=\frac{\mathcal{N}_d}{2}\,(1-x^2)^{\frac{d-4}{2}}\,P_\ell(x), 
+$
+and $\mathcal{N}_d$ another conventional nromalization factor.
+The unitarity condition becomes
+$$
+|S_\ell(s)|^2\leq 1\,,
+\qquad
 S_\ell(s)=1+\mathrm{i}\,\phi^2(s)\,f_\ell(s), 
 $$
-with $\phi(s)=(s-4)^{\frac{d-3}{4}}s^{-1/4}$ and the partial wave coefficients
+with $\phi(s)=(s-4)^{\frac{d-3}{4}}s^{-1/4}$.
+Our normalization conventions read
 $$
-f_\ell(s)=\int_{-1}^{1}\mathrm{d}x\,\Pi_\ell(x)\,M(s,t(s,x))
+n_{d,\ell}(x)=\frac{(4\pi)^{d/2}(d+2\ell-3)\Gamma(d+\ell-3)}{\pi \Gamma\left(\frac{d-2}{2}\right)\Gamma(\ell+1)}\, \qquad
+\mathcal{N}_d=\frac{(16\pi)^{\frac{d-2}{2}}}{\Gamma\left(\frac{d-2}{2}\right)}
 $$
-where the amplitude $M(s,t)$ satisfies \textbf{crossing} $M(s,t)=M(t,u)=M(s,u)$
-with $s+t+u=4$ and $x=\cos\theta=1+2t/(s-4)$, i.e. $t(s,x)=(s-4)(x-1)/2$ as well as
-$$
-\Pi_\ell(x)=\frac{\mathcal{N}_d}{2}\,(1-x^2)^{\frac{d-4}{2}}\,P_\ell(x), 
-\quad 
-P_\ell(x)={}_2F_1\left(-\ell,d+\ell-3,\frac{d-2}{2},\frac{1-x}{2}\right), 
-$$
-with Mandelstam variables $\mathcal{N}_d=(16\pi)^{\frac{d-2}{2}}/\Gamma\left(\frac{d-2}{2}\right)$. The amplitude ansatz
+\section*{Wavelet ansatz (Work in progress)}
+
+
+We take the amplitude ansatz
 $$
 M(s,t)=\sum_{ijab\in \mathcal{D}_{ijab}}\alpha_{ijab}\,R_{\sigma_i\sigma_jab}(s,t)
 $$
-the $\rho$-wavelet ansatz
+with the $\rho$-wavelet ansatz
 $$
 R_{\sigma_i\sigma_jab}(s,t)=\frac{n_d}{6}\,\left(\rho_{\sigma_i}^a(s)\rho_{\sigma_j}^b(t)+ s \leftrightarrow t \leftrightarrow u \right), 
 $$
-with $n_d=2^{2+d}\pi^{d-3}\Gamma\left(\frac{d-1}{2}\right)$. the confomal map 
+with $n_d=2^{5-d}n_{d,0}$ and the confomal map 
 $$
 \rho_\sigma(s)=\frac{\sqrt{\sigma-4}-\sqrt{4-s}}{\sqrt{\sigma-4}+\sqrt{4-s}}
 $$
@@ -47,6 +75,8 @@ a\leq b \land
 a\leq \min(\pi_i,\pi_j) \land
 b\leq \max(\pi_i,\pi_j)
 $. 
+
+\section*{Optimization problem (Work in progress)}
 
 The unitarity matrix is
 $$
