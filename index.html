@@ -1,155 +1,29 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>S-matrix Bootstrap</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-      text-align: center;
-      margin: 0;
-      background: #fff;
-    }
-
-    .logo-container {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      align-items: center;
-      margin-bottom: 20px;
-      margin-top: 20px;
-    }
-
-    .logo {
-      height: 60px;
-      width: auto;
-    }
-
-    h1 {
-      margin-bottom: 40px;
-    }
-
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 40px;
-      justify-items: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .slider-container {
-      width: 100%;
-      max-width: 200px;
-      text-align: left;
-    }
-
-    input[type=range] {
-      width: 100%;
-    }
-
-    select {
-      width: 100%;
-      padding: 5px;
-      font-size: 1rem;
-      box-sizing: border-box;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      max-width: 1400px;
-      margin: 0 auto;
-      justify-items: center;
-    }
-
-    img {
-      max-width: 100%;
-      width: 100%;
-      max-height: 1000px;
-      object-fit: contain;
-      border: 1px solid #ccc;
-    }
-
-    .convergence-container {
-      max-width: 2000px;
-      margin: 40px auto 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .convergence-container img {
-      width: 100%;
-      max-width: 2000px;
-      max-height: 500px;
-      border: 1px solid #ccc;
-      object-fit: contain;
-    }
-
-    .almond-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
-      max-width: 2000px;
-      margin: 40px auto;
-      justify-items: center;
-    }
-
-    .almond-grid img {
-      width: 100%;
-      max-width: 900px;
-      max-height: 800px;
-      border: 1px solid #ccc;
-      object-fit: contain;
-    }
-
-    .cid-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      max-width: 1400px;
-      margin: 40px auto;
-      justify-items: center;
-    }
-
-    .cid-grid img {
-      width: 100%;
-      max-width: 800px;
-      max-height: 600px;
-      border: 1px solid #ccc;
-      object-fit: contain;
-    }
-
-    footer {
-      margin-top: 60px;
-      font-size: 0.9rem;
-      color: #555;
-    }
-
-    footer a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
-
-  <!-- MathJax for LaTeX rendering -->
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      }
+    };
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 </head>
-<body>
 
+<body>
   <h1>S-matrix Bootstrap Extremal Amplitudes Viewer</h1>
 
   <div class="controls">
+    <!-- Slider and select controls -->
     <div class="slider-container">
       <label for="paramD">Dimension d: <span id="valD">4</span></label><br />
       <input type="range" id="paramD" min="4" max="6" step="2" value="4" />
@@ -159,7 +33,7 @@
       <label for="paramCI">Low Energy ci: <span id="valCI">0</span></label><br />
       <input type="range" id="paramCI" min="0" max="3" value="0" />
     </div>
-  
+
     <div class="slider-container">
       <label for="paramL">Momentum L: <span id="valL">0</span></label><br />
       <input type="range" id="paramL" min="0" max="6" step="2" value="0" />
@@ -197,164 +71,13 @@
     <img id="convImgMax" alt="Convergence Max" />
     <img id="convImgMin" alt="Convergence Min" />
   </div>
-  
+
   <div class="cid-grid" id="cidGrid">
     <img id="cidImgMax" alt="CI Max" />
     <img id="cidImgMin" alt="CI Min" />
   </div>
 
-  <script>
-    const dSlider = document.getElementById("paramD");
-    const ciSlider = document.getElementById("paramCI");
-    const LSlider = document.getElementById("paramL");
-    const lmaxSlider = document.getElementById("paramLmax");
-    const NmaxSlider = document.getElementById("paramNmax");
-    const improvSelect = document.getElementById("paramImprov");
-
-    const img1 = document.getElementById("img1");
-    const img2 = document.getElementById("img2");
-    const img3 = document.getElementById("img3");
-    const img4 = document.getElementById("img4");
-
-    const convImgMax = document.getElementById("convImgMax");
-    const convImgMin = document.getElementById("convImgMin");
-
-    const almondGrid = document.getElementById("almondGrid");
-    const cidImgMax = document.getElementById("cidImgMax");
-    const cidImgMin = document.getElementById("cidImgMin");
-
-    const almondCoords = [
-      [0, 2],
-      [0, 3],
-      [2, 3]
-    ];
-
-    function updateLabels() {
-      document.getElementById("valD").textContent = dSlider.value;
-      document.getElementById("valCI").textContent = ciSlider.value;
-      document.getElementById("valL").textContent = LSlider.value;
-      document.getElementById("valLmax").textContent = lmaxSlider.value;
-      document.getElementById("valNmax").textContent = NmaxSlider.value;
-    }
-
-    function updateCidImages() {
-      const ci = ciSlider.value;
-      const lmax = lmaxSlider.value;
-      const Nmax = NmaxSlider.value;
-      const improv = improvSelect.value;
-
-      cidImgMax.src = `images/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
-      cidImgMin.src = `images/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
-    }
-
-    function updateImages() {
-      updateLabels();
-
-      const d = dSlider.value;
-      const ci = ciSlider.value;
-      const L = LSlider.value;
-      const lmax = lmaxSlider.value;
-      const Nmax = NmaxSlider.value;
-      const improv = improvSelect.value;
-
-      const prefix1 = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
-      const prefix2 = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
-
-      img1.src = `images/${prefix1}_minmax=max_improv={${improv}}.png`;
-      img2.src = `images/${prefix1}_minmax=min_improv={${improv}}.png`;
-      img3.src = `images/${prefix2}_minmax=max_improv={${improv}}.png`;
-      img4.src = `images/${prefix2}_minmax=min_improv={${improv}}.png`;
-
-      const convPrefix = `ConvergenceTable_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
-      convImgMax.src = `images/${convPrefix}_minmax=max_improv={${improv}}.png`;
-      convImgMin.src = `images/${convPrefix}_minmax=min_improv={${improv}}.png`;
-
-      almondGrid.innerHTML = "";
-      almondCoords.forEach(([x, y]) => {
-        const almondPrefix = `Almond_d=${d}_x=${x}_y=${y}_lmax=${lmax}_Nmax=${Nmax}`;
-        const img = document.createElement("img");
-        img.src = `images/${almondPrefix}_improv={${improv}}.png`;
-        img.alt = `Almond (${x},${y})`;
-        almondGrid.appendChild(img);
-      });
-
-      updateCidImages();
-    }
-
-    [ciSlider, LSlider, dSlider, lmaxSlider, NmaxSlider, improvSelect].forEach(el =>
-      el.addEventListener("input", updateImages)
-    );
-
-    updateImages();
-  </script>
-
-
-
-<!-- LaTeX explanation section -->
-<div id="latex-explanation" style="max-width: 1000px; margin: 40px auto; text-align: left; font-size: 1rem; line-height: 1.4;">
-  <h2>S-matrix Bootstrap Framework</h2>
-
-  <p>The 2-to-2 scalar scattering amplitude \(\mathcal{M}(s,t)\) satisfies <b>unitarity</b> above threshold \(s > 4m^2\):</p>
-  <p style="font-style: italic;">
-    \[
-      \mathrm{Im}\, f_\ell(s) \geq |f_\ell(s)|^2, \quad s > 4m^2,
-    \]
-    where partial waves \(f_\ell(s)\) appear in the <b>partial wave expansion</b> in \(d\) dimensions:
-  </p>
-  <p style="font-style: italic;">
-    \[
-      \mathcal{M}(s,t) = 16\pi \sum_{\ell=0}^\infty (2\ell + d - 3) \, C_\ell^{\left(\frac{d-3}{2}\right)}\left(1 + \frac{2t}{s - 4m^2}\right) \, f_\ell(s),
-    \]
-    with Gegenbauer polynomials \(C_\ell^{(\alpha)}\).
-  </p>
-
-  <p>Unitarity bounds imply positivity constraints on \(\mathrm{Im} f_\ell(s)\):</p>
-  <p style="font-style: italic;">
-    \[
-      0 \leq \mathrm{Im} f_\ell(s) \leq 1, \quad |f_\ell(s)|^2 \leq \mathrm{Im} f_\ell(s).
-    \]
-  </p>
-
-  <p><b>Crossing symmetry</b> relates the amplitude under interchange:</p>
-  <p style="font-style: italic;">
-    \[
-      \mathcal{M}(s,t) = \mathcal{M}(t,s).
-    \]
-  </p>
-
-  <p>Analyticity and the cut structure are implemented via the <b>conformal map</b> to the unit disk:</p>
-  <p style="font-style: italic;">
-    \[
-      \rho(s) = \frac{\sqrt{4m^2 - s_0} - \sqrt{4m^2 - s}}{\sqrt{4m^2 - s_0} + \sqrt{4m^2 - s}},
-      \quad s_0 < 4m^2 \text{ (free parameter below threshold)}.
-    \]
-  </p>
-  <p>This map sends the physical cut \(s \geq 4m^2\) onto the unit circle \(|\rho|=1\).</p>
-
-  <p><b>Wavelet ansatz</b> for the amplitude expands in powers of \(\rho(s)\) and \(\rho(t)\), enforcing crossing:</p>
-  <p style="font-style: italic;">
-    \[
-      \mathcal{M}(s,t) = \sum_{n,m=0}^N \alpha_{nm} \, \rho(s)^n \rho(t)^m + (s \leftrightarrow t).
-    \]
-  </p>
-
-  <p>To improve convergence near the <b>threshold</b> \(s=4m^2\), a threshold factor is introduced:</p>
-  <p style="font-style: italic;">
-    \[
-      \mathcal{M}(s,t) = (s - 4m^2)^{p} \sum_{n,m=0}^N \alpha_{nm} \, \rho(s)^n \rho(t)^m + (s \leftrightarrow t),
-    \]
-    where \(p\) encodes the threshold behavior of the amplitude.</p>
-
-  <p><b>Subtracted Positivity Constraints (SPC)</b> impose linear inequalities on the coefficients \(\alpha_{nm}\), ensuring:</p>
-  <p style="font-style: italic;">
-    \[
-      \sum_{n,m} \alpha_{nm} \, g_{nm}^{(\ell)}(s) \geq 0,
-    \]
-    where \(g_{nm}^{(\ell)}(s)\) are positive kernels encoding unitarity and analyticity in partial waves.</p>
-</div>
-
-
-
+  <div id="latex-explanation"></div>
 
   <footer>
     Made by Simon Metayer — contact <a href="mailto:simonmetayer@neuf.fr">simonmetayer@neuf.fr</a> to request missing plots.
@@ -365,8 +88,7 @@
     <img src="images/lapth-logo.png" alt="LAPTH Logo" class="logo" />
   </div>
 
+  <script src="script.js"></script>
 </body>
 </html>
-
-
 
