@@ -132,6 +132,19 @@
   text-align: left;
 }
 
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.image-title {
+  margin-bottom: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+
     footer {
       margin-top: 60px;
       font-size: 0.9rem;
