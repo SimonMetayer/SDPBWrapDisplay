@@ -37,8 +37,8 @@ function updateCidImages() {
   const Nmax = NmaxSlider.value;
   const improv = improvSelect.value;
 
-  cidImgMax.src = `images/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
-  cidImgMin.src = `images/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
+  cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
+  cidImgMin.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
 }
 
 function updateImages() {
@@ -54,20 +54,20 @@ function updateImages() {
   const prefix1 = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
   const prefix2 = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
 
-  img1.src = `images/${prefix1}_minmax=max_improv={${improv}}.png`;
-  img2.src = `images/${prefix1}_minmax=min_improv={${improv}}.png`;
-  img3.src = `images/${prefix2}_minmax=max_improv={${improv}}.png`;
-  img4.src = `images/${prefix2}_minmax=min_improv={${improv}}.png`;
+  img1.src = `images/Amplitude/${prefix1}_minmax=max_improv={${improv}}.png`;
+  img2.src = `images/Amplitude/${prefix1}_minmax=min_improv={${improv}}.png`;
+  img3.src = `images/ComplexAmplitude/${prefix2}_minmax=max_improv={${improv}}.png`;
+  img4.src = `images/ComplexAmplitude/${prefix2}_minmax=min_improv={${improv}}.png`;
 
   const convPrefix = `ConvergenceTable_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
-  convImgMax.src = `images/${convPrefix}_minmax=max_improv={${improv}}.png`;
-  convImgMin.src = `images/${convPrefix}_minmax=min_improv={${improv}}.png`;
+  convImgMax.src = `images/ConvergenceTable/${convPrefix}_minmax=max_improv={${improv}}.png`;
+  convImgMin.src = `images/ConvergenceTable/${convPrefix}_minmax=min_improv={${improv}}.png`;
 
   almondGrid.innerHTML = "";
   almondCoords.forEach(([x, y]) => {
     const almondPrefix = `Almond_d=${d}_x=${x}_y=${y}_lmax=${lmax}_Nmax=${Nmax}`;
     const img = document.createElement("img");
-    img.src = `images/${almondPrefix}_improv={${improv}}.png`;
+    img.src = `images/Almond/${almondPrefix}_improv={${improv}}.png`;
     img.alt = `Almond (${x},${y})`;
     almondGrid.appendChild(img);
   });
