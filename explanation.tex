@@ -1,9 +1,98 @@
+
 \section*{S-matrix Bootstrap Framework (Work in progress)}
 
-The 2-to-2 scalar scattering amplitude \(\mathcal{M}(s,t)\) satisfies \textbf{unitarity} above threshold \(s > 4m^2\):
+The 2-to-2 all massive ($m=1$) scalar scattering matrix amplitude $S_\ell(s,t)$ satisfies \textbf{unitarity} above threshold $s > 4$
+$$
+|S_\ell(s)|\leq 1
+$$
+where
+$$
+S_\ell(s)=1+\mathrm{i}\,\phi^2(s)\,f_\ell(s), 
+$$
+with $\phi(s)=(s-4)^{\frac{d-3}{4}}s^{-1/4}$ and the partial wave
+$$
+f_\ell(s)=\int_{-1}^{1}\mathrm{d}x\,\Pi_\ell(x)\,M(s,t(s,x))
+$$
+with $s+t+u=4$ and $x=\cos\theta=1+2t/(s-4)$, i.e. $t(s,x)=(s-4)(x-1)/2$ as well as
+$$
+\Pi_\ell(x)=\frac{\mathcal{N}_d}{2}\,(1-x^2)^{\frac{d-4}{2}}\,P_\ell(x), 
+\quad 
+P_\ell(x)={}_2F_1\left(-\ell,d+\ell-3,\frac{d-2}{2},\frac{1-x}{2}\right), 
+$$
+with $\mathcal{N}_d=(16\pi)^{\frac{d-2}{2}}/\Gamma\left(\frac{d-2}{2}\right)$. The amplitude ansatz
+$$
+M(s,t)=\sum_{ijab\in \mathcal{D}_{ijab}}\alpha_{ijab}\,R_{\sigma_i\sigma_jab}(s,t)
+$$
+the $\rho$-wavelet ansatz
+$$
+R_{\sigma_i\sigma_jab}(s,t)=\frac{n_d}{6}\,\left(\rho_{\sigma_i}^a(s)\rho_{\sigma_j}^b(t)+ s \leftrightarrow t \leftrightarrow u \right), 
+$$
+with $n_d=2^{2+d}\pi^{d-3}\Gamma\left(\frac{d-1}{2}\right)$. the confomal map 
+$$
+\rho_\sigma(s)=\frac{\sqrt{\sigma-4}-\sqrt{4-s}}{\sqrt{\sigma-4}+\sqrt{4-s}}
+$$
+the complicated domain $\mathcal{D}_{ijab}$ stands for the wavelet centers indices $i,j\in \sigma_i=\{1,2,...,N_{\mathrm{max}}\}$ and $\rho$ powers $a,b\in \pi_i=\{0,1,...\}$ (we typically use max 1), together with the tricky condition to avoid double counting:
+$
+\sigma_i\leq\sigma_j \land 
+a\leq b \land 
+(a\neq0 \lor i\leq 1) \land 
+(b\neq0 \lor j\leq 1) \land
+a\leq \min(\pi_i,\pi_j) \land
+b\leq \max(\pi_i,\pi_j)
+$. 
 
-\[
-  \mathrm{Im}\, f_\ell(s) \geq |f_\ell(s)|^2, \quad s > 4m^2,
-\]
+The unitarity matrix is
+$$
+U_\ell(s)=\begin{pmatrix}
+1-\frac{1}{2}\phi^2(s)\operatorname{Im} f_\ell(s) &
+\phi(s)\operatorname{Re}f_\ell(s)  \\
+\phi(s)\operatorname{Re}f_\ell(s) &
+2\operatorname{Im}f_\ell(s)
+\end{pmatrix}
+$$
+The low energy coefficients $c(n)$ are
+$$
+c(n)=\frac{\mathcal{N}_d}{2}\times 
+\begin{cases}
+c(0,0) & n=0 \\
+\frac{1}{2}c(n,0) & n \text{ even} \\
+c(n-1,1) & n \text{ odd}
+\end{cases},
+\qquad
+c(n_1,n_2)=\frac{1}{n_1!n_2!}\partial_s^{n_1}\partial_t^{n_2}M(s,t)
+$$
+The game is then to optimize a given $c(n)$ using the semi-definite positive condition
+$$
+U_\ell(s)\succeq 0
+$$
+Sampled over $\ell=\{0,2,...,\ell_\mathrm{max}\}$ and $s=$ (some Chebychev grid with $s_{\mathrm{max}}$ typically 300 points $\in]4,\infty]$).
 
+
+\section*{Improvements (Work in progress)}
+
+We may add Subtracted positivity constraints (SPC) 
+$$
+\operatorname{Im}\left(M(s,t)-
+\sum_\ell^{\ell_\mathrm{max}} n_{d,\ell}
+P_\ell\left(1+\frac{2t}{s-4}\right)
+f_\ell(s)
+\right)\geq0
+$$
+sampled over $s$ (same Chebychev grid as before) and also over $t$ for a few points (typically 10) very close to threshold $s=4^+$. These enters as linear constraints to the optimization problem. 
+
+We also may add the Threshold (TH) improvement term
+$$
+M(s,t)\rightarrow M(s,t)+\alpha_{\mathrm{th}}\Delta(s,t)
+$$
+with
+$\Delta(s,t)=\Delta(s)+s \leftrightarrow t \leftrightarrow u$, and 
+$$
+\Delta(s)=n_d\left(\frac{4-s}{4}\right)^{\frac{3-d}{2}}\times
+\begin{cases}
+i^d & d \text{ even} \\
+\frac{i^{1+d}\pi}{\log{\frac{4-s}{4}}} & n \text{ odd} \\
+\sin\left(\pi\frac{d-3}{2}\right) & \text{else}
+\end{cases},
+$$
+which normalized so that $\alpha_{\mathrm{th}}\in[0,1]$.
 
