@@ -102,14 +102,12 @@ updateImages();
 fetch('explanation.tex')
   .then(response => response.text())
   .then(tex => {
-    const container = document.getElementById('latex-explanation');
-    container.innerHTML = tex;
-
+    // Simple replacements for bold and sections
+    tex = tex.replace(/\\textbf\{([^}]+)\}/g, '<strong>$1</strong>');
+    tex = tex.replace(/\\section\*?\{([^}]+)\}/g, '<h2>$1</h2>');
+    // Inject the (modified) content as HTML
+    document.getElementById('latex-explanation').innerHTML = tex;
     if (window.MathJax && window.MathJax.typeset) {
       MathJax.typeset();
     }
-  })
-  .catch(err => {
-    console.error("Could not load explanation.tex:", err);
   });
-
