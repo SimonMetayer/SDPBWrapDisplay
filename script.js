@@ -75,9 +75,26 @@ function updateImages() {
   updateCidImages();
 }
 
-[dSlider, ciSlider, LSlider, lmaxSlider, NmaxSlider, improvSelect].forEach(el =>
+[dSlider, LSlider, lmaxSlider, NmaxSlider, improvSelect].forEach(el =>
   el.addEventListener("input", updateImages)
 );
+
+// Allowed discrete values for ci slider
+const allowedCIValues = [0, 2, 3];
+
+function snapCIValue(val) {
+  return allowedCIValues.reduce((prev, curr) =>
+    Math.abs(curr - val) < Math.abs(prev - val) ? curr : prev
+  );
+}
+
+ciSlider.addEventListener("input", () => {
+  const snappedVal = snapCIValue(Number(ciSlider.value));
+  if (snappedVal !== Number(ciSlider.value)) {
+    ciSlider.value = snappedVal;
+  }
+  updateImages();
+});
 
 updateImages();
 
@@ -88,7 +105,6 @@ fetch('explanation.tex')
     const container = document.getElementById('latex-explanation');
     container.innerHTML = tex;
 
-    // Ask MathJax to typeset the injected LaTeX
     if (window.MathJax && window.MathJax.typeset) {
       MathJax.typeset();
     }
