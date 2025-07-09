@@ -1,4 +1,4 @@
-\section*{S-matrix Bootstrap Framework (test2)}
+\section*{S-matrix Bootstrap Framework (Work in progress)}
 
 The 2-to-2 scalar scattering amplitude \(\mathcal{M}(s,t)\) satisfies \textbf{unitarity} above threshold \(s > 4m^2\):
 
@@ -6,53 +6,4 @@ The 2-to-2 scalar scattering amplitude \(\mathcal{M}(s,t)\) satisfies \textbf{un
   \mathrm{Im}\, f_\ell(s) \geq |f_\ell(s)|^2, \quad s > 4m^2,
 \]
 
-where partial waves \(f_\ell(s)\) appear in the \textbf{partial wave expansion} in \(d\) dimensions:
-
-\[
-  \mathcal{M}(s,t) = 16\pi \sum_{\ell=0}^\infty (2\ell + d - 3) \, C_\ell^{\left(\frac{d-3}{2}\right)}\left(1 + \frac{2t}{s - 4m^2}\right) \, f_\ell(s),
-\]
-
-with Gegenbauer polynomials \(C_\ell^{(\alpha)}\).
-
-Unitarity bounds imply positivity constraints on \(\mathrm{Im} f_\ell(s)\):
-
-\[
-  0 \leq \mathrm{Im} f_\ell(s) \leq 1, \quad |f_\ell(s)|^2 \leq \mathrm{Im} f_\ell(s).
-\]
-
-\textbf{Crossing symmetry} relates the amplitude under interchange:
-
-\[
-  \mathcal{M}(s,t) = \mathcal{M}(t,s).
-\]
-
-Analyticity and the cut structure are implemented via the \textbf{conformal map} to the unit disk:
-
-\[
-  \rho(s) = \frac{\sqrt{4m^2 - s_0} - \sqrt{4m^2 - s}}{\sqrt{4m^2 - s_0} + \sqrt{4m^2 - s}}, \quad s_0 < 4m^2 \text{ (free parameter below threshold)}.
-\]
-
-This map sends the physical cut \(s \geq 4m^2\) onto the unit circle \(|\rho|=1\).
-
-\textbf{Wavelet ansatz} for the amplitude expands in powers of \(\rho(s)\) and \(\rho(t)\), enforcing crossing:
-
-\[
-  \mathcal{M}(s,t) = \sum_{n,m=0}^N \alpha_{nm} \, \rho(s)^n \rho(t)^m + (s \leftrightarrow t).
-\]
-
-To improve convergence near the \textbf{threshold} \(s=4m^2\), a threshold factor is introduced:
-
-\[
-  \mathcal{M}(s,t) = (s - 4m^2)^{p} \sum_{n,m=0}^N \alpha_{nm} \, \rho(s)^n \rho(t)^m + (s \leftrightarrow t),
-\]
-
-where \(p\) encodes the threshold behavior of the amplitude.
-
-\textbf{Subtracted Positivity Constraints (SPC)} impose linear inequalities on the coefficients \(\alpha_{nm}\), ensuring:
-
-\[
-  \sum_{n,m} \alpha_{nm} \, g_{nm}^{(\ell)}(s) \geq 0,
-\]
-
-where \(g_{nm}^{(\ell)}(s)\) are positive kernels encoding unitarity and analyticity in partial waves.
 
