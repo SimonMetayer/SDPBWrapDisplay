@@ -1,126 +1,157 @@
-\section*{Basics of amplitudes}
-
-The 2-to-2 scattering of identical massive ($m=1$) scalar particles is encoded by the S-matrix $S(s,t,u)$, satisfying elastic \textbf{unitarity} above threshold $s > 4$
-$$
-|S(s,t,u)|^2\leq1, 
+The 2-to-2 scattering of identical massive ($m=1$) scalar particles is encoded by the S-matrix $S(s,t,u)$. Above threshold $s > 4$ and in any dimension $d\geq2+1$, it satisfies elastic \textbf{unitarity}
+\begin{equation}
+|S(s,t,u)|^2\leq1\,, 
 \qquad
 S(s,t,u)=1+i M(s,t,u)\,,
-$$
-with Mandelstam variables $s,t,u$. The amplitude $M$ satisfies \textbf{crossing} symmetry
-$$
-M(s,t)=M(t,s)=M(u,t), \qquad s+t+u=4
-$$
+\end{equation}
+with Mandelstam invariants $s,t,u$. The amplitude $M$ satisfies \textbf{crossing} symmetry
+\begin{equation}
+M(s,t)=M(t,s)=M(u,t)\,, \qquad s+t+u=4\,,
+\end{equation}
 as well as real \textbf{analyticity} 
-$$
-M(s^*,t^*)=M^*(s,t).
-$$
+\begin{equation}
+M(s^*,t^*)=M^*(s,t)\,.
+\end{equation}
 
 \section*{Partial Wave decomposition}
 
 We consider the partial wave expansion in arbitrary dimension $d\geq 2+1$
-$$
-M(s,t)=\sum_{\ell=0}^{\ell_{\mathrm{max}}}n_{d,\ell}\,P_{d,\ell}(x)\,f_\ell(s)\,,
+\begin{equation}
+M(s,t)=\sum_{\ell=0}^{\ell_\mathrm{max}}n_{d,\ell}\,P_{d,\ell}(x)\,f_\ell(s)\,,
 \qquad
-P_{d,\ell}(x)={}_2F_1\left(-\ell,d+\ell-3,\frac{d-2}{2},\frac{1-x}{2}\right)
-$$
-with (even) spin $\ell$ and conventional normalization factor $n_{d,\ell}$. Inversing it using orthogonality of the $P_{d,\ell}(x)$ gives the partial wave coefficients
-$$
-f_\ell(s)=\frac{\mathcal{N}_d}{2}\int_{-1}^{1}\mathrm{d}x\,(1-x^2)^{\frac{d-4}{2}}\,P_{d,\ell}(x)\,M(s,t(s,x)), 
+P_{d,\ell}(x)={}_2F_1\left(-\ell,d+\ell-3,\frac{d-2}{2},\frac{1-x}{2}\right)\,,
+\end{equation}
+with (even) spin $\ell$ (in principle $\ell_\mathrm{max}\rightarrow\infty$) and conventional normalization factor $n_{d,\ell}$. Inversing using orthogonality of the partial waves $P_{d,\ell}(x)$, gives the partial wave coefficients
+\begin{equation}
+f_\ell(s)=\frac{\mathcal{N}_d}{2}\int_{-1}^{1}\mathrm{d}x\,(1-x^2)^{\frac{d-4}{2}}\,P_{d,\ell}(x)\,M(s,t(s,x))\,, 
 \qquad
-x=\cos\theta=1+\frac{2t}{s-4}
-$$
-and $\mathcal{N}_d$ another conventional nromalization factor.
+x=\cos\theta=1+\frac{2t}{s-4}\,,
+\end{equation}
+with $\theta$ the scattering angle and $\mathcal{N}_d$ another conventional normalization factor.
 The unitarity condition becomes
-$$
+\begin{equation}
 |S_\ell(s)|^2\leq 1\,,
-\quad
+\qquad
 S_\ell(s)=1+\mathrm{i}\,\phi^2(s)\,f_\ell(s), 
-\quad
-\phi(s)=\frac{(s-4)^{\frac{d-3}{4}}}{s^{1/4}}
-$$
+\qquad
+\phi^2(s)=\frac{(s-4)^{\frac{d-3}{2}}}{\sqrt{s}}\,.
+\label{eq:unitarity}
+\end{equation}
 Our normalization conventions read
-$$
+\begin{equation}
 n_{d,\ell}(x)=\frac{(4\pi)^{d/2}(d+2\ell-3)\Gamma(d+\ell-3)}{\pi \Gamma\left(\frac{d-2}{2}\right)\Gamma(\ell+1)}\, \qquad
 \mathcal{N}_d=\frac{(16\pi)^{\frac{d-2}{2}}}{\Gamma\left(\frac{d-2}{2}\right)}
-$$
+\end{equation}
 \section*{Wavelet ansatz}
 
 
 We take the amplitude ansatz
-$$
-M(s,t)=\sum_{ijab\in \mathcal{D}_{ijab}}\alpha_{ijab}\,R_{\sigma_i\sigma_jab}(s,t)
-$$
-with the $\rho$-wavelet ansatz
-$$
-R_{\sigma_i\sigma_jab}(s,t)=\frac{n_d}{6}\,\left(\rho_{\sigma_i}^a(s)\rho_{\sigma_j}^b(t)+ s \leftrightarrow t \leftrightarrow u \right), 
-$$
-with $n_d=2^{5-d}n_{d,0}$ and the confomal map 
-$$
-\rho_\sigma(s)=\frac{\sqrt{\sigma-4}-\sqrt{4-s}}{\sqrt{\sigma-4}+\sqrt{4-s}}
-$$
-the complicated domain $\mathcal{D}_{ijab}$ stands for the wavelet centers indices $i,j\in {1,2,...,N_{\mathrm{max}}\}$ with $ \sigma_i$ a grid of $N_\mathrm{max}$ points on the Chebychev grid and $\rho$ powers $a,b\in \pi_i=\{0,1,...\}$ (we typically use max 1), together with the tricky condition to avoid double counting:
-$
-\sigma_i\leq\sigma_j \land 
-a\leq b \land 
-(a\neq0 \lor i\leq 1) \land 
-(b\neq0 \lor j\leq 1) \land
-a\leq \min(\pi_i,\pi_j) \land
-b\leq \max(\pi_i,\pi_j)
-$. 
+\begin{equation}
+M(s,t)=\sum_{\alpha\beta\gamma\delta}\,\alpha_{\alpha\beta\gamma\delta}\delta_{\alpha\beta\gamma\delta}\,R_{\alpha\beta\gamma\delta}(s,t)
+\end{equation}
+with $\alpha_{\alpha\beta\gamma\delta}$ our free parameters, the $\rho$-wavelet ansatz
+\begin{equation}
+R_{\alpha\beta\gamma\delta}(s,t)=\frac{n_d}{6}\,\left(\rho^\gamma(s,\sigma_\alpha)\rho^\delta(t,\sigma_\beta)+ s \leftrightarrow t \leftrightarrow u \right), 
+\end{equation}
+with $n_d=2^{5-d}n_{d,0}$ and the conformal map 
+\begin{equation}
+\rho(s,\sigma)=\frac{\sqrt{\sigma-4}-\sqrt{4-s}}{\sqrt{\sigma-4}+\sqrt{4-s}}
+\label{eq:confmap}
+\end{equation}
+with the wavelet centers indices $\alpha,\beta\in \{1,2,...,N_{\mathrm{max}}\}$ with $\sigma_n$ some grid \eqref{eq:sigmagrid} and $\rho$ powers $\alpha,\beta\in \pi_n=\{0,1,...\}$, together with the tricky boolean condition to avoid double counting:
+\begin{equation}
+\delta_{\alpha\beta\gamma\delta}=\delta\big(
+\sigma_\alpha\leq\sigma_\beta \land 
+\gamma\leq \delta \land 
+(\gamma\neq0 \lor \alpha\leq 1) \land 
+(\delta\neq0 \lor \beta\leq 1) \land
+\gamma\leq \min(\pi_\alpha,\pi_\beta) \land
+\delta\leq \max(\pi_\alpha,\pi_\beta)
+\big)
+\end{equation}
 
 \section*{Optimization problem}
 
-The unitarity matrix is
-$$
+The low energy ``couplings'' $c(n)$ are derivatives of the amplitudes taken at the crossing symetric point (cs:  $s=t=u=4/3$)
+\begin{equation}
+c(n)=\frac{\mathcal{N}_d}{2}\times 
+\begin{cases}
+c(0,0) & n=0 \\
+\frac{1}{2}c(n,0) & n \text{ even} \\
+c(n-1,1) & n>1 \text{ odd}
+\end{cases},
+\qquad
+c(n_1,n_2)=\left.\frac{1}{n_1!n_2!}\partial_s^{n_1}\partial_t^{n_2}M(s,t)\right|_\mathrm{cs}
+\end{equation}
+where, e.g., $\lambda=c(0)$ is the non-pertubative quartic coupling. Unitary \eqref{eq:unitarity} can be written as a matrix
+\begin{equation}
+\det U_\ell(s)\geq1\, \qquad
 U_\ell(s)=\begin{pmatrix}
 1-\frac{1}{2}\phi^2(s)\operatorname{Im} f_\ell(s) &
 \phi(s)\operatorname{Re}f_\ell(s)  \\
 \phi(s)\operatorname{Re}f_\ell(s) &
 2\operatorname{Im}f_\ell(s)
 \end{pmatrix}
-$$
-The low energy coefficients $c(n)$ are
-$$
-c(n)=\frac{\mathcal{N}_d}{2}\times 
-\begin{cases}
-c(0,0) & n=0 \\
-\frac{1}{2}c(n,0) & n \text{ even} \\
-c(n-1,1) & n \text{ odd}
-\end{cases},
-\qquad
-c(n_1,n_2)=\frac{1}{n_1!n_2!}\partial_s^{n_1}\partial_t^{n_2}M(s,t)
-$$
-The game is then to optimize a given $c(n)$ using the semi-definite positive condition
-$$
+\end{equation}
+and the game is then to optimize (maximize/minimize) a given $c(n)$ using the semi-definite positive condition
+\begin{equation}
 U_\ell(s)\succeq 0
-$$
-Sampled over $\ell=\{0,2,...,\ell_\mathrm{max}\}$ and $s=$ (some Chebychev grid with $s_{\mathrm{max}}$ typically 300 points $\in]4,\infty]$).
+\end{equation}
+This gives us $c_{\mathrm{min/max}}(n)$ with typically $n=0,2,3$ and fixes all the corresponding $\alpha_{\alpha\beta\gamma\delta}$ parameters, hence the amplitude.
+
+\section*{Grid and numerics}
+
+Our grids are based on the Chebychev grid
+\begin{equation}
+\phi_n=\frac{\pi}{2}\left(1+\cos\frac{n\pi}{N+1}\right)\,, \qquad n=1,...,N\,, \qquad \phi_n\in (0,\pi)
+\end{equation}
+The $s$ grid (dense near threshold, then more and more sparse) reads
+\begin{equation}
+s_n=s(e^{i\phi_n},\sigma_0)\,, \qquad n=1,...,s_\mathrm{max}\,, \qquad s_n \in (4,\infty)
+\end{equation}
+where $s(\rho,\sigma)$ is obtained by inverting the conformal map \eqref{eq:confmap} and $\sigma_0$ stands for the wavelet center mother point, obtained by solving $\rho(s_0,\sigma_0)=0$ with $s_0$ the crossing symmetric point $s_0=t_0=u_0=4/3$, leading to $\sigma_0=20/3$. The wavelet centers cumulative grid reads
+\begin{equation}
+\sigma_n=\left(\,\bigcup^\infty_{j=1}s_j\right)_{[1:n]}\,, \qquad n=1,...,N_\mathrm{max}\,, \qquad \sigma_n \in (4,\infty)
+\label{eq:sigmagrid}
+\end{equation}
+The (even) spin grid is simply 
+\begin{equation}
+\ell=\{0,2,...,\ell_\mathrm{max}\}
+\end{equation}
+and the $\rho$ ansatz power grid is trivially
+\begin{equation}
+\pi_n=n\,, \qquad n=0,...,\pi_{\mathrm{max}}
+\end{equation}
+
+The numerics achieve perfection at $\ell_\mathrm{max}\rightarrow\infty$, $N_\mathrm{max}\rightarrow\infty$, $s_\mathrm{max}\rightarrow\infty$ and $\pi_{\mathrm{max}}\geq1$. For reasonable convergence, we typically use  $\pi_\mathrm{max}=1$, $\ell\approx14$ spins or more, $s_\mathrm{max}=300$ points, so $s$ range from $4+10^{-9}$ up to $10^9$ and $N_\mathrm{max}\approx10$ wavelet centers or more, yielding for example $\sigma_i=\{4.03, 4.06, 4.15, 4.46, 4.97, 6.67, 11.3, 19.5, 52.6, 243.1\}$, so we expect our amplitude to satisfy elastic unitary roughly up to $s\approx100$.
+
 
 \section*{Improvements}
 
 We may add Subtracted positivity constraints (SPC) 
-$$
+\begin{equation}
 \operatorname{Im}\left(M(s,t)-
 \sum_\ell^{\ell_\mathrm{max}} n_{d,\ell}
 P_{d,\ell}\left(1+\frac{2t}{s-4}\right)
 f_\ell(s)
 \right)\geq0
-$$
-sampled over $s$ (same Chebychev grid as before) and also over $t$ for a few points (typically 10) very close to threshold $s=4^+$. These enters as linear constraints to the optimization problem. 
+\end{equation}
+sampled over $s_i$ and also over $t_i$ for a few points (typically 10 points, i.e., 5 from 0 to 4, and 5 very close to $4^-$). These enters as linear constraints to the optimization problem. 
 
 We also may add the Threshold (TH) improvement term
-$$
+\begin{equation}
 M(s,t)\rightarrow M(s,t)+\alpha_{\mathrm{th}}\Delta(s,t)
-$$
+\end{equation}
 with
 $\Delta(s,t)=\Delta(s)+s \leftrightarrow t \leftrightarrow u$, and 
-$$
+\begin{equation}
 \Delta(s)=n_d\times\left(\frac{4-s}{4}\right)^{\frac{3-d}{2}}\times
 \begin{cases}
 i^d & d \text{ even} \\
 \frac{i^{1+d}\pi}{\log{\frac{4-s}{4}}} & n \text{ odd} \\
 \sin\left(\pi\frac{d-3}{2}\right) & \text{else}
 \end{cases},
-$$
+\end{equation}
 which normalized so that $\alpha_{\mathrm{th}}\in[0,1]$.
+
 
