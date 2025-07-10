@@ -75,6 +75,36 @@ with the wavelet centers indices $\alpha,\beta\in \{1,2,...,N_{\mathrm{max}}\}$ 
 \big)
 \end{equation}
 
+
+
+\section*{Grid and numerics}
+
+Our grids are based on the Chebychev grid
+\begin{equation}
+\phi_n=\frac{\pi}{2}\left(1+\cos\frac{n\pi}{N+1}\right)\,, \qquad n=1,...,N\,, \qquad \phi_n\in (0,\pi)
+\end{equation}
+The $s$ grid (dense near threshold, then more and more sparse) reads
+\begin{equation}
+s_n=s(e^{i\phi_n},\sigma_0)\,, \qquad n=1,...,s_\mathrm{max}\,, \qquad s_n \in (4,\infty)
+\end{equation}
+where $s(\rho,\sigma)$ is obtained by inverting the conformal map \eqref{eq:confmap} and $\sigma_0$ stands for the wavelet center mother point, obtained by solving $\rho(s_0,\sigma_0)=0$ with $s_0$ the crossing symmetric point $s_0=t_0=u_0=4/3$, leading to $\sigma_0=20/3$. The wavelet centers cumulative grid reads
+\begin{equation}
+\sigma_n=\left(\,\bigcup^\infty_{j=1}s_j\right)_{[1:n]}\,, \qquad n=1,...,N_\mathrm{max}\,, \qquad \sigma_n \in (4,\infty)
+\label{eq:sigmagrid}
+\end{equation}
+The (even) spin grid is simply 
+\begin{equation}
+\ell=\{0,2,...,\ell_\mathrm{max}\}
+\end{equation}
+and the $\rho$ ansatz power grid is trivially
+\begin{equation}
+\pi_n=n\,, \qquad n=0,...,\pi_{\mathrm{max}}
+\end{equation}
+
+The numerics achieve perfection at $\ell_\mathrm{max}\rightarrow\infty$, $N_\mathrm{max}\rightarrow\infty$, $s_\mathrm{max}\rightarrow\infty$ and $\pi_{\mathrm{max}}\geq1$. For reasonable convergence, we typically use  $\pi_\mathrm{max}=1$, $\ell\approx14$ spins or more, $s_\mathrm{max}=300$ points, so $s$ range from $4+10^{-9}$ up to $10^9$ and $N_\mathrm{max}\approx10$ wavelet centers or more, yielding for example $\sigma_i=\{4.03, 4.06, 4.15, 4.46, 4.97, 6.67, 11.3, 19.5, 52.6, 243.1\}$, so we expect our amplitude to satisfy elastic unitary roughly up to $s\approx100$.
+
+
+
 \section*{Optimization problem}
 
 The low energy ''couplings'' $c_n$ are derivatives of the amplitudes taken at the crossing symetric point (cs:  $s=t=u=4/3$)
@@ -107,32 +137,6 @@ and the game is then to optimize (maximize/minimize) a given $c_n$ using the sem
 \end{aligned}
 \end{equation}
 This gives us $c_{n\,\mathrm{min/max}}$ (typically $n=0,2,3$), and fixes all the corresponding $\alpha_{\alpha\beta\gamma\delta}$ parameters, hence the S-matrix $S_\ell(s)$.
-
-\section*{Grid and numerics}
-
-Our grids are based on the Chebychev grid
-\begin{equation}
-\phi_n=\frac{\pi}{2}\left(1+\cos\frac{n\pi}{N+1}\right)\,, \qquad n=1,...,N\,, \qquad \phi_n\in (0,\pi)
-\end{equation}
-The $s$ grid (dense near threshold, then more and more sparse) reads
-\begin{equation}
-s_n=s(e^{i\phi_n},\sigma_0)\,, \qquad n=1,...,s_\mathrm{max}\,, \qquad s_n \in (4,\infty)
-\end{equation}
-where $s(\rho,\sigma)$ is obtained by inverting the conformal map \eqref{eq:confmap} and $\sigma_0$ stands for the wavelet center mother point, obtained by solving $\rho(s_0,\sigma_0)=0$ with $s_0$ the crossing symmetric point $s_0=t_0=u_0=4/3$, leading to $\sigma_0=20/3$. The wavelet centers cumulative grid reads
-\begin{equation}
-\sigma_n=\left(\,\bigcup^\infty_{j=1}s_j\right)_{[1:n]}\,, \qquad n=1,...,N_\mathrm{max}\,, \qquad \sigma_n \in (4,\infty)
-\label{eq:sigmagrid}
-\end{equation}
-The (even) spin grid is simply 
-\begin{equation}
-\ell=\{0,2,...,\ell_\mathrm{max}\}
-\end{equation}
-and the $\rho$ ansatz power grid is trivially
-\begin{equation}
-\pi_n=n\,, \qquad n=0,...,\pi_{\mathrm{max}}
-\end{equation}
-
-The numerics achieve perfection at $\ell_\mathrm{max}\rightarrow\infty$, $N_\mathrm{max}\rightarrow\infty$, $s_\mathrm{max}\rightarrow\infty$ and $\pi_{\mathrm{max}}\geq1$. For reasonable convergence, we typically use  $\pi_\mathrm{max}=1$, $\ell\approx14$ spins or more, $s_\mathrm{max}=300$ points, so $s$ range from $4+10^{-9}$ up to $10^9$ and $N_\mathrm{max}\approx10$ wavelet centers or more, yielding for example $\sigma_i=\{4.03, 4.06, 4.15, 4.46, 4.97, 6.67, 11.3, 19.5, 52.6, 243.1\}$, so we expect our amplitude to satisfy elastic unitary roughly up to $s\approx100$.
 
 
 \section*{Improvements}
