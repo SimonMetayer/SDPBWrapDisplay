@@ -17,15 +17,15 @@ $$
 
 \section*{Partial Wave decomposition}
 
-Partial Wave expansion
+We consider the partial wave expansion in arbitrary dimension $d\geq 2+1$
 $$
 M(s,t)=\sum_{\ell=0}^{\ell_{\mathrm{max}}}n_{d,\ell}\,P_{d,\ell}(x)\,f_\ell(s)\,,
 \qquad
 P_{d,\ell}(x)={}_2F_1\left(-\ell,d+\ell-3,\frac{d-2}{2},\frac{1-x}{2}\right)
 $$
-with conventional normalization factor $n_{d,\ell}$. Inversing it using orthogonality of the $P_{d,\ell}(x)$ gives the partial wave coefficients
+with (even) spin $\ell$ and conventional normalization factor $n_{d,\ell}$. Inversing it using orthogonality of the $P_{d,\ell}(x)$ gives the partial wave coefficients
 $$
-f_\ell(s)=\int_{-1}^{1}\mathrm{d}x\,\frac{\mathcal{N}_d}{2}\,(1-x^2)^{\frac{d-4}{2}}\,P_{d,\ell}(x)\,M(s,t(s,x)), 
+f_\ell(s)=\frac{\mathcal{N}_d}{2}\int_{-1}^{1}\mathrm{d}x\,(1-x^2)^{\frac{d-4}{2}}\,P_{d,\ell}(x)\,M(s,t(s,x)), 
 \qquad
 x=\cos\theta=1+\frac{2t}{s-4}
 $$
@@ -36,7 +36,7 @@ $$
 \quad
 S_\ell(s)=1+\mathrm{i}\,\phi^2(s)\,f_\ell(s), 
 \quad
-$\phi(s)=(s-4)^{\frac{d-3}{4}}s^{-1/4}$
+\phi(s)=\frac{(s-4)^{\frac{d-3}{4}}}{s^{1/4}}
 $$
 Our normalization conventions read
 $$
@@ -58,7 +58,7 @@ with $n_d=2^{5-d}n_{d,0}$ and the confomal map
 $$
 \rho_\sigma(s)=\frac{\sqrt{\sigma-4}-\sqrt{4-s}}{\sqrt{\sigma-4}+\sqrt{4-s}}
 $$
-the complicated domain $\mathcal{D}_{ijab}$ stands for the wavelet centers indices $i,j\in \sigma_i=\{1,2,...,N_{\mathrm{max}}\}$ and $\rho$ powers $a,b\in \pi_i=\{0,1,...\}$ (we typically use max 1), together with the tricky condition to avoid double counting:
+the complicated domain $\mathcal{D}_{ijab}$ stands for the wavelet centers indices $i,j\in {1,2,...,N_{\mathrm{max}}\}$ with $ \sigma_i$ a grid of $N_\mathrm{max}$ points on the Chebychev grid and $\rho$ powers $a,b\in \pi_i=\{0,1,...\}$ (we typically use max 1), together with the tricky condition to avoid double counting:
 $
 \sigma_i\leq\sigma_j \land 
 a\leq b \land 
