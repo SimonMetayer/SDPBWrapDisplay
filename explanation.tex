@@ -1,3 +1,8 @@
+
+
+
+\section*{Basics of amplitudes}
+
 The 2-to-2 scattering of identical massive ($m=1$) scalar particles is encoded by the S-matrix $S(s,t,u)$. Above threshold $s > 4$ and in any dimension $d\geq2+1$, it satisfies elastic \textbf{unitarity}
 \begin{equation}
 |S(s,t,u)|^2\leq1\,, 
@@ -72,9 +77,9 @@ with the wavelet centers indices $\alpha,\beta\in \{1,2,...,N_{\mathrm{max}}\}$ 
 
 \section*{Optimization problem}
 
-The low energy ``couplings'' $c(n)$ are derivatives of the amplitudes taken at the crossing symetric point (cs:  $s=t=u=4/3$)
+The low energy ''couplings'' $c_n$ are derivatives of the amplitudes taken at the crossing symetric point (cs:  $s=t=u=4/3$)
 \begin{equation}
-c(n)=\frac{\mathcal{N}_d}{2}\times 
+c_n=\frac{\mathcal{N}_d}{2}\times 
 \begin{cases}
 c(0,0) & n=0 \\
 \frac{1}{2}c(n,0) & n \text{ even} \\
@@ -83,7 +88,7 @@ c(n-1,1) & n>1 \text{ odd}
 \qquad
 c(n_1,n_2)=\left.\frac{1}{n_1!n_2!}\partial_s^{n_1}\partial_t^{n_2}M(s,t)\right|_\mathrm{cs}
 \end{equation}
-where, e.g., $\lambda=c(0)$ is the non-pertubative quartic coupling. Unitary \eqref{eq:unitarity} can be written as a matrix
+where, e.g., $\lambda=c_0$ is the non-pertubative quartic coupling. Unitary \eqref{eq:unitarity} can be written as a matrix
 \begin{equation}
 \det U_\ell(s)\geq1\, \qquad
 U_\ell(s)=\begin{pmatrix}
@@ -93,11 +98,15 @@ U_\ell(s)=\begin{pmatrix}
 2\operatorname{Im}f_\ell(s)
 \end{pmatrix}
 \end{equation}
-and the game is then to optimize (maximize/minimize) a given $c(n)$ using the semi-definite positive condition
+and the game is then to optimize (maximize/minimize) a given $c_n$ using the semi-definite program 
 \begin{equation}
-U_\ell(s)\succeq 0
+\begin{aligned}
+\text{optimize} \quad & c_n \\
+\text{over} \quad & \alpha_{\alpha\beta\gamma\delta} \\
+\text{subject to} \quad & U_\ell(s)\succeq 0 \quad \text{sampled over }\ell, s
+\end{aligned}
 \end{equation}
-This gives us $c_{\mathrm{min/max}}(n)$ with typically $n=0,2,3$ and fixes all the corresponding $\alpha_{\alpha\beta\gamma\delta}$ parameters, hence the amplitude.
+This gives us $c_{n\,\mathrm{min/max}}$ (typically $n=0,2,3$), and fixes all the corresponding $\alpha_{\alpha\beta\gamma\delta}$ parameters, hence the S-matrix $S_\ell(s)$.
 
 \section*{Grid and numerics}
 
@@ -153,5 +162,3 @@ i^d & d \text{ even} \\
 \end{cases},
 \end{equation}
 which normalized so that $\alpha_{\mathrm{th}}\in[0,1]$.
-
-
