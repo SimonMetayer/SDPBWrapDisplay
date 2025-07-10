@@ -116,11 +116,13 @@ fetch('explanation.tex')
     }
   });
   
+
 fetch('image_count.json')
-  .then(res => res.json())
+  .then(response => response.json())
   .then(data => {
-    document.getElementById('image-count').textContent = `Plots available: ${data.count}`;
+    document.getElementById('image-count').textContent = `Total plots: ${data.count}`;
+    document.getElementById('last-update').textContent = `Last updated: ${new Date(data.last_updated).toLocaleString()}`;
   })
-  .catch(() => {
-    document.getElementById('image-count').textContent = 'Could not load plot count.';
+  .catch(error => {
+    console.error('Error loading image count:', error);
   });
