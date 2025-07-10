@@ -1,6 +1,6 @@
 \section*{Basics of amplitudes}
 
-The 2-to-2 scattering of all massive ($m=1$) scalar particles is encoded by the S-matrix $S(s,t,u)$, satisfying elastic \textbf{unitarity} above threshold $s > 4$
+The 2-to-2 scattering of identical massive ($m=1$) scalar particles is encoded by the S-matrix $S(s,t,u)$, satisfying elastic \textbf{unitarity} above threshold $s > 4$
 $$
 |S(s,t,u)|^2\leq1, 
 \qquad
@@ -19,31 +19,25 @@ $$
 
 Partial Wave expansion
 $$
-M(s,t)=\sum_{\ell=0}^{\ell_{\mathrm{max}}}n_{d,\ell}\,P_\ell(x)\,f_\ell(s)
+M(s,t)=\sum_{\ell=0}^{\ell_{\mathrm{max}}}n_{d,\ell}\,P_{d,\ell}(x)\,f_\ell(s)\,,
+\qquad
+P_{d,\ell}(x)={}_2F_1\left(-\ell,d+\ell-3,\frac{d-2}{2},\frac{1-x}{2}\right)
 $$
-with
-$
-P_\ell(x)={}_2F_1\left(-\ell,d+\ell-3,\frac{d-2}{2},\frac{1-x}{2}\right)
-$
-and a conventional normalization factor $n_{d,\ell}$.
-Inversing it using orthogonality of the $P_\ell(x)$ gives the partial wave coefficients
+with conventional normalization factor $n_{d,\ell}$. Inversing it using orthogonality of the $P_{d,\ell}(x)$ gives the partial wave coefficients
 $$
-f_\ell(s)=\int_{-1}^{1}\mathrm{d}x\,\Pi_\ell(x)\,M(s,t(s,x)), 
+f_\ell(s)=\int_{-1}^{1}\mathrm{d}x\,\frac{\mathcal{N}_d}{2}\,(1-x^2)^{\frac{d-4}{2}}\,P_{d,\ell}(x)\,M(s,t(s,x)), 
 \qquad
 x=\cos\theta=1+\frac{2t}{s-4}
 $$
-with kernel
-$
-\Pi_\ell(x)=\frac{\mathcal{N}_d}{2}\,(1-x^2)^{\frac{d-4}{2}}\,P_\ell(x), 
-$
 and $\mathcal{N}_d$ another conventional nromalization factor.
 The unitarity condition becomes
 $$
 |S_\ell(s)|^2\leq 1\,,
-\qquad
+\quad
 S_\ell(s)=1+\mathrm{i}\,\phi^2(s)\,f_\ell(s), 
+\quad
+$\phi(s)=(s-4)^{\frac{d-3}{4}}s^{-1/4}$
 $$
-with $\phi(s)=(s-4)^{\frac{d-3}{4}}s^{-1/4}$.
 Our normalization conventions read
 $$
 n_{d,\ell}(x)=\frac{(4\pi)^{d/2}(d+2\ell-3)\Gamma(d+\ell-3)}{\pi \Gamma\left(\frac{d-2}{2}\right)\Gamma(\ell+1)}\, \qquad
@@ -108,7 +102,7 @@ We may add Subtracted positivity constraints (SPC)
 $$
 \operatorname{Im}\left(M(s,t)-
 \sum_\ell^{\ell_\mathrm{max}} n_{d,\ell}
-P_\ell\left(1+\frac{2t}{s-4}\right)
+P_{d,\ell}\left(1+\frac{2t}{s-4}\right)
 f_\ell(s)
 \right)\geq0
 $$
