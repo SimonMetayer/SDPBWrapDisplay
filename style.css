@@ -203,14 +203,15 @@ text-decoration: underline;
 }
 
 .flag-counter-container {
-  margin-top: 1em;
-  max-width: 200px;       /* Adjust size as needed */
+  margin: 1em auto 0 auto;
+  max-width: 200px;
+  text-align: center;
 }
 
 .flag-counter-container img {
   width: 100%;
   height: auto;
-  display: block;
+  display: inline-block;  /* inline-block so text-align: center works */
   border: none;
 }
 
