@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
   <meta charset="UTF-8" />
   <title>S-matrix Bootstrap</title>
@@ -16,7 +17,7 @@
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js?config=TeX-MML_HTMLorMML,hyperref" async></script>
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EW4T5SC7W9"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -27,6 +28,7 @@
   <script data-goatcounter="https://simonmetayer.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
 </head>
+
 
 <body>
   <h1>S-matrix Bootstrap Extremal Amplitudes Viewer</h1>
@@ -67,33 +69,55 @@
     </div>
   </div>
 
-  <div class="grid">
-    <div class="image-container">
-      <div class="image-title">Amplitude Max</div>
-      <img id="img1" alt="Amplitude Max" />
+
+  <div class="toggle-button" data-toggle-target="Amplitude">Amplitudes</div>
+  <div id="Amplitude" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container">
+        <div class="image-title">Amplitude Max</div>
+        <img id="img1" alt="Amplitude Max" />
+      </div>
+      <div class="image-container">
+        <div class="image-title">Amplitude Min</div>
+        <img id="img2" alt="Amplitude Min" />
+      </div>
     </div>
-    <div class="image-container">
-      <div class="image-title">Amplitude Min</div>
-      <img id="img2" alt="Amplitude Min" />
-    </div>
-    <div class="image-container">
-      <img id="img3" alt="ComplexAmplitude Max" />
-    </div>
-    <div class="image-container">
-      <img id="img4" alt="ComplexAmplitude Min" />
+  </div>
+  
+  
+  <div class="toggle-button" data-toggle-target="Resonances">Resonances</div>
+  <div id="Resonances" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container">
+        <img id="img3" alt="ComplexAmplitude Max" />
+      </div>
+      <div class="image-container">
+        <img id="img4" alt="ComplexAmplitude Min" />
+      </div>
     </div>
   </div>
 
-  <div class="almond-grid" id="almondGrid"></div>
 
-  <div class="convergence-container">
-    <img id="convImgMax" alt="Convergence Max" />
-    <img id="convImgMin" alt="Convergence Min" />
+  <div class="toggle-button" data-toggle-target="almond">Almonds</div>
+  <div id="almond" class="collapsible-content">
+    <div class="almond-grid" id="almondGrid"></div>
   </div>
 
-  <div class="cid-grid" id="cidGrid">
-    <img id="cidImgMax" alt="CI Max" />
-    <img id="cidImgMin" alt="CI Min" />
+  <div class="toggle-button" data-toggle-target="convergenceplot">Convergence plots</div>
+  <div id="convergenceplot" class="collapsible-content">
+    <div class="grid">
+      <img id="convImgMax" alt="Convergence Max" />
+      <img id="convImgMin" alt="Convergence Min" />
+    </div>
+  </div>
+
+
+  <div class="toggle-button" data-toggle-target="alldplot">All d plots</div>
+  <div id="alldplot" class="collapsible-content">
+    <div class="grid">
+      <img id="cidImgMax" alt="CI Max" />
+      <img id="cidImgMin" alt="CI Min" />
+    </div>
   </div>
 
   <h1>S-matrix bootstrap framework (Work in progress)</h1>

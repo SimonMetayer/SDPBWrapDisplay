@@ -59,9 +59,9 @@ function updateImages() {
   img3.src = `images/ComplexAmplitude/${prefix2}_minmax=max_improv={${improv}}.png`;
   img4.src = `images/ComplexAmplitude/${prefix2}_minmax=min_improv={${improv}}.png`;
 
-  const convPrefix = `ConvergenceTable_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
-  convImgMax.src = `images/ConvergenceTable/${convPrefix}_minmax=max_improv={${improv}}.png`;
-  convImgMin.src = `images/ConvergenceTable/${convPrefix}_minmax=min_improv={${improv}}.png`;
+  const convPrefix = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
+  convImgMax.src = `images/ConvergencePlot/${convPrefix}_minmax=max_improv={${improv}}.png`;
+  convImgMin.src = `images/ConvergencePlot/${convPrefix}_minmax=min_improv={${improv}}.png`;
 
   almondGrid.innerHTML = "";
   almondCoords.forEach(([x, y]) => {
@@ -177,4 +177,15 @@ fetch('image_count.json')
   })
   .catch(error => {
     console.error('Error loading image count:', error);
+  });
+  
+  document.querySelectorAll('[data-toggle-target]').forEach(button => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-toggle-target');
+      const content = document.getElementById(targetId);
+      if (content) {
+        const isHidden = getComputedStyle(content).display === "none";
+        content.style.display = isHidden ? "block" : "none";
+      }
+    });
   });
