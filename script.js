@@ -179,3 +179,9 @@ fetch('image_count.json')
     console.error('Error loading image count:', error);
   });
 
+
+fetch('https://api.countapi.xyz/hit/simonmetayer.github.io/visits')
+.then(res => res.json())
+.then(data => {
+document.getElementById('visitor-count').innerText = 'Visitor count: ' + data.value;
+});
