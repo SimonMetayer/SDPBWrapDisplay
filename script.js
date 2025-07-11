@@ -79,44 +79,96 @@ function updateImages() {
   el.addEventListener("input", updateImages)
 );
 
-// Allowed discrete values for ci slider
-const allowedCIValues = [0, 2, 3];
+// --- Unified config object with allowed values ---
+const configByD = {
+  4: {
+    paramCI: { min: 0, max: 3, step: 1, allowed: [0, 2, 3] },
+    paramL: { min: 0, max: 6, step: 2 },
+    paramLmax: { min: 14, max: 16, step: 2 },
+    paramNmax: { min: 10, max: 11, step: 1 },
+  },
+  6: {
+    paramCI: { min: 0, max: 3, step: 1, allowed: [0, 2, 3] },
+    paramL: { min: 0, max: 6, step: 2 },
+    paramLmax: { min: 14, max: 16, step: 2 },
+    paramNmax: { min: 10, max: 11, step: 1 },
+  },
+};
 
-function snapCIValue(val) {
-  return allowedCIValues.reduce((prev, curr) =>
+function snapCIValue(val, allowed) {
+  return allowed.reduce((prev, curr) =>
     Math.abs(curr - val) < Math.abs(prev - val) ? curr : prev
   );
 }
 
-ciSlider.addEventListener("input", () => {
-  const snappedVal = snapCIValue(Number(ciSlider.value));
-  if (snappedVal !== Number(ciSlider.value)) {
-    ciSlider.value = snappedVal;
+function updateSlider(sliderId, config) {
+  const slider = document.getElementById(sliderId);
+  const valSpan = document.getElementById(`val${sliderId.slice(5)}`);
+
+  slider.min = config.min;
+  slider.max = config.max;
+  slider.step = config.step;
+
+  let newVal = +slider.value;
+  if (newVal < config.min || newVal > config.max) {
+    newVal = config.min;
   }
+
+  if (sliderId === "paramCI" && config.allowed) {
+    newVal = snapCIValue(newVal, config.allowed);
+  }
+
+  slider.value = newVal;
+  valSpan.textContent = newVal;
+}
+
+document.getElementById("paramD").addEventListener("input", function () {
+  const d = this.value;
+  document.getElementById("valD").textContent = d;
+
+  const config = configByD[d];
+  if (!config) return;
+
+  for (const [id, conf] of Object.entries(config)) {
+    updateSlider(id, conf);
+  }
+
   updateImages();
 });
 
+ciSlider.addEventListener("input", () => {
+  const d = +dSlider.value;
+  const allowed = configByD[d]?.paramCI?.allowed || [];
+  const snappedVal = snapCIValue(Number(ciSlider.value), allowed);
+  if (snappedVal !== Number(ciSlider.value)) {
+    ciSlider.value = snappedVal;
+  }
+  document.getElementById("valCI").textContent = ciSlider.value;
+  updateImages();
+});
+
+["paramCI", "paramL", "paramLmax", "paramNmax"].forEach(id => {
+  const slider = document.getElementById(id);
+  const valSpan = document.getElementById(`val${id.slice(5)}`);
+  slider.addEventListener("input", () => {
+    valSpan.textContent = slider.value;
+  });
+});
+
+// Initial render
 updateImages();
 
+// LaTeX content load
 fetch('explanation.tex')
   .then(res => res.text())
   .then(tex => {
-    // Replace \textbf{} with <strong>
     tex = tex.replace(/\\textbf\{([^}]+)\}/g, '<strong>$1</strong>');
-
-    // Replace \section or \section* with <h2>
     tex = tex.replace(/\\section\*?\{([^}]+)\}/g, '<h2>$1</h2>');
-
-    // Insert the processed content directly (without wrapping in \[ \])
     document.getElementById('latex-explanation').innerHTML = tex;
-
-    // Typeset MathJax after inserting content
-    if (window.MathJax?.typeset) {
-      MathJax.typeset();
-    }
+    if (window.MathJax?.typeset) MathJax.typeset();
   });
-  
 
+// Load image metadata
 fetch('image_count.json')
   .then(response => response.json())
   .then(data => {
@@ -126,3 +178,4 @@ fetch('image_count.json')
   .catch(error => {
     console.error('Error loading image count:', error);
   });
+
