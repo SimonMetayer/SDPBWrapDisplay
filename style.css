@@ -202,3 +202,15 @@ footer a:hover {
 text-decoration: underline;
 }
 
+.flag-counter-container {
+  margin-top: 1em;
+  max-width: 200px;       /* Adjust size as needed */
+}
+
+.flag-counter-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: none;
+}
+
