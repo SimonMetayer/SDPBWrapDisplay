@@ -74,13 +74,17 @@ margin: 0 auto;
 justify-items: center;
 }
 
-img {
-max-width: 100%;
-width: 100%;
-max-height: 800px;
-object-fit: contain;
-border: 1px solid #ccc;
+.grid img,
+.almond-grid img,
+.image-container img,
+.flag-counter-container img {
+  max-width: 100%;
+  width: 100%;
+  max-height: 800px;
+  object-fit: contain;
+  border: 1px solid #ccc;
 }
+
 
 .almond-grid {
 display: grid;
@@ -210,6 +214,13 @@ font-size: 1.25rem; /* Bigger font */
 font-weight: bold;
 margin-top: 20px;
 border-radius: 4px;
+}
+
+.logo-inline {
+  height: 2em;
+  vertical-align: -0.7em;
+  display: inline;
+  margin-right: -0.4em;
 }
 
 img {
