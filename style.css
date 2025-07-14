@@ -217,10 +217,15 @@ border-radius: 4px;
 }
 
 .logo-inline {
-  height: 2em;
-  vertical-align: -0.7em;
-  display: inline;
-  margin-right: -0.4em;
+  display: inline-block !important;
+  height: 2em !important;
+  width: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: unset !important;
+  vertical-align: -0.65em;
+  margin-right: -0.2em;
+  border: none !important;
 }
 
 img {
