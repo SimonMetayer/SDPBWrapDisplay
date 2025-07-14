@@ -217,7 +217,6 @@ img {
   border: none !important;
 }
 
-/* ✅ Place this at the VERY END of the file */
 img.logo-inline {
   display: inline-block !important;
   height: 2em !important;
@@ -226,7 +225,7 @@ img.logo-inline {
   max-height: none !important;
   object-fit: unset !important;
   vertical-align: -0.65em;
-  margin-right: -0.2em;
+  margin-right: -0.3em;
   border: none !important;
 }
 
