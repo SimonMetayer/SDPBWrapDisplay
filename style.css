@@ -180,12 +180,12 @@ text-decoration: underline;
 
 .flag-counter-container {
 margin: 1em auto 0 auto;
-max-width: 200px;
+max-width: 300px;
 text-align: center;
 }
 
 .flag-counter-container img {
-max-height: 60px; /* Match the logos */
+max-height: 150px; /* Match the logos */
 width: auto;
 display: block;
 margin: 0 auto;

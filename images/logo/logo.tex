@@ -1,0 +1,25 @@
+\documentclass{standalone}
+\usepackage{feynmp-auto,amsmath}
+\begin{document}
+\centering
+\noindent\!\!\!\!
+\begin{fmffile}{fmffile}
+\begin{fmfgraph*}(25,25)
+    \fmfpen{1.5}
+    %bottom and top verticies
+    \fmftop{P1,P4}
+    \fmfbottom{P2,P3}
+    %incoming protons to gluon vertices
+    \fmf{plain,tension=1}{P1,g}
+    \fmf{plain,tension=1}{P2,g}
+    \fmf{plain,tension=1}{P3,g}
+    \fmf{plain,tension=1}{P4,g}
+    %blobs at gluon vertices, 0.16w is the size of blob
+    \fmfv{decor.shape=circle, decor.size=0.7w, decor.filled=50, label=$S$, l.d=0}{g}
+\end{fmfgraph*}
+\end{fmffile}
+\end{document}
+
+% compile to pdf and then convert to transparent png using imagemagick
+% convert -density 300 S.pdf -transparent white -strip output.png
+
