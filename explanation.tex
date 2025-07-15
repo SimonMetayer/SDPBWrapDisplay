@@ -8,6 +8,7 @@ The 2-to-2 scattering of identical massive ($m=1$) scalar particles is encoded b
 |S(s,t,u)|^2\leq1\,, 
 \qquad
 S(s,t,u)=1+i M(s,t,u)\,,
+\label{eq:unitarity} 
 \end{equation}
 with Mandelstam invariants $s,t,u$. The amplitude $M$ satisfies \textbf{crossing} symmetry
 \begin{equation}
@@ -33,14 +34,14 @@ f_\ell(s)=\frac{\mathcal{N}_d}{2}\int_{-1}^{1}\mathrm{d}x\,(1-x^2)^{\frac{d-4}{2
 x=\cos\theta=1+\frac{2t}{s-4}\,,
 \end{equation}
 with $\theta$ the scattering angle and $\mathcal{N}_d$ another conventional normalization factor.
-The unitarity condition becomes
+The unitarity condition \eqref{eq:unitarity} becomes
 \begin{equation}
 |S_\ell(s)|^2\leq 1\,,
 \qquad
 S_\ell(s)=1+\mathrm{i}\,\phi^2(s)\,f_\ell(s)\,, 
 \qquad
 \phi^2(s)=\frac{(s-4)^{\frac{d-3}{2}}}{\sqrt{s}}\,.
-\label{eq:unitarity}
+\label{eq:unitarity2}
 \end{equation}
 Our normalization conventions read
 \begin{equation}
@@ -119,7 +120,7 @@ c(n-1,1) & n>1 \text{ odd}
 \qquad
 c(n_1,n_2)=\left.\frac{1}{n_1!n_2!}\partial_s^{n_1}\partial_t^{n_2}M(s,t)\right|_\mathrm{cs}\,,
 \end{equation}
-where, e.g., $\lambda=c_0$ is the non-pertubative quartic coupling. Unitary \eqref{eq:unitarity} can be written with the matrix
+where, e.g., $\lambda=c_0$ is the non-pertubative quartic coupling. Unitary \eqref{eq:unitarity2} can be written with the matrix
 \begin{equation}
 \det U_\ell(s)\geq1\, \qquad
 U_\ell(s)=\begin{pmatrix}
@@ -159,7 +160,7 @@ M(s,t)\rightarrow M(s,t)+\alpha_{\mathrm{th}}\Delta(s,t)\,,
 with
 $\Delta(s,t)=\Delta(s)+s \leftrightarrow t \leftrightarrow u$, and 
 \begin{equation}
-\Delta(s)=n_d\times\left(\frac{4-s}{4}\right)^{\frac{3-d}{2}}\times
+\Delta(s)=n_d\times\left(\frac{s-4}{4}\right)^{\frac{3-d}{2}}\times
 \begin{cases}
 \frac{(-1)^{\frac{d-3}{2}}\pi}{\log{\frac{4-s}{4}}-i\pi} & d \text{ odd} \\
 \sin\left(\pi\frac{d-3}{2}\right) & \text{else}
