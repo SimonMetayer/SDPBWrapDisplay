@@ -87,11 +87,41 @@ const configByD = {
     paramLmax: { min: 14, max: 16, step: 2 },
     paramNmax: { min: 10, max: 11, step: 1 },
   },
+  5: {
+    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
+    paramL: { min: 0, max: 6, step: 2 },
+    paramLmax: { min: 16, max: 16, step: 2 },
+    paramNmax: { min: 11, max: 11, step: 1 },
+  },
   6: {
     paramCI: { min: 0, max: 3, step: 1, allowed: [0, 2, 3] },
     paramL: { min: 0, max: 6, step: 2 },
     paramLmax: { min: 14, max: 16, step: 2 },
     paramNmax: { min: 10, max: 11, step: 1 },
+  },
+  7: {
+    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
+    paramL: { min: 0, max: 6, step: 2 },
+    paramLmax: { min: 16, max: 16, step: 2 },
+    paramNmax: { min: 11, max: 11, step: 1 },
+  },
+  8: {
+    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
+    paramL: { min: 0, max: 6, step: 2 },
+    paramLmax: { min: 16, max: 16, step: 2 },
+    paramNmax: { min: 11, max: 11, step: 1 },
+  },
+  9: {
+    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
+    paramL: { min: 0, max: 6, step: 2 },
+    paramLmax: { min: 16, max: 16, step: 2 },
+    paramNmax: { min: 11, max: 11, step: 1 },
+  },
+  10: {
+    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
+    paramL: { min: 0, max: 6, step: 2 },
+    paramLmax: { min: 16, max: 16, step: 2 },
+    paramNmax: { min: 11, max: 11, step: 1 },
   },
 };
 
