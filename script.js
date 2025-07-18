@@ -82,7 +82,7 @@ function updateImages() {
 // --- Unified config object with allowed values ---
 const configByD = {
   4: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0, 2, 3] },
+    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
     paramL: { min: 0, max: 2, step: 2 },
     paramLmax: { min: 16, max: 16, step: 2 },
     paramNmax: { min: 11, max: 11, step: 1 },
@@ -94,8 +94,8 @@ const configByD = {
     paramNmax: { min: 11, max: 11, step: 1 },
   },
   6: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0, 2, 3] },
-    paramL: { min: 0, max: 62 step: 2 },
+    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
+    paramL: { min: 0, max: 2, step: 2 },
     paramLmax: { min: 16, max: 16, step: 2 },
     paramNmax: { min: 11, max: 11, step: 1 },
   },
@@ -111,9 +111,15 @@ const configByD = {
     paramLmax: { min: 16, max: 16, step: 2 },
     paramNmax: { min: 11, max: 11, step: 1 },
   },
+  9: {
+    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
+    paramL: { min: 0, max: 2, step: 2 },
+    paramLmax: { min: 16, max: 16, step: 2 },
+    paramNmax: { min: 11, max: 11, step: 1 },
+  },
   10: {
     paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 62 step: 2 },
+    paramL: { min: 0, max: 2, step: 2 },
     paramLmax: { min: 16, max: 16, step: 2 },
     paramNmax: { min: 11, max: 11, step: 1 },
   },
