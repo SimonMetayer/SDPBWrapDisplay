@@ -25,13 +25,13 @@ We consider the partial wave expansion in arbitrary dimension $d\geq 2+1$
 \begin{equation}
 M(s,t)=\sum_{\ell=0}^{\ell_\mathrm{max}}n_{d,\ell}\,P_{d,\ell}(x)\,f_\ell(s)\,,
 \qquad
-P_{d,\ell}(x)={}_2F_1\left(-\ell,d+\ell-3,\frac{d-2}{2},\frac{1-x}{2}\right)\,,
+P_{d,\ell}(x)={}_2F_1\left(-\ell,d+\ell-3,\cfrac{d-2}{2},\cfrac{1-x}{2}\right)\,,
 \end{equation}
 with (even) spin $\ell$ (in principle $\ell_\mathrm{max}\rightarrow\infty$) and conventional normalization factor $n_{d,\ell}$. Inversing using orthogonality of the partial waves $P_{d,\ell}(x)$, gives the partial wave coefficients
 \begin{equation}
-f_\ell(s)=\frac{\mathcal{N}_d}{2}\int_{-1}^{1}\mathrm{d}x\,(1-x^2)^{\frac{d-4}{2}}\,P_{d,\ell}(x)\,M(s,t(s,x))\,, 
+f_\ell(s)=\cfrac{\mathcal{N}_d}{2}\int_{-1}^{1}\mathrm{d}x\,(1-x^2)^{\cfrac{d-4}{2}}\,P_{d,\ell}(x)\,M(s,t(s,x))\,, 
 \qquad
-x=\cos\theta=1+\frac{2t}{s-4}\,,
+x=\cos\theta=1+\cfrac{2t}{s-4}\,,
 \end{equation}
 with $\theta$ the scattering angle and $\mathcal{N}_d$ another conventional normalization factor.
 The unitarity condition \eqref{eq:unitarity} becomes
@@ -40,14 +40,14 @@ The unitarity condition \eqref{eq:unitarity} becomes
 \qquad
 S_\ell(s)=1+\mathrm{i}\,\phi^2(s)\,f_\ell(s)\,, 
 \qquad
-\phi^2(s)=\frac{(s-4)^{\frac{d-3}{2}}}{\sqrt{s}}\,.
+\phi^2(s)=\cfrac{(s-4)^{\cfrac{d-3}{2}}}{\sqrt{s}}\,.
 \label{eq:unitarity2}
 \end{equation}
 Our normalization conventions read
 \begin{equation}
-n_{d,\ell}(x)=\frac{(4\pi)^{d/2}(d+2\ell-3)\Gamma(d+\ell-3)}{\pi\,\Gamma\left(\frac{d-2}{2}\right)\Gamma(\ell+1)}\,,
+n_{d,\ell}(x)=\cfrac{(4\pi)^{d/2}(d+2\ell-3)\Gamma(d+\ell-3)}{\pi\,\Gamma\left(\cfrac{d-2}{2}\right)\Gamma(\ell+1)}\,,
 \qquad
-\mathcal{N}_d=\frac{(16\pi)^{\frac{d-2}{2}}}{\Gamma\left(\frac{d-2}{2}\right)}\,.
+\mathcal{N}_d=\cfrac{(16\pi)^{\cfrac{d-2}{2}}}{\Gamma\left(\cfrac{d-2}{2}\right)}\,.
 \end{equation}
 \section*{Wavelet ansatz}
 
@@ -58,11 +58,11 @@ M(s,t)=\sum_{\alpha\beta\gamma\delta}\,\alpha_{\alpha\beta\gamma\delta}\delta_{\
 \end{equation}
 with $\alpha_{\alpha\beta\gamma\delta}$ our free real parameters, the $\rho$-wavelet ansatz
 \begin{equation}
-R_{\alpha\beta\gamma\delta}(s,t)=\frac{n_d}{6}\,\left(\rho^\gamma(s,\sigma_\alpha)\rho^\delta(t,\sigma_\beta)+ s \leftrightarrow t \leftrightarrow u \right)\,, 
+R_{\alpha\beta\gamma\delta}(s,t)=\cfrac{n_d}{6}\,\left(\rho^\gamma(s,\sigma_\alpha)\rho^\delta(t,\sigma_\beta)+ s \leftrightarrow t \leftrightarrow u \right)\,, 
 \end{equation}
 with $n_d=2^{5-d}n_{d,0}$ and the conformal map 
 \begin{equation}
-\rho(s,\sigma)=\frac{\sqrt{\sigma-4}-\sqrt{4-s}}{\sqrt{\sigma-4}+\sqrt{4-s}}\,,
+\rho(s,\sigma)=\cfrac{\sqrt{\sigma-4}-\sqrt{4-s}}{\sqrt{\sigma-4}+\sqrt{4-s}}\,,
 \label{eq:confmap}
 \end{equation}
 with the wavelet centers indices $\alpha,\beta\in \{1,2,...,N_{\mathrm{max}}\}$ with $\sigma_n$ some grid \eqref{eq:sigmagrid} and $\rho$ powers $\alpha,\beta\in \pi_n=\{0,1,...\}$, together with the tricky boolean condition to avoid double counting:
@@ -83,7 +83,7 @@ with the wavelet centers indices $\alpha,\beta\in \{1,2,...,N_{\mathrm{max}}\}$ 
 
 Our grids are based on the Chebychev grid
 \begin{equation}
-\phi_n=\frac{\pi}{2}\left(1+\cos\frac{n\pi}{N+1}\right)\,, \qquad n=1,...,N\,, \qquad \phi_n\in (0,\pi)\,.
+\phi_n=\cfrac{\pi}{2}\left(1+\cos\cfrac{n\pi}{N+1}\right)\,, \qquad n=1,...,N\,, \qquad \phi_n\in (0,\pi)\,.
 \end{equation}
 The $s$ grid (dense near threshold, then more and more sparse) reads
 \begin{equation}
@@ -103,7 +103,7 @@ and the $\rho$ ansatz power grid is trivially
 \pi_n=n\,, \qquad n=0,...,\pi_{\mathrm{max}}\,.
 \end{equation}
 
-The numerics achieve perfection at $\ell_\mathrm{max}\rightarrow\infty$, $N_\mathrm{max}\rightarrow\infty$, $s_\mathrm{max}\rightarrow\infty$ and $\pi_{\mathrm{max}}\geq1$. For reasonable convergence, we typically use  $\pi_\mathrm{max}=1$, $\ell_\mathrm{max}\approx14$ spins or more, $s_\mathrm{max}=300$ points, so $s$ range from $4+10^{-9}$ up to $10^9$ and $N_\mathrm{max}\approx10$ wavelet centers or more, yielding for example $\sigma_i=\{4.03, 4.06, 4.15, 4.46, 4.97, 6.67, 11.3, 19.5, 52.6, 243.1\}$, so we expect our amplitude to satisfy elastic unitary roughly up to $s\approx100$.
+The numerics achieve perfection at $\ell_\mathrm{max}\rightarrow\infty$, $s_\mathrm{max}\rightarrow\infty$, $N_\mathrm{max}\rightarrow\infty$ and $\pi_{\mathrm{max}}\geq1$ (one could also choose instead $N_\mathrm{max}\geq1$ and $\pi_{\mathrm{max}}\rightarrow\infty$). For reasonable convergence, we typically use $\pi_\mathrm{max}=1$, $\ell_\mathrm{max}\approx14$ spins or more, $s_\mathrm{max}=300$ points, so $s$ range from $4+10^{-9}$ up to $10^9$ and $N_\mathrm{max}\approx10$ wavelet centers or more, yielding for example $\sigma_i=\{4.03, 4.06, 4.15, 4.46, 4.97, 6.67, 11.3, 19.5, 52.6, 243.1\}$, so we expect our amplitude to satisfy elastic unitary roughly up to $s\approx100$.
 
 
 
@@ -111,20 +111,20 @@ The numerics achieve perfection at $\ell_\mathrm{max}\rightarrow\infty$, $N_\mat
 
 The low energy ''couplings'' $c_n$ are derivatives of the amplitudes taken at the crossing symetric point (cs:  $s=t=u=4/3$)
 \begin{equation}
-c_n=\frac{\mathcal{N}_d}{2}\times 
+c_n=\cfrac{\mathcal{N}_d}{2}\times 
 \begin{cases}
 c(0,0) & n=0 \\
-\frac{1}{2}c(n,0) & n \text{ even} \\
+\cfrac{1}{2}c(n,0) & n \text{ even} \\
 c(n-1,1) & n>1 \text{ odd}
 \end{cases}\,\,\,,
 \qquad
-c(n_1,n_2)=\left.\frac{1}{n_1!n_2!}\partial_s^{n_1}\partial_t^{n_2}M(s,t)\right|_\mathrm{cs}\,,
+c(n_1,n_2)=\left.\cfrac{1}{n_1!n_2!}\partial_s^{n_1}\partial_t^{n_2}M(s,t)\right|_\mathrm{cs}\,,
 \end{equation}
 where, e.g., $\lambda=c_0$ is the non-pertubative quartic coupling. Unitary \eqref{eq:unitarity2} can be written with the matrix
 \begin{equation}
 \det U_\ell(s)\geq1\, \qquad
 U_\ell(s)=\begin{pmatrix}
-1-\frac{1}{2}\phi^2(s)\operatorname{Im} f_\ell(s) &
+1-\cfrac{1}{2}\phi^2(s)\operatorname{Im} f_\ell(s) &
 \phi(s)\operatorname{Re}f_\ell(s)  \\
 \phi(s)\operatorname{Re}f_\ell(s) &
 2\operatorname{Im}f_\ell(s)
@@ -147,7 +147,7 @@ We may add Subtracted positivity constraints (SPC)
 \begin{equation}
 \operatorname{Im}\left(M(s,t)-
 \sum_\ell^{\ell_\mathrm{max}} n_{d,\ell}
-P_{d,\ell}\left(1+\frac{2t}{s-4}\right)
+P_{d,\ell}\left(1+\cfrac{2t}{s-4}\right)
 f_\ell(s)
 \right)\geq0\,,
 \end{equation}
@@ -160,10 +160,10 @@ M(s,t)\rightarrow M(s,t)+\alpha_{\mathrm{th}}\Delta(s,t)\,,
 with
 $\Delta(s,t)=\Delta(s)+s \leftrightarrow t \leftrightarrow u$, and 
 \begin{equation}
-\Delta(s)=n_d\times\left(\frac{4-s}{4}\right)^{-\frac{d-3}{2}}\times
+\Delta(s)=n_d\times\left(\cfrac{4-s}{4}\right)^{-\cfrac{d-3}{2}}\times
 \begin{cases}
-\frac{(-1)^{\frac{d-3}{2}}\pi}{\log{\frac{4-s}{4}}+1} & d \text{ odd} \\
-\sin\left(\pi\frac{d-3}{2}\right) & \text{else}
+\cfrac{(-1)^{\cfrac{d-3}{2}}\pi}{\log{\cfrac{4-s}{4}}+1} & d \text{ odd} \\
+\sin\left(\pi\cfrac{d-3}{2}\right) & \text{else}
 \end{cases}\,\,\,,
 \end{equation}
 which normalized so that $\alpha_{\mathrm{th}}\in[0,1]$.
