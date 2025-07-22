@@ -155,12 +155,16 @@ sampled over $s_i$ and also over $t_i$ for a few points (typically 10 points, i.
 
 We also may add the Threshold (TH) improvement term
 \begin{equation}
-M(s,t)\rightarrow M(s,t)+\alpha_{\mathrm{th}}\Delta(s,t)\,,
+M(s,t)\rightarrow M(s,t)+\alpha_{\mathrm{th}}\,\sum_{\ell=0}^{2\left\lfloor\frac{d-4}{2}\right\rfloor}\Delta_\ell(s,t)\,,
 \end{equation}
 with
-$\Delta(s,t)=\Delta(s)+s \leftrightarrow t \leftrightarrow u$, and 
+$\Delta_\ell(s,t)=\delta_\ell(s,t)+\delta_\ell(t,s)+\delta_\ell(u,t)$, and 
 \begin{equation}
-\Delta(s)=n_d\times\left(\cfrac{4-s}{4}\right)^{-\frac{d-3}{2}}\times
+\delta(s,t)=
+2^{5-d}\,
+n_{d,\ell}\,
+P_{d,\ell}\left(\frac{t-u}{4-s}\right)\,
+\left(\cfrac{4-s}{4}\right)^{-\frac{d-3}{2}}\times
 \begin{cases}
 \cfrac{(-1)^{\frac{d-3}{2}}\pi}{\log{\frac{4-s}{4}}+1} & d \text{ odd} \\
 \sin\left(\pi\frac{d-3}{2}\right) & \text{else}
