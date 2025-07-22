@@ -81,6 +81,12 @@ function updateImages() {
 
 // --- Unified config object with allowed values ---
 const configByD = {
+  3: {
+    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
+    paramL: { min: 0, max: 2, step: 2 },
+    paramLmax: { min: 16, max: 16, step: 2 },
+    paramNmax: { min: 11, max: 11, step: 1 },
+  },
   3.5: {
     paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
     paramL: { min: 0, max: 2, step: 2 },
