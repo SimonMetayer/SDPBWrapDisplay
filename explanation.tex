@@ -1,5 +1,4 @@
 
-
 \section*{Basics of amplitudes}
 
 The 2-to-2 scattering of identical massive ($m=1$) scalar particles is encoded by the $S$-matrix. Above threshold $s > 4$ and in any dimension $d\geq2+1$, it satisfies elastic \textbf{unitarity}
@@ -97,9 +96,12 @@ s_n=s(e^{i\phi_n},\sigma_0)\,, \qquad n=1,...,s_\mathrm{max}\,, \qquad s_n \in (
 \end{equation}
 where $s(\rho,\sigma)$ is obtained by inverting the conformal map \eqref{eq:confmap} and $\sigma_0$ stands for the wavelet center mother point, obtained by solving $\rho(s_0,\sigma_0)=0$ with $s_0$ the crossing symmetric point $s_0=t_0=u_0=4/3$, leading to $\sigma_0=20/3$. The wavelet centers cumulative grid reads
 \begin{equation}
-\sigma_n=\left(\,\bigcup^\infty_{j=1}s_j\right)_{[1:n]}\,, \qquad n=1,...,N_\mathrm{max}\,, \qquad \sigma_n \in (4,\infty)\,.
+\sigma_n=\sigma_{n-1}\cup s_{i,j}\,,
+\qquad n=1,...,N_\mathrm{max}\,, \qquad 
+\sigma_n \in (4,\infty)\,.
 \label{eq:sigmagrid}
 \end{equation}
+where $\sigma_1=s_1$ and $(i,j)$ is the smallest pair such that $s_{i,j}\notin \sigma_{n-1}$.
 The (even) spin grid is simply 
 \begin{equation}
 \ell=\{0,2,...,\ell_\mathrm{max}\}\,,
@@ -109,7 +111,7 @@ and the $\rho$ ansatz power grid is trivially
 \pi_n=n\,, \qquad n=0,...,\pi_{\mathrm{max}}\,.
 \end{equation}
 
-The numerics achieve perfection at $\ell_\mathrm{max}\rightarrow\infty$, $s_\mathrm{max}\rightarrow\infty$, $N_\mathrm{max}\rightarrow\infty$ and $\pi_{\mathrm{max}}\geq1$ (one could also choose instead $N_\mathrm{max}\geq1$ and $\pi_{\mathrm{max}}\rightarrow\infty$). For reasonable convergence, we typically use $\pi_\mathrm{max}=1$, $\ell_\mathrm{max}\approx14$ spins or more, $s_\mathrm{max}=300$ points, so $s$ range from $4+10^{-9}$ up to $10^9$ and $N_\mathrm{max}\approx10$ wavelet centers or more, yielding for example $\sigma_i=\{4.03, 4.06, 4.15, 4.46, 4.97, 6.67, 11.3, 19.5, 52.6, 243.1\}$, so we expect our amplitude to satisfy elastic unitary roughly up to $s\approx100$.
+The numerics achieve perfection at $\ell_\mathrm{max}\rightarrow\infty$, $s_\mathrm{max}\rightarrow\infty$, $N_\mathrm{max}\rightarrow\infty$ and $\pi_{\mathrm{max}}\geq1$ (one could also choose instead $N_\mathrm{max}\geq1$ and $\pi_{\mathrm{max}}\rightarrow\infty$). For reasonable convergence, we typically use $\pi_\mathrm{max}=1$, $\ell_\mathrm{max}\approx14$ spins or more, $s_\mathrm{max}=300$ points, so $s$ range from $4+10^{-9}$ up to $10^9$ and $N_\mathrm{max}\approx11$ wavelet centers or more, yielding for example $\sigma_{11,i}=\{4.03, 4.06, 4.15, 4.46, 4.97, 6.67, 11.3, 19.5, 52.6, 121., 243.\}$, so we expect our amplitude to satisfy elastic unitary roughly up to $s\approx100$.
 
 
 \section*{Wilson coefficients}
@@ -144,6 +146,7 @@ These have a nice interpretation in perturbative field theory. Let's consider th
 +\frac{1}{2}\frac{g_2}{\Lambda^4}(\partial_\mu\phi)^4
 +\frac{1}{3}\frac{g_3}{\Lambda^6}(\partial^\mu\partial_\rho\phi)(\partial^\nu\partial_\mu\phi)(\partial^\rho\partial_\nu\phi)\phi
 + O\left(\phi^6/\Lambda^8\right)
+\label{eq:lagrangian}
 \end{equation}
 with the cutoff scale $[\Lambda]=1$ and $[g_n]=4-d$. It is then straightforward to compute the amplitude $M(s,t)$, reading
 \begin{equation}
@@ -160,7 +163,7 @@ c_2 & = \frac{\mathcal{N}_d}{2}\left(+\frac{g_2}{\Lambda^4}+\frac{1}{3}\frac{g_3
 c_3 & = \frac{\mathcal{N}_d}{2}\left(-\frac{g_3}{\Lambda^6}+O\left(1/\Lambda^8\right)\right) \,.
 \end{aligned}
 \end{equation}
-Note that the non-perturbative nature of the $c_n$ is manifest as they correspond to an infinite sum of perturbative couplings $g_n$. 
+Note that the non-perturbative nature of the $c_n$ is manifest as they correspond to an infinite sum of perturbative couplings $g_n$. One should keep in mind that our setup is fully non-perturbative and goes well beyond any Lagrangian description.
 
 \section*{Optimization problem}
 
@@ -214,4 +217,6 @@ n_d\times
 \end{cases}\,\,\,,
 \end{equation}
 which normalized so that $\alpha_{\mathrm{th}}\in[0,1]$.
+
+
 
