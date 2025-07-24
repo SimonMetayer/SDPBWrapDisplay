@@ -55,6 +55,7 @@ function updateImages() {
   const prefix1 = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
   const prefix2 = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
   const prefix3 = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
+  const prefix4 = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
   const convPrefix = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
 
   const minmaxMax = `minmax=max_improv={${improv}}`;
@@ -80,6 +81,11 @@ function updateImages() {
   downloadAmplitudeMax.download = `${prefix1}_${minmaxMax}.txt`;
   downloadAmplitudeMin.href = `data/Amplitude/${prefix1}_${minmaxMin}.txt`;
   downloadAmplitudeMin.download = `${prefix1}_${minmaxMin}.txt`;
+  
+  downloadMMax.href = `data/M/${prefix4}_${minmaxMax}.txt`;
+  downloadMMax.download = `${prefix4}_${minmaxMax}.txt`;
+  downloadMMin.href = `data/M/${prefix4}_${minmaxMin}.txt`;
+  downloadMMin.download = `${prefix4}_${minmaxMin}.txt`;
   
   downloadComplexAmplitudeMax.href = `data/ComplexAmplitude/${prefix1}_${minmaxMax}.txt`;
   downloadComplexAmplitudeMax.download = `${prefix2}_${minmaxMax}.txt`;
@@ -390,4 +396,29 @@ document.getElementById("downloadcidMin").addEventListener("click", function (e)
   const prefix = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`;
   triggerDownload(`data/ci(d)/${prefix}`, prefix);
 });
+
+document.getElementById("downloadMMax").addEventListener("click", function (e) {
+  e.preventDefault();
+  const d = dSlider.value;
+  const ci = ciSlider.value;
+  const L = LSlider.value;
+  const lmax = lmaxSlider.value;
+  const Nmax = NmaxSlider.value;
+  const improv = improvSelect.value;
+  const prefix = `M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`;
+  triggerDownload(`data/M/${prefix}`, prefix);
+});
+
+document.getElementById("downloadMMin").addEventListener("click", function (e) {
+  e.preventDefault();
+  const d = dSlider.value;
+  const ci = ciSlider.value;
+  const L = LSlider.value;
+  const lmax = lmaxSlider.value;
+  const Nmax = NmaxSlider.value;
+  const improv = improvSelect.value;
+  const prefix = `M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`;
+  triggerDownload(`data/M/${prefix}`, prefix);
+});
+
 

@@ -1,16 +1,24 @@
 
+
 \section*{Basics of amplitudes}
 
-The 2-to-2 scattering of identical massive ($m=1$) scalar particles is encoded by the S-matrix $S(s,t,u)$. Above threshold $s > 4$ and in any dimension $d\geq2+1$, it satisfies elastic \textbf{unitarity}
+The 2-to-2 scattering of identical massive ($m=1$) scalar particles is encoded by the $S$-matrix. Above threshold $s > 4$ and in any dimension $d\geq2+1$, it satisfies elastic \textbf{unitarity}
 \begin{equation}
-|S(s,t,u)|^2\leq1\,, 
+S^\dagger S\preceq1\,, 
 \qquad
-S(s,t,u)=1+i M(s,t,u)\,,
+S=1+i (2\pi)^d \delta^{(d)}(p_1+p_2-p_3-p_4) M(s,t,u)\,,
 \label{eq:unitarity} 
 \end{equation}
-with Mandelstam invariants $s,t,u$. The amplitude $M$ satisfies \textbf{crossing} symmetry
+with Mandelstam invariants
 \begin{equation}
-M(s,t)=M(t,s)=M(u,t)\,, \qquad s+t+u=4\,,
+s=(p_1+p_2)^2\,,\quad
+t=(p_1-p_3)^2\,,\quad
+u=(p_1-p_4)^2\,,\quad
+s+t+u=4\,.
+\end{equation}
+The amplitude $M(s,t)\equiv M(s,t,u=4-s-t)$ satisfies \textbf{crossing} symmetry
+\begin{equation}
+M(s,t)=M(t,s)=M(u,t)\,,
 \end{equation}
 as well as real \textbf{analyticity} 
 \begin{equation}
@@ -127,7 +135,7 @@ c(n-1,1) & n>1 \text{ odd}
 \qquad
 c(n_1,n_2)=\left.\frac{1}{n_1!n_2!}\partial_s^{n_1}\partial_t^{n_2}M(s,t)\right|_\mathrm{cs}\,,
 \end{equation}
-These have a nice interpretation in perturbative field theory. Let's consider the EFT of a single massive ($m=1$) field $\phi$ with Lagrangian density
+These have a nice interpretation in perturbative field theory. Let's consider the weakly coupled EFT of a single massive ($m=1$) field $\phi$ with Lagrangian density
 \begin{equation}
 \mathcal{L}=
 \frac{1}{2}(\partial_\mu\phi)^2
@@ -140,7 +148,7 @@ These have a nice interpretation in perturbative field theory. Let's consider th
 with the cutoff scale $[\Lambda]=1$ and $[g_n]=4-d$. It is then straightforward to compute the amplitude $M(s,t)$, reading
 \begin{equation}
 M(s,t)=-g_0
-+\frac{g_2}{\Lambda^4}\left(12+s^2+t^2+u^2-4(s+t+u)\right)
++\frac{g_2}{\Lambda^4}\left(s^2+t^2+u^2-4\right)
 +\frac{g_3}{\Lambda^6}(s-2)(t-2)(u-2)
 +O\left(1/\Lambda^8\right)\,.
 \end{equation}
@@ -174,7 +182,7 @@ and the game is then to optimize (maximize/minimize) a given $c_n$ using the sem
 \text{subject to} \quad & U_\ell(s)\succeq 0 \quad \text{sampled over }\ell, s
 \end{aligned}\,.
 \end{equation}
-This gives us $c_{n\,\mathrm{min/max}}$ (typically $n=0,2,3$), and fixes all the corresponding $\alpha_{\alpha\beta\gamma\delta}$ parameters, hence the S-matrix $S_\ell(s)$.
+This gives us $c_{n\,\mathrm{min/max}}$ (typically $n=0,2,3$), and fixes all the corresponding $\alpha_{\alpha\beta\gamma\delta}$ parameters, hence the $S$-matrix $S_\ell(s)$.
 
 
 \section*{Convergence improvements}
@@ -206,5 +214,4 @@ n_d\times
 \end{cases}\,\,\,,
 \end{equation}
 which normalized so that $\alpha_{\mathrm{th}}\in[0,1]$.
-
 
