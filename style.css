@@ -213,6 +213,10 @@ footer a:hover {
   border-radius: 4px;
 }
 
+.toggle-button:hover {
+  background-color: #b0b0b0;
+}
+
 img {
   border: none !important;
 }
@@ -228,4 +232,25 @@ img.logo-inline {
   margin-right: -0.5em;
   border: none !important;
 }
+
+.download-container {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.download-button {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 12px;
+  background-color: #b0b0b0;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.download-button:hover {
+  background-color: #e0e0e0;
+}
+
 

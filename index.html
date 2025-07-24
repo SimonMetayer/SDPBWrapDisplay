@@ -70,7 +70,7 @@
       <label for="paramImprov">Improvement:</label><br />
       <select id="paramImprov">
         <option value="SPC" selected >SPC (Subtracted Positivity Constraints)</option>
-        <!-- <option value="TH, SPC">TH (Threshold) + SPC</option> -->
+        <option value="TH, SPC">TH (Threshold) + SPC</option>
       </select>
     </div>
   </div>
@@ -80,12 +80,18 @@
   <div id="Amplitude" class="collapsible-content">
     <div class="grid">
       <div class="image-container">
-        <div class="image-title">Amplitude Max</div>
+        <div class="image-title"> Amplitude Max </div>
         <img id="img1" alt="Amplitude Max" />
+        <div class="download-container">
+          <a id="downloadAmplitudeMax" class="download-button" download>Download data</a>
+        </div>
       </div>
       <div class="image-container">
         <div class="image-title">Amplitude Min</div>
         <img id="img2" alt="Amplitude Min" />
+        <div class="download-container">
+          <a id="downloadAmplitudeMin" class="download-button" download>Download data</a>
+        </div>
       </div>
     </div>
   </div>
@@ -95,10 +101,18 @@
   <div id="Resonances" class="collapsible-content">
     <div class="grid">
       <div class="image-container">
+        <div class="image-title"> Resonance Max </div>
         <img id="img3" alt="ComplexAmplitude Max" />
+        <div class="download-container">
+          <a id="downloadComplexAmplitudeMax" class="download-button" download>Download data</a>
+        </div>
       </div>
       <div class="image-container">
+        <div class="image-title"> Resonance Min </div>
         <img id="img4" alt="ComplexAmplitude Min" />
+        <div class="download-container">
+          <a id="downloadComplexAmplitudeMin" class="download-button" download>Download data</a>
+        </div>
       </div>
     </div>
   </div>
@@ -108,23 +122,43 @@
   <div id="almond" class="collapsible-content">
     <div class="almond-grid" id="almondGrid"></div>
   </div>
+  
 
   <div class="toggle-button" data-toggle-target="convergenceplot">Convergence plots</div>
   <div id="convergenceplot" class="collapsible-content">
     <div class="grid">
-      <img id="convImgMax" alt="Convergence Max" />
-      <img id="convImgMin" alt="Convergence Min" />
+      <div class="image-container">
+        <div class="image-title"> Convergence Max </div>
+        <img id="convImgMax" alt="Convergence Max" />
+      </div>
+      <div class="image-container">
+        <div class="image-title"> Convergence Min </div>
+        <img id="convImgMin" alt="Convergence Min" />
+      </div>
     </div>
   </div>
-
-
+  
+  
   <div class="toggle-button" data-toggle-target="alldplot">All d plots</div>
   <div id="alldplot" class="collapsible-content">
     <div class="grid">
-      <img id="cidImgMax" alt="CI Max" />
-      <img id="cidImgMin" alt="CI Min" />
+      <div class="image-container">
+        <div class="image-title"> All d Max </div>
+        <img id="cidImgMax" alt="CI Max" />
+        <div class="download-container">
+          <a id="downloadcidMax" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title"> All d Min </div>
+        <img id="cidImgMin" alt="CI Min" />
+        <div class="download-container">
+          <a id="downloadcidMin" class="download-button" download>Download data</a>
+        </div>
+      </div>
     </div>
   </div>
+
 
   <div class="latex-explanation">
     <h1>S-matrix bootstrap framework (Work in progress)</h1>

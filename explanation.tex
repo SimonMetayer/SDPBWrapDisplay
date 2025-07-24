@@ -122,7 +122,7 @@ c(n_1,n_2)=\left.\frac{1}{n_1!n_2!}\partial_s^{n_1}\partial_t^{n_2}M(s,t)\right|
 \end{equation}
 where, e.g., $\lambda=c_0$ is the non-pertubative quartic coupling. Unitary \eqref{eq:unitarity2} can be written with the matrix
 \begin{equation}
-\det U_\ell(s)\geq1\, \qquad
+\det U_\ell(s)\geq1\,, \qquad
 U_\ell(s)=\begin{pmatrix}
 1-\frac{1}{2}\phi^2(s)\operatorname{Im} f_\ell(s) &
 \phi(s)\operatorname{Re}f_\ell(s)  \\
@@ -155,17 +155,15 @@ sampled over $s_i$ and also over $t_i$ for a few points (typically 10 points, i.
 
 We also may add the Threshold (TH) improvement term
 \begin{equation}
-M(s,t)\rightarrow M(s,t)+\alpha_{\mathrm{th}}\,\sum_{\ell=0}^{2\left\lfloor\frac{d-4}{2}\right\rfloor}\Delta_\ell(s,t)\,,
+M(s,t)\rightarrow M(s,t)+\Delta(s,t)\,,
 \end{equation}
 with
-$\Delta_\ell(s,t)=\delta_\ell(s,t)+\delta_\ell(t,s)+\delta_\ell(u,t)$, and 
+$\Delta(s,t)=\Delta(s)+\Delta(t)+\Delta(u)$, and 
 \begin{equation}
-\delta(s,t)=
-2^{5-d}\,
-n_{d,\ell}\,
-P_{d,\ell}\left(\frac{t-u}{4-s}\right)\,
+\Delta(s)=
 \left(\cfrac{4-s}{4}\right)^{-\frac{d-3}{2}}\times
 \begin{cases}
+0 & d=3 \\
 \cfrac{(-1)^{\frac{d-3}{2}}\pi}{\log{\frac{4-s}{4}}+1} & d \text{ odd} \\
 \sin\left(\pi\frac{d-3}{2}\right) & \text{else}
 \end{cases}\,\,\,,

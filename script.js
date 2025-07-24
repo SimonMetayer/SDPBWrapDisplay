@@ -51,18 +51,55 @@ function updateImages() {
   const Nmax = NmaxSlider.value;
   const improv = improvSelect.value;
 
+  // Image and data filename prefixes
   const prefix1 = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
   const prefix2 = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
+  const prefix3 = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
+  const convPrefix = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
 
-  img1.src = `images/Amplitude/${prefix1}_minmax=max_improv={${improv}}.png`;
-  img2.src = `images/Amplitude/${prefix1}_minmax=min_improv={${improv}}.png`;
+  const minmaxMax = `minmax=max_improv={${improv}}`;
+  const minmaxMin = `minmax=min_improv={${improv}}`;
+
+  // Set Amplitude images
+  img1.src = `images/Amplitude/${prefix1}_${minmaxMax}.png`;
+  img2.src = `images/Amplitude/${prefix1}_${minmaxMin}.png`;
+
+  // Set Amplitude data download links
+  const downloadAmplitudeMax = document.getElementById("downloadAmplitudeMax");
+  const downloadAmplitudeMin = document.getElementById("downloadAmplitudeMin");
+  
+  // Set ComplexAmplitude data download links
+  const downloadComplexAmplitudeMax = document.getElementById("downloadComplexAmplitudeMax");
+  const downloadComplexAmplitudeMin = document.getElementById("downloadComplexAmplitudeMin");
+  
+  // Set cid data download links
+  const downloadcidMax = document.getElementById("downloadcidMax");
+  const downloadcidMin = document.getElementById("downloadcidMin");
+
+  downloadAmplitudeMax.href = `data/Amplitude/${prefix1}_${minmaxMax}.txt`;
+  downloadAmplitudeMax.download = `${prefix1}_${minmaxMax}.txt`;
+  downloadAmplitudeMin.href = `data/Amplitude/${prefix1}_${minmaxMin}.txt`;
+  downloadAmplitudeMin.download = `${prefix1}_${minmaxMin}.txt`;
+  
+  downloadComplexAmplitudeMax.href = `data/ComplexAmplitude/${prefix1}_${minmaxMax}.txt`;
+  downloadComplexAmplitudeMax.download = `${prefix2}_${minmaxMax}.txt`;
+  downloadComplexAmplitudeMin.href = `data/ComplexAmplitude/${prefix1}_${minmaxMin}.txt`;
+  downloadComplexAmplitudeMin.download = `${prefix2}_${minmaxMin}.txt`;
+  
+  downloadcidMax.href = `data/ci(d)/${prefix3}_${minmaxMax}.txt`;
+  downloadcidMax.download = `${prefix3}_${minmaxMax}.txt`;
+  downloadcidMin.href = `data/ci(d)/${prefix3}_${minmaxMin}.txt`;
+  downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
+
+  // ComplexAmplitude images
   img3.src = `images/ComplexAmplitude/${prefix2}_minmax=max_improv={${improv}}.png`;
   img4.src = `images/ComplexAmplitude/${prefix2}_minmax=min_improv={${improv}}.png`;
 
-  const convPrefix = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
+  // Convergence plot images
   convImgMax.src = `images/ConvergencePlot/${convPrefix}_minmax=max_improv={${improv}}.png`;
   convImgMin.src = `images/ConvergencePlot/${convPrefix}_minmax=min_improv={${improv}}.png`;
 
+  // Almond plot images
   almondGrid.innerHTML = "";
   almondCoords.forEach(([x, y]) => {
     const almondPrefix = `Almond_d=${d}_x=${x}_y=${y}_lmax=${lmax}_Nmax=${Nmax}`;
@@ -72,8 +109,10 @@ function updateImages() {
     almondGrid.appendChild(img);
   });
 
+  // CI(d) images
   updateCidImages();
 }
+
 
 [dSlider, LSlider, lmaxSlider, NmaxSlider, improvSelect].forEach(el =>
   el.addEventListener("input", updateImages)
@@ -267,3 +306,88 @@ fetch('image_count.json')
       }
     });
   });
+  
+  
+  
+function triggerDownload(filename, label) {
+  const link = document.createElement("a");
+  link.href = filename;
+  link.setAttribute("download", label);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+document.getElementById("downloadAmplitudeMax").addEventListener("click", function (e) {
+  e.preventDefault();
+  const d = dSlider.value;
+  const ci = ciSlider.value;
+  const L = LSlider.value;
+  const lmax = lmaxSlider.value;
+  const Nmax = NmaxSlider.value;
+  const improv = improvSelect.value;
+  const prefix = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`;
+  triggerDownload(`data/Amplitude/${prefix}`, prefix);
+});
+
+document.getElementById("downloadAmplitudeMin").addEventListener("click", function (e) {
+  e.preventDefault();
+  const d = dSlider.value;
+  const ci = ciSlider.value;
+  const L = LSlider.value;
+  const lmax = lmaxSlider.value;
+  const Nmax = NmaxSlider.value;
+  const improv = improvSelect.value;
+  const prefix = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`;
+  triggerDownload(`data/Amplitude/${prefix}`, prefix);
+});
+
+document.getElementById("downloadComplexAmplitudeMax").addEventListener("click", function (e) {
+  e.preventDefault();
+  const d = dSlider.value;
+  const ci = ciSlider.value;
+  const L = LSlider.value;
+  const lmax = lmaxSlider.value;
+  const Nmax = NmaxSlider.value;
+  const improv = improvSelect.value;
+  const prefix = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`;
+  triggerDownload(`data/ComplexAmplitude/${prefix}`, prefix);
+});
+
+document.getElementById("downloadComplexAmplitudeMin").addEventListener("click", function (e) {
+  e.preventDefault();
+  const d = dSlider.value;
+  const ci = ciSlider.value;
+  const L = LSlider.value;
+  const lmax = lmaxSlider.value;
+  const Nmax = NmaxSlider.value;
+  const improv = improvSelect.value;
+  const prefix = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`;
+  triggerDownload(`data/ComplexAmplitude/${prefix}`, prefix);
+});
+
+
+document.getElementById("downloadcidMax").addEventListener("click", function (e) {
+  e.preventDefault();
+  const d = dSlider.value;
+  const ci = ciSlider.value;
+  const L = LSlider.value;
+  const lmax = lmaxSlider.value;
+  const Nmax = NmaxSlider.value;
+  const improv = improvSelect.value;
+  const prefix = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`;
+  triggerDownload(`data/ci(d)/${prefix}`, prefix);
+});
+
+document.getElementById("downloadcidMin").addEventListener("click", function (e) {
+  e.preventDefault();
+  const d = dSlider.value;
+  const ci = ciSlider.value;
+  const L = LSlider.value;
+  const lmax = lmaxSlider.value;
+  const Nmax = NmaxSlider.value;
+  const improv = improvSelect.value;
+  const prefix = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`;
+  triggerDownload(`data/ci(d)/${prefix}`, prefix);
+});
+
