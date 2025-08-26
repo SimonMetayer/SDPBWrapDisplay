@@ -1,21 +1,20 @@
 
 \section*{Basics of amplitudes}
 
-The 2-to-2 scattering of identical massive ($m=1$) scalar particles is encoded by the $S$-matrix. Above threshold $s > 4$ and in any dimension $d\geq2+1$, it satisfies elastic \textbf{unitarity}
+The 2-to-2 scattering of identical massive ($m=1$) scalar particles is encoded by the $S$-matrix. Above threshold $s > 4$ and in any dimension $d\geq2+1$, it satisfies \textbf{unitarity}
 \begin{equation}
-S^\dagger S\preceq1\,, 
-\qquad
+\hat S^\dagger \hat  S=\mathbbm{1}\,, \qquad
 S=1+i (2\pi)^d \delta^{(d)}(p_1+p_2-p_3-p_4) M(s,t,u)\,,
 \label{eq:unitarity} 
 \end{equation}
-with Mandelstam invariants
+with $S=\braket{p_3,p_4 | \hat{S} | p_1, p_2}$ and the onshell momenta $p_i$ are expressed with Mandelstam invariants
 \begin{equation}
 s=(p_1+p_2)^2\,,\quad
 t=(p_1-p_3)^2\,,\quad
 u=(p_1-p_4)^2\,,\quad
 s+t+u=4\,.
 \end{equation}
-The amplitude $M(s,t)\equiv M(s,t,u=4-s-t)$ satisfies \textbf{crossing} symmetry
+We look at the amplitude for external, identical, massive scalars (lightest particles in the spectrum). The amplitude $M(s,t)\equiv M(s,t,u=4-s-t)$ satisfies \textbf{crossing} symmetry
 \begin{equation}
 M(s,t)=M(t,s)=M(u,t)\,,
 \end{equation}
@@ -23,6 +22,8 @@ as well as real \textbf{analyticity}
 \begin{equation}
 M(s^*,t^*)=M^*(s,t)\,.
 \end{equation}
+%
+In the set-up below, we further assume \textit{maximal} analyticity, under its form of lightest particle maximal analtycity.
 
 \section*{Partial Wave decomposition}
 
@@ -115,8 +116,7 @@ The numerics achieve perfection at $\ell_\mathrm{max}\rightarrow\infty$, $s_\mat
 
 
 \section*{Wilson coefficients}
-
-We define the non-perturbative couplings $c_n$ from the the expansion of the amplitude around the crossing symmetry point (cs:  $s_0=t_0=u_0=4/3$), given by
+For a weakly coupled amplitude, the non-perturbative couplings $c_n$ can be related to the expansion of the amplitude around the crossing symmetry point (cs:  $s_0=t_0=u_0=4/3$), given by
 \begin{equation}
 M(s,t,u)=
 \frac{2}{\mathcal{N}_d}\left(
@@ -163,7 +163,7 @@ c_2 & = \frac{\mathcal{N}_d}{2}\left(+\frac{g_2}{\Lambda^4}+\frac{1}{3}\frac{g_3
 c_3 & = \frac{\mathcal{N}_d}{2}\left(-\frac{g_3}{\Lambda^6}+O\left(1/\Lambda^8\right)\right) \,.
 \end{aligned}
 \end{equation}
-Note that the non-perturbative nature of the $c_n$ is manifest as they correspond to an infinite sum of perturbative couplings $g_n$. One should keep in mind that our setup is fully non-perturbative and goes well beyond any Lagrangian description.
+% Note that the non-perturbative nature of the $c_n$ is manifest as they correspond to an infinite sum of perturbative couplings $g_n$. One should keep in mind that our setup is fully non-perturbative and goes well beyond any Lagrangian description.
 
 \section*{Optimization problem}
 
@@ -217,6 +217,3 @@ n_d\times
 \end{cases}\,\,\,,
 \end{equation}
 which normalized so that $\alpha_{\mathrm{th}}\in[0,1]$.
-
-
-
