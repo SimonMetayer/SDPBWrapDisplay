@@ -7,18 +7,25 @@
   <title>S-matrix Bootstrap</title>
   <link rel="icon" href="images/logo/favicon.ico" />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- MathJax configuration -->
   <script>
     window.MathJax = {
       tex: {
-        tags: 'all', // Enables automatic numbering of equations
+        tags: 'all', // automatic equation numbering
         inlineMath: [['\\(', '\\)'], ['$', '$']],
         displayMath: [['\\[', '\\]'], ['$$', '$$']],
-        packages: {'[+]': ['amsmath', 'amsfonts', 'hyperref', 'physics']}
+        packages: {'[+]': ['amsmath', 'amsfonts', 'physics', 'hyperref']}
+      },
+      loader: {
+        load: ['[tex]/physics']  // explicitly load physics extension
       }
     };
   </script>
+
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js?config=TeX-MML_HTMLorMML,hyperref" async></script>
-  <!-- Google Analytics (gtag.js) -->
+
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EW4T5SC7W9"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -26,8 +33,10 @@
     gtag('js', new Date());
     gtag('config', 'G-EW4T5SC7W9');
   </script>
+
+  <!-- GoatCounter -->
   <script data-goatcounter="https://simonmetayer.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
+          async src="//gc.zgo.at/count.js"></script>
 </head>
 
 
