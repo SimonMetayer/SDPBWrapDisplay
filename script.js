@@ -115,23 +115,22 @@ function updateImages() {
 const allowedD = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 12];
 
 const configByD = {
-  3: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  3  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
   3.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  4: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1, allowed: [1,2,3,4,10,11,12,15,16,17,18,19,20] }, },
+  4  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1, allowed: [1,2,3,4,10,11,12,13,14,15,16,17,18,19,20] }, },
   4.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  5: { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  5  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
   5.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  6: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  6  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
   6.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  7: { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  7  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
   7.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  8: { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  8  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
   8.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  9: { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  9  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
   9.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  10: { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  11: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  12: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, }
+  10 : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  12 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, }
 };
 
 function snapToAllowed(val, allowed) {
