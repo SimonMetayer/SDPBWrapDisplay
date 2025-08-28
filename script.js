@@ -51,7 +51,6 @@ function updateImages() {
   const Nmax = NmaxSlider.value;
   const improv = improvSelect.value;
 
-  // Image and data filename prefixes
   const prefix1 = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
   const prefix2 = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
   const prefix3 = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
@@ -61,19 +60,13 @@ function updateImages() {
   const minmaxMax = `minmax=max_improv={${improv}}`;
   const minmaxMin = `minmax=min_improv={${improv}}`;
 
-  // Set Amplitude images
   img1.src = `images/Amplitude/${prefix1}_${minmaxMax}.png`;
   img2.src = `images/Amplitude/${prefix1}_${minmaxMin}.png`;
 
-  // Set Amplitude data download links
   const downloadAmplitudeMax = document.getElementById("downloadAmplitudeMax");
   const downloadAmplitudeMin = document.getElementById("downloadAmplitudeMin");
-  
-  // Set ComplexAmplitude data download links
   const downloadComplexAmplitudeMax = document.getElementById("downloadComplexAmplitudeMax");
   const downloadComplexAmplitudeMin = document.getElementById("downloadComplexAmplitudeMin");
-  
-  // Set cid data download links
   const downloadcidMax = document.getElementById("downloadcidMax");
   const downloadcidMin = document.getElementById("downloadcidMin");
 
@@ -97,15 +90,12 @@ function updateImages() {
   downloadcidMin.href = `data/ci(d)/${prefix3}_${minmaxMin}.txt`;
   downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
 
-  // ComplexAmplitude images
   img3.src = `images/ComplexAmplitude/${prefix2}_minmax=max_improv={${improv}}.png`;
   img4.src = `images/ComplexAmplitude/${prefix2}_minmax=min_improv={${improv}}.png`;
 
-  // Convergence plot images
   convImgMax.src = `images/ConvergencePlot/${convPrefix}_minmax=max_improv={${improv}}.png`;
   convImgMin.src = `images/ConvergencePlot/${convPrefix}_minmax=min_improv={${improv}}.png`;
 
-  // Almond plot images
   almondGrid.innerHTML = "";
   almondCoords.forEach(([x, y]) => {
     const almondPrefix = `Almond_d=${d}_x=${x}_y=${y}_lmax=${lmax}_Nmax=${Nmax}`;
@@ -115,110 +105,36 @@ function updateImages() {
     almondGrid.appendChild(img);
   });
 
-  // CI(d) images
   updateCidImages();
 }
-
 
 [dSlider, LSlider, lmaxSlider, NmaxSlider, improvSelect].forEach(el =>
   el.addEventListener("input", updateImages)
 );
 
-// --- Unified config object with allowed values ---
+const allowedD = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 12];
+
 const configByD = {
-  3: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  3.5: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  4: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 20, step: 1, allowed: [1,2,3,4,10,11,12,15,16,17,18,19,20] },
-  },
-  4.5: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  5: {
-    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  5.5: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  6: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  6.5: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  7: {
-    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  7.5: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  8: {
-    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  8.5: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  9: {
-    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  9.5: {
-    paramCI: { min: 0, max: 3, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  },
-  10: {
-    paramCI: { min: 0, max: 0, step: 1, allowed: [0] },
-    paramL: { min: 0, max: 2, step: 2 },
-    paramLmax: { min: 16, max: 16, step: 2 },
-    paramNmax: { min: 10, max: 13, step: 1 },
-  }
+  3: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  3.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  4: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1, allowed: [1,2,3,4,10,11,12,15,16,17,18,19,20] }, },
+  4.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  5: { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  5.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  6: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  6.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  7: { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  7.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  8: { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  8.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  9: { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  9.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  10: { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  11: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
+  12: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, }
 };
 
-function snapCIValue(val, allowed) {
+function snapToAllowed(val, allowed) {
   return allowed.reduce((prev, curr) =>
     Math.abs(curr - val) < Math.abs(prev - val) ? curr : prev
   );
@@ -237,8 +153,8 @@ function updateSlider(sliderId, config) {
     newVal = config.min;
   }
 
-  if (sliderId === "paramCI" && config.allowed) {
-    newVal = snapCIValue(newVal, config.allowed);
+  if ((sliderId === "paramCI" || sliderId === "paramNmax") && config.allowed) {
+    newVal = snapToAllowed(newVal, config.allowed);
   }
 
   slider.value = newVal;
@@ -246,7 +162,9 @@ function updateSlider(sliderId, config) {
 }
 
 document.getElementById("paramD").addEventListener("input", function () {
-  const d = this.value;
+  let d = Number(this.value);
+  d = snapToAllowed(d, allowedD);
+  this.value = d;
   document.getElementById("valD").textContent = d;
 
   const config = configByD[d];
@@ -262,7 +180,7 @@ document.getElementById("paramD").addEventListener("input", function () {
 ciSlider.addEventListener("input", () => {
   const d = +dSlider.value;
   const allowed = configByD[d]?.paramCI?.allowed || [];
-  const snappedVal = snapCIValue(Number(ciSlider.value), allowed);
+  const snappedVal = snapToAllowed(Number(ciSlider.value), allowed);
   if (snappedVal !== Number(ciSlider.value)) {
     ciSlider.value = snappedVal;
   }
@@ -278,10 +196,8 @@ ciSlider.addEventListener("input", () => {
   });
 });
 
-// Initial render
 updateImages();
 
-// LaTeX content load
 fetch('explanation.tex')
   .then(res => res.text())
   .then(tex => {
@@ -291,7 +207,6 @@ fetch('explanation.tex')
     if (window.MathJax?.typeset) MathJax.typeset();
   });
 
-// Load image metadata
 fetch('image_count.json')
   .then(response => response.json())
   .then(data => {
@@ -302,19 +217,17 @@ fetch('image_count.json')
     console.error('Error loading image count:', error);
   });
   
-  document.querySelectorAll('[data-toggle-target]').forEach(button => {
-    button.addEventListener('click', () => {
-      const targetId = button.getAttribute('data-toggle-target');
-      const content = document.getElementById(targetId);
-      if (content) {
-        const isHidden = getComputedStyle(content).display === "none";
-        content.style.display = isHidden ? "block" : "none";
-      }
-    });
+document.querySelectorAll('[data-toggle-target]').forEach(button => {
+  button.addEventListener('click', () => {
+    const targetId = button.getAttribute('data-toggle-target');
+    const content = document.getElementById(targetId);
+    if (content) {
+      const isHidden = getComputedStyle(content).display === "none";
+      content.style.display = isHidden ? "block" : "none";
+    }
   });
-  
-  
-  
+});
+
 function triggerDownload(filename, label) {
   const link = document.createElement("a");
   link.href = filename;
@@ -334,91 +247,6 @@ document.getElementById("downloadAmplitudeMax").addEventListener("click", functi
   const improv = improvSelect.value;
   const prefix = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`;
   triggerDownload(`data/Amplitude/${prefix}`, prefix);
-});
-
-document.getElementById("downloadAmplitudeMin").addEventListener("click", function (e) {
-  e.preventDefault();
-  const d = dSlider.value;
-  const ci = ciSlider.value;
-  const L = LSlider.value;
-  const lmax = lmaxSlider.value;
-  const Nmax = NmaxSlider.value;
-  const improv = improvSelect.value;
-  const prefix = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`;
-  triggerDownload(`data/Amplitude/${prefix}`, prefix);
-});
-
-document.getElementById("downloadComplexAmplitudeMax").addEventListener("click", function (e) {
-  e.preventDefault();
-  const d = dSlider.value;
-  const ci = ciSlider.value;
-  const L = LSlider.value;
-  const lmax = lmaxSlider.value;
-  const Nmax = NmaxSlider.value;
-  const improv = improvSelect.value;
-  const prefix = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`;
-  triggerDownload(`data/ComplexAmplitude/${prefix}`, prefix);
-});
-
-document.getElementById("downloadComplexAmplitudeMin").addEventListener("click", function (e) {
-  e.preventDefault();
-  const d = dSlider.value;
-  const ci = ciSlider.value;
-  const L = LSlider.value;
-  const lmax = lmaxSlider.value;
-  const Nmax = NmaxSlider.value;
-  const improv = improvSelect.value;
-  const prefix = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`;
-  triggerDownload(`data/ComplexAmplitude/${prefix}`, prefix);
-});
-
-
-document.getElementById("downloadcidMax").addEventListener("click", function (e) {
-  e.preventDefault();
-  const d = dSlider.value;
-  const ci = ciSlider.value;
-  const L = LSlider.value;
-  const lmax = lmaxSlider.value;
-  const Nmax = NmaxSlider.value;
-  const improv = improvSelect.value;
-  const prefix = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`;
-  triggerDownload(`data/ci(d)/${prefix}`, prefix);
-});
-
-document.getElementById("downloadcidMin").addEventListener("click", function (e) {
-  e.preventDefault();
-  const d = dSlider.value;
-  const ci = ciSlider.value;
-  const L = LSlider.value;
-  const lmax = lmaxSlider.value;
-  const Nmax = NmaxSlider.value;
-  const improv = improvSelect.value;
-  const prefix = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`;
-  triggerDownload(`data/ci(d)/${prefix}`, prefix);
-});
-
-document.getElementById("downloadMMax").addEventListener("click", function (e) {
-  e.preventDefault();
-  const d = dSlider.value;
-  const ci = ciSlider.value;
-  const L = LSlider.value;
-  const lmax = lmaxSlider.value;
-  const Nmax = NmaxSlider.value;
-  const improv = improvSelect.value;
-  const prefix = `M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`;
-  triggerDownload(`data/M/${prefix}`, prefix);
-});
-
-document.getElementById("downloadMMin").addEventListener("click", function (e) {
-  e.preventDefault();
-  const d = dSlider.value;
-  const ci = ciSlider.value;
-  const L = LSlider.value;
-  const lmax = lmaxSlider.value;
-  const Nmax = NmaxSlider.value;
-  const improv = improvSelect.value;
-  const prefix = `M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`;
-  triggerDownload(`data/M/${prefix}`, prefix);
 });
 
 

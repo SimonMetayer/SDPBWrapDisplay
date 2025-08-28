@@ -3,10 +3,11 @@ body {
   font-family: sans-serif;
   padding: 20px;
   text-align: center;
-  margin: 0 auto; 
+  margin: 0 auto;
   background: #fff;
 }
 
+/* Logos */
 .logo-container {
   display: flex;
   justify-content: center;
@@ -22,7 +23,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
 }
 
 .logo {
@@ -33,10 +33,24 @@ body {
   object-fit: contain;
 }
 
+img.logo-inline {
+  display: inline-block;
+  height: 2em;
+  width: auto;
+  object-fit: unset;
+  vertical-align: -0.7em;
+  margin-right: -0.5em;
+  border: none;
+  max-width: none;
+  max-height: none;
+}
+
+/* Headings */
 h1 {
   margin-bottom: 40px;
 }
 
+/* Controls */
 .controls {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -65,6 +79,7 @@ select {
   box-sizing: border-box;
 }
 
+/* Grids */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -72,17 +87,6 @@ select {
   max-width: 1400px;
   margin: 0 auto;
   justify-items: center;
-}
-
-.grid img,
-.almond-grid img,
-.image-container img,
-.flag-counter-container img {
-  max-width: 100%;
-  width: 100%;
-  max-height: 800px;
-  object-fit: contain;
-  border: 1px solid #ccc;
 }
 
 .almond-grid {
@@ -94,14 +98,26 @@ select {
   justify-items: center;
 }
 
-.almond-grid img {
+/* Images (no borders) */
+.grid img,
+.almond-grid img,
+.image-container img {
+  max-width: 100%;
   width: 100%;
-  max-width: 900px;
   max-height: 800px;
-  border: 1px solid #ccc;
   object-fit: contain;
+  border: none;
 }
 
+.flag-counter-container img {
+  max-height: 150px;
+  width: auto;
+  display: block;
+  margin: 0 auto;
+  border: none;
+}
+
+/* Explanation */
 .latex-explanation {
   margin: 100px auto;
   max-width: 1000px;
@@ -110,6 +126,7 @@ select {
   text-align: left;
 }
 
+/* Image containers */
 .image-container {
   display: flex;
   flex-direction: column;
@@ -123,12 +140,12 @@ select {
   text-align: center;
 }
 
+/* References */
 .reference-container {
   max-width: 1000px;
   margin: 40px auto 0;
   padding: 0 15px;
   text-align: left;
-  font-family: Arial, sans-serif;
   font-size: 1rem;
 }
 
@@ -165,6 +182,7 @@ select {
   text-decoration: underline;
 }
 
+/* Footer */
 footer {
   margin-top: 60px;
   font-size: 0.9rem;
@@ -181,19 +199,14 @@ footer a:hover {
   text-decoration: underline;
 }
 
+/* Flag counter wrapper */
 .flag-counter-container {
-  margin: 1em auto 0 auto;
+  margin: 1em auto 0;
   max-width: 300px;
   text-align: center;
 }
 
-.flag-counter-container img {
-  max-height: 150px;
-  width: auto;
-  display: block;
-  margin: 0 auto;
-}
-
+/* Collapsible sections */
 .collapsible-content {
   display: block;
   padding: 10px;
@@ -206,7 +219,6 @@ footer a:hover {
   padding: 16px 20px;
   border: 1px solid #999;
   cursor: pointer;
-  font-family: sans-serif;
   font-size: 1.25rem;
   font-weight: bold;
   margin-top: 20px;
@@ -217,22 +229,7 @@ footer a:hover {
   background-color: #b0b0b0;
 }
 
-img {
-  border: none !important;
-}
-
-img.logo-inline {
-  display: inline-block !important;
-  height: 2em !important;
-  width: auto !important;
-  max-width: none !important;
-  max-height: none !important;
-  object-fit: unset !important;
-  vertical-align: -0.7em;
-  margin-right: -0.5em;
-  border: none !important;
-}
-
+/* Download buttons */
 .download-container {
   text-align: left;
   margin-top: 10px;
@@ -252,5 +249,4 @@ img.logo-inline {
 .download-button:hover {
   background-color: #e0e0e0;
 }
-
 

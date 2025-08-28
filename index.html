@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
 <head>
   <meta charset="UTF-8" />
   <title>S-matrix Bootstrap</title>
@@ -15,21 +13,20 @@
         tags: 'all', // automatic equation numbering
         inlineMath: [['\\(', '\\)'], ['$', '$']],
         displayMath: [['\\[', '\\]'], ['$$', '$$']],
-        packages: {'[+]': ['amsmath', 'amsfonts', 'physics', 'hyperref']}
+        packages: { '[+]': ['amsmath', 'amsfonts', 'physics', 'hyperref'] }
       },
       loader: {
-        load: ['[tex]/physics']  // explicitly load physics extension
+        load: ['[tex]/physics'] // explicitly load physics extension
       }
     };
   </script>
-
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js?config=TeX-MML_HTMLorMML,hyperref" async></script>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EW4T5SC7W9"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-EW4T5SC7W9');
   </script>
@@ -39,27 +36,24 @@
           async src="//gc.zgo.at/count.js"></script>
 </head>
 
-
 <body>
-
   <h1>
     <img src="images/logo/S.png" alt="S" class="logo-inline" />
     -matrix Bootstrap Extremal Amplitudes Viewer
   </h1>
 
-
+  <!-- Controls -->
   <div class="controls">
-    <!-- Slider and select controls -->
     <div class="slider-container">
       <label for="paramD">Dimension $d=$ <span id="valD">4</span></label><br />
-      <input type="range" id="paramD" min="3" max="10" step="0.5" value="4" />
+      <input type="range" id="paramD" min="3" max="12" step="0.5" value="4" />
     </div>
 
     <div class="slider-container">
       <label for="paramL">Spin $\ell=$ <span id="valL">0</span></label><br />
       <input type="range" id="paramL" min="0" max="2" step="2" value="0" />
     </div>
-    
+
     <div class="slider-container">
       <label for="paramCI">Optimized c<sub id="valCI">0</sub></label>
       <input type="range" id="paramCI" min="0" max="3" value="0" />
@@ -78,18 +72,18 @@
     <div class="slider-container">
       <label for="paramImprov">Improvement:</label><br />
       <select id="paramImprov">
-        <option value="SPC" selected >SPC (Subtracted Positivity Constraints)</option>
+        <option value="SPC" selected>SPC (Subtracted Positivity Constraints)</option>
         <option value="TH, SPC">TH (Threshold) + SPC</option>
       </select>
     </div>
   </div>
 
-
+  <!-- Amplitudes -->
   <div class="toggle-button" data-toggle-target="Amplitude">Amplitudes</div>
   <div id="Amplitude" class="collapsible-content">
     <div class="grid">
       <div class="image-container">
-        <div class="image-title"> Amplitude Max </div>
+        <div class="image-title">Amplitude Max</div>
         <img id="img1" alt="Amplitude Max" />
         <div class="download-container">
           <a id="downloadAmplitudeMax" class="download-button" download>Download data</a>
@@ -106,20 +100,20 @@
       </div>
     </div>
   </div>
-  
-  
+
+  <!-- Resonances -->
   <div class="toggle-button" data-toggle-target="Resonances">Resonances</div>
   <div id="Resonances" class="collapsible-content">
     <div class="grid">
       <div class="image-container">
-        <div class="image-title"> Resonance Max </div>
+        <div class="image-title">Resonance Max</div>
         <img id="img3" alt="ComplexAmplitude Max" />
         <div class="download-container">
           <a id="downloadComplexAmplitudeMax" class="download-button" download>Download data</a>
         </div>
       </div>
       <div class="image-container">
-        <div class="image-title"> Resonance Min </div>
+        <div class="image-title">Resonance Min</div>
         <img id="img4" alt="ComplexAmplitude Min" />
         <div class="download-container">
           <a id="downloadComplexAmplitudeMin" class="download-button" download>Download data</a>
@@ -127,19 +121,20 @@
       </div>
     </div>
   </div>
-  
+
+  <!-- All d plots -->
   <div class="toggle-button" data-toggle-target="alldplot">All d plots</div>
   <div id="alldplot" class="collapsible-content">
     <div class="grid">
       <div class="image-container">
-        <div class="image-title"> All d Max </div>
+        <div class="image-title">All d Max</div>
         <img id="cidImgMax" alt="CI Max" />
         <div class="download-container">
           <a id="downloadcidMax" class="download-button" download>Download data</a>
         </div>
       </div>
       <div class="image-container">
-        <div class="image-title"> All d Min </div>
+        <div class="image-title">All d Min</div>
         <img id="cidImgMin" alt="CI Min" />
         <div class="download-container">
           <a id="downloadcidMin" class="download-button" download>Download data</a>
@@ -148,77 +143,81 @@
     </div>
   </div>
 
-
-  <div class="toggle-button" data-toggle-target="almond">Almonds (comming soon)</div>
-    <div id="almond" class="collapsible-content">
+  <!-- Almonds -->
+  <div class="toggle-button" data-toggle-target="almond">Almonds (coming soon)</div>
+  <div id="almond" class="collapsible-content">
     <div class="almond-grid" id="almondGrid"></div>
-  </div>  
+  </div>
 
-  <div class="toggle-button" data-toggle-target="convergenceplot">Convergence plots (comming soon)</div>
+  <!-- Convergence plots -->
+  <div class="toggle-button" data-toggle-target="convergenceplot">Convergence plots (coming soon)</div>
   <div id="convergenceplot" class="collapsible-content">
     <div class="grid">
       <div class="image-container">
-        <div class="image-title"> Convergence Max </div>
+        <div class="image-title">Convergence Max</div>
         <img id="convImgMax" alt="Convergence Max" />
       </div>
       <div class="image-container">
-        <div class="image-title"> Convergence Min </div>
+        <div class="image-title">Convergence Min</div>
         <img id="convImgMin" alt="Convergence Min" />
       </div>
     </div>
   </div>
-  
 
-
+  <!-- Explanation -->
   <div class="latex-explanation">
     <h1>S-matrix bootstrap framework (Work in progress)</h1>
     <div id="latex-explanation"></div>
-  <div>
-
-<div class="reference-container">
-  <h2>References</h2>
-  <ul>
-    <li>
-      <span class="title">An Analytical Toolkit for the S-matrix Bootstrap</span>
-      <a href="https://arxiv.org/abs/2006.08221" target="_blank">arXiv:2006.08221</a>
-    </li>
-    <li>
-      <span class="title">Bridging Positivity and S-matrix Bootstrap Bounds</span>
-      <a href="https://arxiv.org/abs/2210.01502" target="_blank">arXiv:2210.01502</a>
-    </li>
-    <li>
-      <span class="title">Nonperturbative Bounds on Scattering of Massive Scalar Particles in d ≥ 2</span>
-      <a href="https://arxiv.org/abs/2207.12448" target="_blank">arXiv:2207.12448</a>
-    </li>
-  </ul>
-</div>
-
-<footer>
-  Made by Simon Metayer — contact <a href="mailto:simonmetayer@neuf.fr">simonmetayer@neuf.fr</a> to request missing plots
-  <div id="last-update">Loading last update date...</div>
-  <div id="image-count">Loading plot count...</div>
-</footer>
-
-<div class="logo-container">
-  <div class="logo-box">
-    <img src="images/logo/cnrs-logo.png" alt="CNRS Logo" class="logo" />
   </div>
-  <div class="logo-box">
-    <img src="images/logo/lapth-logo.png" alt="LAPTH Logo" class="logo" />
-  </div>
-  <div class="logo-box">
-    <img src="images/logo/duck.jpg" alt="Duck Logo" class="logo" />
-  </div>
-</div>
 
-    <!-- Flag counter -->
-    <div class="flag-counter-container">
-      <a href="https://info.flagcounter.com/l2aE">
-        <img src="https://s01.flagcounter.com/count2/l2aE/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_12/viewers_0/labels_0/pageviews_1/flags_0/percent_0/"
-             alt="Flag Counter">
-      </a>
+  <!-- References -->
+  <div class="reference-container">
+    <h2>References</h2>
+    <ul>
+      <li>
+        <span class="title">An Analytical Toolkit for the S-matrix Bootstrap</span>
+        <a href="https://arxiv.org/abs/2006.08221" target="_blank">arXiv:2006.08221</a>
+      </li>
+      <li>
+        <span class="title">Bridging Positivity and S-matrix Bootstrap Bounds</span>
+        <a href="https://arxiv.org/abs/2210.01502" target="_blank">arXiv:2210.01502</a>
+      </li>
+      <li>
+        <span class="title">Nonperturbative Bounds on Scattering of Massive Scalar Particles in d ≥ 2</span>
+        <a href="https://arxiv.org/abs/2207.12448" target="_blank">arXiv:2207.12448</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Made by Simon Metayer — contact 
+    <a href="mailto:simonmetayer@neuf.fr">simonmetayer@neuf.fr</a> to request missing plots
+    <div id="last-update">Loading last update date...</div>
+    <div id="image-count">Loading plot count...</div>
+  </footer>
+
+  <!-- Logos -->
+  <div class="logo-container">
+    <div class="logo-box">
+      <img src="images/logo/cnrs-logo.png" alt="CNRS Logo" class="logo" />
     </div>
-  
+    <div class="logo-box">
+      <img src="images/logo/lapth-logo.png" alt="LAPTH Logo" class="logo" />
+    </div>
+    <div class="logo-box">
+      <img src="images/logo/duck.jpg" alt="Duck Logo" class="logo" />
+    </div>
+  </div>
+
+  <!-- Flag counter -->
+  <div class="flag-counter-container">
+    <a href="https://info.flagcounter.com/l2aE">
+      <img src="https://s01.flagcounter.com/count2/l2aE/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_12/viewers_0/labels_0/pageviews_1/flags_0/percent_0/"
+           alt="Flag Counter" />
+    </a>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
