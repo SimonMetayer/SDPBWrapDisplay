@@ -250,3 +250,16 @@ footer a:hover {
   background-color: #e0e0e0;
 }
 
+.placeholder {
+  width: 100%; /* same as your image container width */
+  height: 100%; /* will adapt to container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #555;
+  font-weight: bold;
+  font-size: 1.2em;
+  border: 2px dashed #ccc;
+}
+

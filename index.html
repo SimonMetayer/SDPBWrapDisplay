@@ -56,7 +56,7 @@
 
     <div class="slider-container">
       <label for="paramCI">Optimized c<sub id="valCI">0</sub></label>
-      <input type="range" id="paramCI" min="0" max="3" value="0" />
+      <input type="range" id="paramCI" min="0" max="3" step="1" value="0" />
     </div>
 
     <div class="slider-container">
@@ -122,6 +122,27 @@
     </div>
   </div>
 
+  <!-- Almonds -->
+  <div class="toggle-button" data-toggle-target="almond">Almonds</div>
+  <div id="almond" class="collapsible-content">
+    <div class="almond-grid" id="almondGrid"></div>
+  </div>
+
+  <!-- Convergence plots -->
+  <div class="toggle-button" data-toggle-target="convergenceplot">Convergence plots</div>
+  <div id="convergenceplot" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container">
+        <div class="image-title">Convergence Max</div>
+        <img id="convImgMax" alt="Convergence Max" />
+      </div>
+      <div class="image-container">
+        <div class="image-title">Convergence Min</div>
+        <img id="convImgMin" alt="Convergence Min" />
+      </div>
+    </div>
+  </div>
+
   <!-- All d plots -->
   <div class="toggle-button" data-toggle-target="alldplot">All d plots</div>
   <div id="alldplot" class="collapsible-content">
@@ -143,30 +164,9 @@
     </div>
   </div>
 
-  <!-- Almonds -->
-  <div class="toggle-button" data-toggle-target="almond">Almonds (coming soon)</div>
-  <div id="almond" class="collapsible-content">
-    <div class="almond-grid" id="almondGrid"></div>
-  </div>
-
-  <!-- Convergence plots -->
-  <div class="toggle-button" data-toggle-target="convergenceplot">Convergence plots (coming soon)</div>
-  <div id="convergenceplot" class="collapsible-content">
-    <div class="grid">
-      <div class="image-container">
-        <div class="image-title">Convergence Max</div>
-        <img id="convImgMax" alt="Convergence Max" />
-      </div>
-      <div class="image-container">
-        <div class="image-title">Convergence Min</div>
-        <img id="convImgMin" alt="Convergence Min" />
-      </div>
-    </div>
-  </div>
-
   <!-- Explanation -->
   <div class="latex-explanation">
-    <h1>S-matrix bootstrap framework (Work in progress)</h1>
+    <h1>S-matrix bootstrap framework</h1>
     <div id="latex-explanation"></div>
   </div>
 
@@ -183,7 +183,7 @@
         <a href="https://arxiv.org/abs/2210.01502" target="_blank">arXiv:2210.01502</a>
       </li>
       <li>
-        <span class="title">Nonperturbative Bounds on Scattering of Massive Scalar Particles in d ≥ 2</span>
+        <span class="title">Nonperturbative Bounds on Scattering of Massive Scalar Particles in $d ≥ 2$</span>
         <a href="https://arxiv.org/abs/2207.12448" target="_blank">arXiv:2207.12448</a>
       </li>
     </ul>
