@@ -13,36 +13,38 @@ const img4 = document.getElementById("img4");
 const convImgMax = document.getElementById("convImgMax");
 const convImgMin = document.getElementById("convImgMin");
 
-const almondGrid = document.getElementById("almondGrid");
 const cidImgMax = document.getElementById("cidImgMax");
 const cidImgMin = document.getElementById("cidImgMin");
 
-const almondCoords = [
-  [0, 2],
-  [0, 3],
-  [2, 3]
-];
 
-function updateLabels() {
+const allowedD = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 12];
+
+const configByD = {
+  3  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  3.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  4  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1, allowed: [1,2,3,4,10,11,12,13,14,15,16,17,18,19,20] }, },
+  4.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  5  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  5.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  6  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  6.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  7  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  7.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  8  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  8.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  9  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  9.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  10 : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, },
+  12 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 14, step: 1 }, }
+};
+
+function updateImages() {
+  
   document.getElementById("valD").textContent = dSlider.value;
   document.getElementById("valCI").textContent = ciSlider.value;
   document.getElementById("valL").textContent = LSlider.value;
   document.getElementById("valLmax").textContent = lmaxSlider.value;
   document.getElementById("valNmax").textContent = NmaxSlider.value;
-}
-
-function updateCidImages() {
-  const ci = ciSlider.value;
-  const lmax = lmaxSlider.value;
-  const Nmax = NmaxSlider.value;
-  const improv = improvSelect.value;
-
-  cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
-  cidImgMin.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
-}
-
-function updateImages() {
-  updateLabels();
 
   const d = dSlider.value;
   const ci = ciSlider.value;
@@ -51,25 +53,18 @@ function updateImages() {
   const Nmax = NmaxSlider.value;
   const improv = improvSelect.value;
 
+  const minmaxMax = `minmax=max_improv={${improv}}`;
+  const minmaxMin = `minmax=min_improv={${improv}}`;
+  
   const prefix1 = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
   const prefix2 = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
   const prefix3 = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
-  const prefix4 = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
-  const convPrefix = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
-
-  const minmaxMax = `minmax=max_improv={${improv}}`;
-  const minmaxMin = `minmax=min_improv={${improv}}`;
-
+  const prefix4 = `M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
+  const prefix5 = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
+  
   img1.src = `images/Amplitude/${prefix1}_${minmaxMax}.png`;
   img2.src = `images/Amplitude/${prefix1}_${minmaxMin}.png`;
-
-  const downloadAmplitudeMax = document.getElementById("downloadAmplitudeMax");
-  const downloadAmplitudeMin = document.getElementById("downloadAmplitudeMin");
-  const downloadComplexAmplitudeMax = document.getElementById("downloadComplexAmplitudeMax");
-  const downloadComplexAmplitudeMin = document.getElementById("downloadComplexAmplitudeMin");
-  const downloadcidMax = document.getElementById("downloadcidMax");
-  const downloadcidMin = document.getElementById("downloadcidMin");
-
+  
   downloadAmplitudeMax.href = `data/Amplitude/${prefix1}_${minmaxMax}.txt`;
   downloadAmplitudeMax.download = `${prefix1}_${minmaxMax}.txt`;
   downloadAmplitudeMin.href = `data/Amplitude/${prefix1}_${minmaxMin}.txt`;
@@ -80,58 +75,47 @@ function updateImages() {
   downloadMMin.href = `data/M/${prefix4}_${minmaxMin}.txt`;
   downloadMMin.download = `${prefix4}_${minmaxMin}.txt`;
   
-  downloadComplexAmplitudeMax.href = `data/ComplexAmplitude/${prefix1}_${minmaxMax}.txt`;
+  img3.src = `images/ComplexAmplitude/${prefix2}_minmax=max_improv={${improv}}.png`;
+  img4.src = `images/ComplexAmplitude/${prefix2}_minmax=min_improv={${improv}}.png`;
+  
+  downloadComplexAmplitudeMax.href = `data/ComplexAmplitude/${prefix2}_${minmaxMax}.txt`;
   downloadComplexAmplitudeMax.download = `${prefix2}_${minmaxMax}.txt`;
-  downloadComplexAmplitudeMin.href = `data/ComplexAmplitude/${prefix1}_${minmaxMin}.txt`;
+  downloadComplexAmplitudeMin.href = `data/ComplexAmplitude/${prefix2}_${minmaxMin}.txt`;
   downloadComplexAmplitudeMin.download = `${prefix2}_${minmaxMin}.txt`;
+    
+  convImgMax.src = `images/ConvergencePlot/${prefix5}_minmax=max_improv={${improv}}.png`;
+  convImgMin.src = `images/ConvergencePlot/${prefix5}_minmax=min_improv={${improv}}.png`;
+  
+  downloadConvergencePlotMax.href = `data/ConvergencePlot/${prefix5}_${minmaxMax}.txt`;
+  downloadConvergencePlotMax.download = `${prefix5}_${minmaxMax}.txt`;
+  downloadConvergencePlotMin.href = `data/ConvergencePlot/${prefix5}_${minmaxMin}.txt`;
+  downloadConvergencePlotMin.download = `${prefix5}_${minmaxMin}.txt`;
+  
+  almondImg1.src = `images/Almond/Almond_d=${d}_x=0_y=2_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
+  almondImg2.src = `images/Almond/Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
+  almondImg3.src = `images/Almond/Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
+  
+  downloadAlmond02.href = `data/Almond/Almond_d=${d}_x=0_y=2_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
+  downloadAlmond02.download = `$Almond_d=${d}_x=0_y=2_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}_${minmaxMax}.txt`;
+  downloadAlmond03.href = `data/Almond/Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
+  downloadAlmond03.download = `$Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}_${minmaxMax}.txt`;
+  downloadAlmond23.href = `data/Almond/Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
+  downloadAlmond23.download = `$Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}_${minmaxMax}.txt`;
+  
+  cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
+  cidImgMin.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
   
   downloadcidMax.href = `data/ci(d)/${prefix3}_${minmaxMax}.txt`;
   downloadcidMax.download = `${prefix3}_${minmaxMax}.txt`;
   downloadcidMin.href = `data/ci(d)/${prefix3}_${minmaxMin}.txt`;
   downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
 
-  img3.src = `images/ComplexAmplitude/${prefix2}_minmax=max_improv={${improv}}.png`;
-  img4.src = `images/ComplexAmplitude/${prefix2}_minmax=min_improv={${improv}}.png`;
-
-  convImgMax.src = `images/ConvergencePlot/${convPrefix}_minmax=max_improv={${improv}}.png`;
-  convImgMin.src = `images/ConvergencePlot/${convPrefix}_minmax=min_improv={${improv}}.png`;
-
-  almondGrid.innerHTML = "";
-  almondCoords.forEach(([x, y]) => {
-    const almondPrefix = `Almond_d=${d}_x=${x}_y=${y}_lmax=${lmax}_Nmax=${Nmax}`;
-    const img = document.createElement("img");
-    img.src = `images/Almond/${almondPrefix}_improv={${improv}}.png`;
-    img.alt = `Almond (${x},${y})`;
-    almondGrid.appendChild(img);
-  });
-
-  updateCidImages();
 }
 
 [dSlider, LSlider, lmaxSlider, NmaxSlider, improvSelect].forEach(el =>
   el.addEventListener("input", updateImages)
 );
 
-const allowedD = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 12];
-
-const configByD = {
-  3  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  3.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  4  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1, allowed: [1,2,3,4,10,11,12,13,14,15,16,17,18,19,20] }, },
-  4.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  5  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  5.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  6  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  6.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  7  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  7.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  8  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  8.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  9  : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  9.5: { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  10 : { paramCI: { min: 0, max: 0, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, },
-  12 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 13, step: 1 }, }
-};
 
 function snapToAllowed(val, allowed) {
   return allowed.reduce((prev, curr) =>
@@ -235,21 +219,4 @@ function triggerDownload(filename, label) {
   link.click();
   document.body.removeChild(link);
 }
-
-document.getElementById("downloadAmplitudeMax").addEventListener("click", function (e) {
-  e.preventDefault();
-  const d = dSlider.value;
-  const ci = ciSlider.value;
-  const L = LSlider.value;
-  const lmax = lmaxSlider.value;
-  const Nmax = NmaxSlider.value;
-  const improv = improvSelect.value;
-  const prefix = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`;
-  triggerDownload(`data/Amplitude/${prefix}`, prefix);
-});
-
-const img = document.createElement("img");
-img.src = `images/Almond/${almondPrefix}_improv={${improv}}.png`;
-img.alt = `Almond (${x},${y})`;
-almondGrid.appendChild(img);
 

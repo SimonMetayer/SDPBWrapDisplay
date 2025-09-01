@@ -66,7 +66,7 @@
 
     <div class="slider-container">
       <label for="paramNmax">$N_\mathrm{max}=$ <span id="valNmax">11</span></label><br />
-      <input type="range" id="paramNmax" min="10" max="20" value="13" />
+      <input type="range" id="paramNmax" min="10" max="20" value="14" />
     </div>
 
     <div class="slider-container">
@@ -122,11 +122,59 @@
     </div>
   </div>
 
+
   <!-- Almonds -->
   <div class="toggle-button" data-toggle-target="almond">Almonds</div>
   <div id="almond" class="collapsible-content">
-    <div class="almond-grid" id="almondGrid"></div>
+    <div class="grid">
+      <div class="image-container">
+        <div class="image-title">Almond c2(c0)</div>
+        <img id="almondImg1" alt="Almond02" />
+        <div class="download-container">
+          <a id="downloadAlmond02" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">Almond c2(c0) traveler (WORK IN PROGRESS)</div>
+        <div class="slider-container">
+          <label for="paramAlmond02">paramAlmond02 = <span id="valparamAlmond02">1</span></label><br />
+          <input type="range" id="paramAlmond02" min="0" max="4" step="1" value="4" />
+        </div>
+        <img id="almondtravelerImg1" alt="Almond02" />
+      </div>
+      <div class="image-container">
+        <div class="image-title">Almond c3(c0)</div>
+        <img id="almondImg2" alt="Almond03" />
+        <div class="download-container">
+          <a id="downloadAlmond03" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">Almond c3(c0) traveler (WORK IN PROGRESS)</div>
+        <div class="slider-container">
+          <label for="paramAlmond02">paramAlmond02 = <span id="valparamAlmond02">1</span></label><br />
+          <input type="range" id="paramAlmond02" min="0" max="4" step="1" value="4" />
+        </div>
+        <img id="almondtravelerImg1" alt="AlmondAmplitude02" />
+      </div>
+      <div class="image-container">
+        <div class="image-title">Almond c3(c2)</div>
+        <img id="almondImg3" alt="Almond23" />
+        <div class="download-container">
+          <a id="downloadAlmond23" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">Almond c3(c2) traveler (WORK IN PROGRESS)</div>
+        <div class="slider-container">
+          <label for="paramAlmond23">paramAlmond23 = <span id="valparamAlmond23">1</span></label><br />
+          <input type="range" id="paramAlmond23" min="0" max="4" step="1" value="4" />
+        </div>
+        <img id="almondtravelerImg1" alt="Almond02" />
+      </div>
+    </div>
   </div>
+
 
   <!-- Convergence plots -->
   <div class="toggle-button" data-toggle-target="convergenceplot">Convergence plots</div>
@@ -135,10 +183,16 @@
       <div class="image-container">
         <div class="image-title">Convergence Max</div>
         <img id="convImgMax" alt="Convergence Max" />
+        <div class="download-container">
+          <a id="downloadConvergencePlotMax" class="download-button" download>Download data</a>
+        </div>
       </div>
       <div class="image-container">
         <div class="image-title">Convergence Min</div>
         <img id="convImgMin" alt="Convergence Min" />
+        <div class="download-container">
+          <a id="downloadConvergencePlotMin" class="download-button" download>Download data</a>
+        </div>
       </div>
     </div>
   </div>
