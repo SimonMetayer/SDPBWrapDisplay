@@ -109,8 +109,115 @@ function updateImages() {
   downloadcidMax.download = `${prefix3}_${minmaxMax}.txt`;
   downloadcidMin.href = `data/ci(d)/${prefix3}_${minmaxMin}.txt`;
   downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
+  
+  const almond02FilesImg = [
+  `images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  `images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
+  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`
+  ];
+  
+  const almond03FilesImg = [
+  `images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  `images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`
+  ];
+  
+  const almond23FilesImg = [
+  `images/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  `images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`
+  ];
+  
+   const almond02Names = [
+  "Max c0",
+  "Max 1",
+  "Min c0",
+  "Min 1"
+  ];
+  
+  const almond03Names = [
+  "Max c0",
+  "Max 1",
+  "Min c3",
+  "Min 1"
+  ];
+  
+  const almond23Names = [
+  "Max c2",
+  "Max 1",
+  "Min c3",
+  "Min 1"
+  ];
 
+  const almond02FilesTxt = [
+  `data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  `data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
+  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`
+  ];
+  
+  const almond03FilesTxt = [
+  `data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  `data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`
+  ];
+  
+  const almond23FilesTxt = [
+  `data/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  `data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`
+  ];
+  
+  const slider02 = document.getElementById("paramAlmond02");
+  const slider03 = document.getElementById("paramAlmond03");
+  const slider23 = document.getElementById("paramAlmond23");
+
+  slider02.oninput = function() {
+    const index = parseInt(this.value);
+    const selectedImg = almond02FilesImg[index];
+    const selectedTxt = almond02FilesTxt[index];
+    const selectedName = almond02Names[index];
+    document.getElementById("valparamAlmond02").textContent = selectedName;
+    document.getElementById("almond02Image").src = selectedImg;
+    const dl = document.getElementById("downloadAlmond02Traveler");
+    dl.href = selectedTxt;
+    dl.download = selectedTxt + ".txt"
+  };
+  
+  slider03.oninput = function() {
+    const index = parseInt(this.value);
+    const selectedImg = almond03FilesImg[index];
+    const selectedTxt = almond03FilesTxt[index];
+    const selectedName = almond03Names[index];
+    document.getElementById("valparamAlmond03").textContent = selectedName;
+    document.getElementById("almond03Image").src = selectedImg;
+    const dl = document.getElementById("downloadAlmond03Traveler");
+    dl.href = selectedTxt;
+    dl.download = selectedTxt + ".txt"
+  };
+  
+  slider23.oninput = function() {
+    const index = parseInt(this.value);
+    const selectedImg = almond23FilesImg[index];
+    const selectedTxt = almond23FilesTxt[index];
+    const selectedName = almond23Names[index];
+    document.getElementById("valparamAlmond23").textContent = selectedName;
+    document.getElementById("almond23Image").src = selectedImg;
+    const dl = document.getElementById("downloadAlmond23Traveler");
+    dl.href = selectedTxt;
+    dl.download = selectedTxt + ".txt"
+  };
+
+  slider02.oninput();
+  slider03.oninput();
+  slider23.oninput();
 }
+
 
 [dSlider, LSlider, lmaxSlider, NmaxSlider, improvSelect].forEach(el =>
   el.addEventListener("input", updateImages)
@@ -219,4 +326,5 @@ function triggerDownload(filename, label) {
   link.click();
   document.body.removeChild(link);
 }
+
 

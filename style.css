@@ -124,6 +124,14 @@ select {
   width: 100%;
 }
 
+/* Image containers */
+.image-container-almond {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .image-title {
   margin-bottom: 8px;
   font-weight: bold;
