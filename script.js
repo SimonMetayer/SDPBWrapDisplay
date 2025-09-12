@@ -347,3 +347,53 @@ function triggerDownload(filename, label) {
 }
 
 
+function stepToAllowed(current, step, allowed) {
+  const idx = allowed.indexOf(current);
+  if (idx === -1) {
+    // fallback if current is not exactly in allowed
+    return snapToAllowed(current + step, allowed);
+  }
+  let newIdx = idx + (step > 0 ? 1 : -1);
+  newIdx = Math.max(0, Math.min(allowed.length - 1, newIdx));
+  return allowed[newIdx];
+}
+
+document.querySelectorAll(".slider-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const sliderId = btn.getAttribute("data-target");
+    const step = parseFloat(btn.getAttribute("data-step"));
+    const slider = document.getElementById(sliderId);
+
+    let newVal;
+
+    // special lookup: does this slider have an "allowed" array?
+    let allowed;
+    if (sliderId === "paramD") {
+      allowed = allowedD;
+    } else {
+      const d = +dSlider.value;
+      const conf = configByD[d]?.[sliderId];
+      if (conf?.allowed) allowed = conf.allowed;
+    }
+
+    if (allowed) {
+      newVal = stepToAllowed(+slider.value, step, allowed);
+    } else {
+      // fall back to simple step increments
+      const sliderStep = parseFloat(slider.step) || 1;
+      newVal = +slider.value + step * sliderStep;
+      newVal = Math.max(+slider.min, Math.min(+slider.max, newVal));
+    }
+
+    slider.value = newVal;
+
+    // update label
+    const valSpan = document.getElementById(`val${sliderId.slice(5)}`);
+    if (valSpan) valSpan.textContent = newVal;
+
+    // trigger update
+    slider.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+});
+
+

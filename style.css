@@ -54,17 +54,26 @@ h1 {
 .controls {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
+  column-gap: 50px;
+  row-gap: 10px;
   margin-bottom: 40px;
   justify-items: center;
-  max-width: 800px;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .slider-container {
   width: 100%;
-  max-width: 200px;
+  max-width: 400px;
+  text-align: left;
+  margin-top: 1px;
+  font-size: 1.1rem;
+}
+
+.slider-container-smaller {
+  width: 100%;
+  max-width: 250px;
   text-align: left;
 }
 
@@ -261,3 +270,26 @@ footer a:hover {
   border: 2px dashed #ccc;
 }
 
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 10px;
+}
+
+.slider-row-smaller {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0px;
+}
+
+.slider-row input[type="range"] {
+  flex: 1;
+}
+
+.slider-btn {
+  padding: 0.1em 0.6em;
+  font-size: 1rem;
+  cursor: pointer;
+}

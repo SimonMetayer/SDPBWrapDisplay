@@ -46,35 +46,57 @@
   <div class="controls">
     <div class="slider-container">
       <label for="paramD">Dimension $d=$ <span id="valD">4</span></label><br />
-      <input type="range" id="paramD" min="3" max="12" step="0.5" value="4" />
+      <div class="slider-row">
+        <button class="slider-btn" data-target="paramD" data-step="-0.5">−</button>
+        <input type="range" id="paramD" min="3" max="12" step="0.5" value="4" />
+        <button class="slider-btn" data-target="paramD" data-step="0.5">+</button>
+      </div>
     </div>
 
     <div class="slider-container">
       <label for="paramL">Spin $\ell=$ <span id="valL">0</span></label><br />
-      <input type="range" id="paramL" min="0" max="2" step="2" value="0" />
+      <div class="slider-row">
+        <button class="slider-btn" data-target="paramL" data-step="-1">−</button>
+        <input type="range" id="paramL" min="0" max="2" step="2" value="0" />
+        <button class="slider-btn" data-target="paramL" data-step="2">+</button>
+      </div>
     </div>
 
     <div class="slider-container">
       <label for="paramCI">Optimized c<sub id="valCI">0</sub></label>
-      <input type="range" id="paramCI" min="0" max="3" step="1" value="0" />
+      <div class="slider-row">
+        <button class="slider-btn" data-target="paramCI" data-step="-1">-</button>
+        <input type="range" id="paramCI" min="0" max="3" step="1" value="0" />
+        <button class="slider-btn" data-target="paramCI" data-step="1">+</button>
+      </div>
     </div>
 
     <div class="slider-container">
       <label for="paramLmax">$\ell_{\mathrm{max}}=$ <span id="valLmax">16</span></label><br />
-      <input type="range" id="paramLmax" min="16" max="16" step="2" value="16" />
+      <div class="slider-row">
+        <button class="slider-btn" data-target="paramLmax" data-step="-1">-</button>
+        <input type="range" id="paramLmax" min="16" max="16" step="2" value="16" />
+        <button class="slider-btn" data-target="paramLmax" data-step="1">+</button>
+      </div>
     </div>
 
     <div class="slider-container">
       <label for="paramNmax">$N_\mathrm{max}=$ <span id="valNmax">14</span></label><br />
-      <input type="range" id="paramNmax" min="10" max="20" value="14" />
+      <div class="slider-row">
+        <button class="slider-btn" data-target="paramNmax" data-step="-1">−</button>
+        <input type="range" id="paramNmax" min="10" max="20" value="14" />
+        <button class="slider-btn" data-target="paramNmax" data-step="1">+</button>
+      </div>
     </div>
 
     <div class="slider-container">
       <label for="paramImprov">Improvement:</label><br />
-      <select id="paramImprov">
-        <option value="SPC" selected>SPC (Subtracted Positivity Constraints)</option>
-        <option value="TH, SPC">TH (Threshold) + SPC</option>
-      </select>
+      <div class="slider-row">
+        <select id="paramImprov">
+          <option value="SPC" selected>SPC (Subtracted Positivity Constraints)</option>
+          <option value="TH, SPC">TH (Threshold) + SPC</option>
+        </select>
+      </div>
     </div>
   </div>
 
@@ -136,9 +158,13 @@
       </div>
       <div class="image-container">
         <div class="image-title">Amplitude traveler (WORK IN PROGRESS)</div>
-        <div class="slider-container">
+        <div class="slider-container-smaller">
           <label for="paramAlmond02"> Position: <span id="valparamAlmond02">1</span></label><br />
-          <input type="range" id="paramAlmond02" min="0" max="5" step="1" value="0" />
+          <div class="slider-row-smaller">
+            <button class="slider-btn" data-target="paramAlmond02" data-step="-1">−</button>
+            <input type="range" id="paramAlmond02" min="0" max="5" step="1" value="0" />
+            <button class="slider-btn" data-target="paramAlmond02" data-step="1">+</button>
+          </div>
         </div>
         <img id="almond02Image" src="" alt="Selected Almond02 Image">
 	<div class="download-container">
@@ -161,9 +187,13 @@
       </div>
       <div class="image-container">
         <div class="image-title">Amplitude traveler (WORK IN PROGRESS)</div>
-        <div class="slider-container">
+        <div class="slider-container-smaller">
           <label for="paramAlmond03"> Position: <span id="valparamAlmond03">1</span></label><br />
-          <input type="range" id="paramAlmond03" min="0" max="5" step="1" value="0" />
+          <div class="slider-row-smaller">
+	    <button class="slider-btn" data-target="paramAlmond03" data-step="-1">−</button>
+            <input type="range" id="paramAlmond03" min="0" max="5" step="1" value="0" />
+	    <button class="slider-btn" data-target="paramAlmond03" data-step="1">+</button>
+	  </div>
         </div>
         <img id="almond03Image" src="" alt="Selected Almond03 Image">
 	<div class="download-container">
@@ -186,9 +216,13 @@
       </div>
       <div class="image-container">
         <div class="image-title">Amplitude traveler (WORK IN PROGRESS)</div>
-        <div class="slider-container">
+        <div class="slider-container-smaller">
           <label for="paramAlmond23"> Position: <span id="valparamAlmond23">1</span></label><br />
-          <input type="range" id="paramAlmond23" min="0" max="5" step="1" value="0" />
+          <div class="slider-row-smaller">
+            <button class="slider-btn" data-target="paramAlmond23" data-step="-1">−</button>
+            <input type="range" id="paramAlmond23" min="0" max="5" step="1" value="0" />
+            <button class="slider-btn" data-target="paramAlmond23" data-step="1">+</button>
+          </div>
         </div>
         <img id="almond23Image" src="" alt="Selected Almond23 Image">
 	<div class="download-container">
