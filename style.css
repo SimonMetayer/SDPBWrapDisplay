@@ -285,7 +285,8 @@ footer a:hover {
 }
 
 .slider-row input[type="range"] {
-  flex: 1;
+  flex: 1;             /* slider shrinks/grows between buttons */
+  min-width: 0;        /* IMPORTANT: allow shrinking on small screens */
 }
 
 .slider-btn {
