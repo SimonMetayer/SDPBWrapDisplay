@@ -406,3 +406,76 @@ document.querySelectorAll(".slider-btn").forEach(btn => {
 });
 
 
+const autoPlayIntervals = {}; // store intervals per slider
+
+function startAutoPlay(sliderId, btn, speed) {
+  const slider = document.getElementById(sliderId);
+  const valSpan = document.getElementById(`val${sliderId.slice(5)}`);
+
+  // get allowed values (if any)
+  let allowed = null;
+  if (sliderId === "paramD") {
+    allowed = allowedD;
+  } else {
+    const d = +dSlider.value;
+    allowed = configByD[d]?.[sliderId]?.allowed || null;
+  }
+
+  let values;
+  if (allowed && allowed.length > 0) {
+    values = allowed;
+  } else {
+    const min = parseFloat(slider.min);
+    const max = parseFloat(slider.max);
+    const step = parseFloat(slider.step) || 1;
+    values = [];
+    for (let v = min; v <= max; v += step) {
+      values.push(+v.toFixed(6)); // avoid floating point drift
+    }
+  }
+
+  let currentIndex = values.indexOf(Number(slider.value));
+  if (currentIndex < 0) currentIndex = 0;
+  let direction = 1;
+
+  autoPlayIntervals[sliderId] = setInterval(() => {
+    currentIndex += direction;
+
+    if (currentIndex >= values.length) {
+      currentIndex = values.length - 2;
+      direction = -1;
+    } else if (currentIndex < 0) {
+      currentIndex = 1;
+      direction = 1;
+    }
+
+    const newVal = values[currentIndex];
+    slider.value = newVal;
+    valSpan.textContent = newVal;
+    slider.dispatchEvent(new Event("input"));
+  }, speed);
+
+  btn.textContent = "⏸";
+}
+
+function stopAutoPlay(sliderId, btn) {
+  clearInterval(autoPlayIntervals[sliderId]);
+  delete autoPlayIntervals[sliderId];
+  btn.textContent = "▶";
+}
+
+document.querySelectorAll(".autoPlayBtn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const sliderId = btn.dataset.target;
+    const speed = parseInt(btn.dataset.speed, 10) || 1000; // default 1s
+
+    if (autoPlayIntervals[sliderId]) {
+      stopAutoPlay(sliderId, btn);
+    } else {
+      startAutoPlay(sliderId, btn, speed);
+    }
+  });
+});
+
+
+
