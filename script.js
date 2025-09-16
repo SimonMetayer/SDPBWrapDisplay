@@ -464,16 +464,18 @@ function stopAutoPlay(sliderId, btn) {
   btn.textContent = "▶";
 }
 
-document.querySelectorAll(".autoPlayBtn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const sliderId = btn.dataset.target;
-    const speed = parseInt(btn.dataset.speed, 10) || 1000; // default 1s
+window.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".autoPlayBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const sliderId = btn.dataset.target;
+      const speed = parseInt(btn.dataset.speed, 10) || 1000;
 
-    if (autoPlayIntervals[sliderId]) {
-      stopAutoPlay(sliderId, btn);
-    } else {
-      startAutoPlay(sliderId, btn, speed);
-    }
+      if (autoPlayIntervals[sliderId]) {
+        stopAutoPlay(sliderId, btn);
+      } else {
+        startAutoPlay(sliderId, btn, speed);
+      }
+    });
   });
 });
 
