@@ -328,7 +328,7 @@ fetch('explanation.tex')
 fetch('image_count.json')
   .then(response => response.json())
   .then(data => {
-    document.getElementById('image-count').textContent = `Total plots: ${data.count}`;
+    document.getElementById('image-count').textContent = `Total plots: ${data.count}/13860`;
     document.getElementById('last-update').textContent = `Last updated: ${new Date(data.last_updated).toLocaleString()}`;
   })
   .catch(error => {
