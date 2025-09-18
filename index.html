@@ -13,10 +13,10 @@
         tags: 'all', // automatic equation numbering
         inlineMath: [['\\(', '\\)'], ['$', '$']],
         displayMath: [['\\[', '\\]'], ['$$', '$$']],
-        packages: { '[+]': ['amsmath', 'amsfonts', 'physics', 'hyperref'] }
+        packages: { '[+]': ['amsmath', 'amsfonts', 'physics', 'hyperref', 'table'] }
       },
       loader: {
-        load: ['[tex]/physics'] // explicitly load physics extension
+        load: ['[tex]/physics', '[tex]/table']] // explicitly load physics extension
       }
     };
   </script>
