@@ -110,6 +110,11 @@ function updateImages() {
   downloadcidMin.href = `data/ci(d)/${prefix3}_${minmaxMin}.txt`;
   downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
   
+  
+  boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=18_improv={${improv}}.png`;
+  boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=18_improv={${improv}}.png`;
+  boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=18_improv={${improv}}.png`;
+  
  
   const almond02FilesImg = [
   `images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
