@@ -145,6 +145,7 @@ select {
   font-size: 1rem;
   line-height: 1.5;
   text-align: left;
+  max-width: 1000px;
 }
 
 /* Image containers */
@@ -172,9 +173,9 @@ select {
 /* References */
 .reference-container {
   margin: 40px auto 0;
-  padding: 0 15px;
   text-align: left;
   font-size: 1rem;
+  max-width: 1000px;
 }
 
 .reference-container h2 {
