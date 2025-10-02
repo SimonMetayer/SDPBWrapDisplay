@@ -484,5 +484,3 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
-
