@@ -85,10 +85,10 @@
     </div>
 
     <div class="slider-container">
-      <label for="paramNmax">$N_\mathrm{max}=$ <span id="valNmax">15</span></label><br />
+      <label for="paramNmax">$N_\mathrm{max}=$ <span id="valNmax">10</span></label><br />
       <div class="slider-row">
         <button type="button" class="slider-btn" data-target="paramNmax" data-step="-1">−</button>
-        <input type="range" id="paramNmax" min="10" max="20" value="15" />
+        <input type="range" id="paramNmax" min="10" max="20" value="10" />
         <button type="button" class="slider-btn" data-target="paramNmax" data-step="1">+</button>
         <button type="button" class="autoPlayBtn" data-target="paramNmax" data-speed="500">▶</button>
       </div>
@@ -284,25 +284,40 @@
   </div>
     
   <!-- Final Bounds -->
-  <div class="toggle-button" data-toggle-target="finalbounds">Final bounds</div>
+  <div class="toggle-button" data-toggle-target="finalbounds">Final best bounds</div>
   <div id="finalbounds" class="collapsible-content">
     <div class="triplegrid">
-      <img id="boundc0" alt="boundc0" />
-      <img id="boundc2" alt="boundc2" />
-      <img id="boundc3" alt="boundc3" />
+      <div class="image-container">
+        <img id="boundc0" alt="boundc0" />
+        <div class="download-container">
+          <a id="downloadboundc0" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container"> 
+        <img id="boundc2" alt="boundc2" />
+        <div class="download-container">
+          <a id="downloadboundc2" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <img id="boundc3" alt="boundc3" />
+        <div class="download-container">
+          <a id="downloadboundc3" class="download-button" download>Download data</a>
+        </div>
+      </div>
     </div>
   </div>
   </div>
   
   <!-- Explanation -->
   <div class="latex-explanation">
-    <h2>S-matrix primal bootstrap framework</h2>
+    <h1>S-matrix primal bootstrap framework</h1>
     <div id="latex-explanation"></div>
   </div>
 
   <!-- References -->
   <div class="reference-container">
-    <h2>References</h2>
+    <h1>References</h1>
     <ul>
       <li>
         <span class="title">An Analytical Toolkit for the S-matrix Bootstrap</span>
