@@ -125,7 +125,9 @@ function updateImages() {
   downloadboundc2.download = `$BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv={${improv}}.txt`;
   downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.txt`;
   downloadboundc3.download = `$BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.txt`;
-  
+    
+  img5.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
+  img6.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
  
   const almond02FilesImg = [
   `images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
@@ -344,7 +346,7 @@ fetch('explanation.tex')
 fetch('image_count.json')
   .then(response => response.json())
   .then(data => {
-    document.getElementById('image-count').textContent = `Total plots: ${data.count}/15972`;
+    document.getElementById('image-count').textContent = `Total plots: ${data.count}/18876`;
     document.getElementById('last-update').textContent = `Last updated: ${new Date(data.last_updated).toLocaleString()}`;
   })
   .catch(error => {
