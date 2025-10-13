@@ -1,0 +1,12 @@
+# Ignore files
+*.log
+*.sif
+*.sqlite*
+*copy*
+temp/
+.zip
+*.old
+*.save
+*.yml
+image_count.json
+*.old

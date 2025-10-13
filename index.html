@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>S-matrix Bootstrap</title>
+  <link rel="icon" href="images/logo/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- MathJax configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        tags: 'all', // automatic equation numbering
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]'], ['$$', '$$']],
+        packages: { '[+]': ['amsmath', 'amsfonts', 'physics', 'hyperref'] }
+      },
+      loader: {
+        load: ['[tex]/physics'] // explicitly load physics extension
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js?config=TeX-MML_HTMLorMML,hyperref" async></script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EW4T5SC7W9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-EW4T5SC7W9');
+  </script>
+
+  <!-- GoatCounter -->
+  <script data-goatcounter="https://simonmetayer.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+  <h1>
+    <img src="images/logo/S.png" alt="S" class="logo-inline" />
+    -matrix Bootstrap Extremal Amplitudes Viewer
+  </h1>
+  
+  <!-- Controls -->
+  <div class="controls">
+    <div class="slider-container">
+      <label for="paramD">Dimension $d=$ <span id="valD">4</span></label><br />
+      <div class="slider-row">
+        <button type="button" class="slider-btn" data-target="paramD" data-step="-0.5">−</button>
+        <input type="range" id="paramD" min="3" max="12" step="0.5" value="4" />
+        <button type="button" class="slider-btn" data-target="paramD" data-step="0.5">+</button>
+        <button type="button" class="autoPlayBtn" data-target="paramD" data-speed="150">▶</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <label for="paramL">Spin $\ell=$ <span id="valL">0</span></label><br />
+      <div class="slider-row">
+        <button type="button" class="slider-btn" data-target="paramL" data-step="-1">−</button>
+        <input type="range" id="paramL" min="0" max="8" step="2" value="0" />
+        <button type="button" class="slider-btn" data-target="paramL" data-step="+1">+</button>
+        <button type="button" class="autoPlayBtn" data-target="paramL" data-speed="500">▶</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <label for="paramCI">Optimized c<sub id="valCI">0</sub></label>
+      <div class="slider-row">
+        <button type="button" class="slider-btn" data-target="paramCI" data-step="-1">-</button>
+        <input type="range" id="paramCI" min="0" max="3" step="1" value="0" />
+        <button type="button" class="slider-btn" data-target="paramCI" data-step="1">+</button>
+        <button type="button" class="autoPlayBtn" data-target="paramCI" data-speed="500">▶</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <label for="paramLmax">$\ell_{\mathrm{max}}=$ <span id="valLmax">16</span></label><br />
+      <div class="slider-row">
+        <button type="button" class="slider-btn" data-target="paramLmax" data-step="-1">-</button>
+        <input type="range" id="paramLmax" min="16" max="16" step="2" value="16" />
+        <button type="button" class="slider-btn" data-target="paramLmax" data-step="1">+</button>
+        <button type="button" class="autoPlayBtn" data-target="paramLmax" data-speed="500">▶</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <label for="paramNmax">$N_\mathrm{max}=$ <span id="valNmax">10</span></label><br />
+      <div class="slider-row">
+        <button type="button" class="slider-btn" data-target="paramNmax" data-step="-1">−</button>
+        <input type="range" id="paramNmax" min="10" max="20" value="10" />
+        <button type="button" class="slider-btn" data-target="paramNmax" data-step="1">+</button>
+        <button type="button" class="autoPlayBtn" data-target="paramNmax" data-speed="500">▶</button>
+      </div>
+    </div>
+
+    <div class="slider-container">
+      <label for="paramImprov">Improvement:</label><br />
+      <div class="slider-row">
+        <select id="paramImprov">
+          <option value="SPC" selected>SPC (Subtracted Positivity Constraints)</option>
+          <option value="TH, SPC">TH (Threshold) + SPC</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Amplitudes -->
+  <div class="toggle-button" data-toggle-target="Amplitude">Amplitudes</div>
+  <div id="Amplitude" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container">
+        <div class="image-title">Amplitude Max</div>
+        <img id="img1" alt="Amplitude Max" />
+        <div class="download-container">
+          <a id="downloadAmplitudeMax" class="download-button" download>Download data</a>
+          <a id="downloadMMax" class="download-button" download>Download M(s,t,u)</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">Amplitude Min</div>
+        <img id="img2" alt="Amplitude Min" />
+        <div class="download-container">
+          <a id="downloadAmplitudeMin" class="download-button" download>Download data</a>
+          <a id="downloadMMin" class="download-button" download>Download M(s,t,u)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resonances -->
+  <div class="toggle-button" data-toggle-target="Resonances">Resonances</div>
+  <div id="Resonances" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container">
+        <div class="image-title">Resonance Max</div>
+        <img id="img3" alt="ComplexAmplitude Max" />
+        <div class="download-container">
+          <a id="downloadComplexAmplitudeMax" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">Resonance Min</div>
+        <img id="img4" alt="ComplexAmplitude Min" />
+        <div class="download-container">
+          <a id="downloadComplexAmplitudeMin" class="download-button" download>Download data</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Regge Trajectories -->
+  <div class="toggle-button" data-toggle-target="ReggeTrajectories">Regge trajectories</div>
+  <div id="ReggeTrajectories" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container">
+        <div class="image-title">Max</div>
+        <img id="img5" alt="ReggeTrajectories Max" />
+      </div>
+      <div class="image-container">
+        <div class="image-title">Min</div>
+        <img id="img6" alt="ReggeTrajectories Min" />
+      </div>
+    </div>
+  </div>
+  
+  <!-- Almonds -->
+  <div class="toggle-button" data-toggle-target="almond1">Almond c2(c0)</div>
+  <div id="almond1" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container-almond">
+        <div class="image-title">Almond c2(c0)</div>
+        <img id="almondImg1" alt="Almond02" />
+        <div class="download-container">
+          <a id="downloadAlmond02" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">Amplitude traveler</div>
+        <div class="slider-container-smaller">
+          <label for="paramAlmond02"> Position: <span id="valparamAlmond02">1</span></label><br />
+          <div class="slider-row-smaller">
+            <button type="button" class="slider-btn" data-target="paramAlmond02" data-step="-1">−</button>
+            <input type="range" id="paramAlmond02" min="0" max="5" step="1" value="0" />
+            <button type="button" class="slider-btn" data-target="paramAlmond02" data-step="1">+</button>
+          </div>
+        </div>
+        <img id="almond02Image" src="" alt="Selected Almond02 Image">
+	<div class="download-container">
+ 	  <a id="downloadAlmond02Traveler" class="download-button" download>Download data</a>
+          <a id="downloadAlmond02TravelerM" class="download-button" download>Download M(s,t,u)</a>
+	</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Almonds -->
+  <div class="toggle-button" data-toggle-target="almond2">Almond c3(c0)</div>
+  <div id="almond2" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container-almond">
+        <div class="image-title">Almond c3(c0)</div>
+        <img id="almondImg2" alt="Almond03" />
+        <div class="download-container">
+          <a id="downloadAlmond03" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">Amplitude traveler</div>
+        <div class="slider-container-smaller">
+          <label for="paramAlmond03"> Position: <span id="valparamAlmond03">1</span></label><br />
+          <div class="slider-row-smaller">
+	    <button type="button" class="slider-btn" data-target="paramAlmond03" data-step="-1">−</button>
+            <input type="range" id="paramAlmond03" min="0" max="5" step="1" value="0" />
+	    <button type="button" class="slider-btn" data-target="paramAlmond03" data-step="1">+</button>
+	  </div>
+        </div>
+        <img id="almond03Image" src="" alt="Selected Almond03 Image">
+	<div class="download-container">
+ 	  <a id="downloadAlmond03Traveler" class="download-button" download>Download data</a>
+          <a id="downloadAlmond03TravelerM" class="download-button" download>Download M(s,t,u)</a>
+	</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Almonds -->
+  <div class="toggle-button" data-toggle-target="almond3">Almond c3(c2)</div>
+  <div id="almond3" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container-almond">
+        <div class="image-title">Almond c3(c2)</div>
+        <img id="almondImg3" alt="Almond23" />
+        <div class="download-container">
+          <a id="downloadAlmond23" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">Amplitude traveler</div>
+        <div class="slider-container-smaller">
+          <label for="paramAlmond23"> Position: <span id="valparamAlmond23">1</span></label><br />
+          <div class="slider-row-smaller">
+            <button type="button" class="slider-btn" data-target="paramAlmond23" data-step="-1">−</button>
+            <input type="range" id="paramAlmond23" min="0" max="5" step="1" value="0" />
+            <button type="button" class="slider-btn" data-target="paramAlmond23" data-step="1">+</button>
+          </div>
+        </div>
+        <img id="almond23Image" src="" alt="Selected Almond23 Image">
+	<div class="download-container">
+ 	  <a id="downloadAlmond23Traveler" class="download-button" download>Download data</a>
+          <a id="downloadAlmond23TravelerM" class="download-button" download>Download M(s,t,u)</a>
+	</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Convergence plots -->
+  <div class="toggle-button" data-toggle-target="convergenceplot">Convergence plots</div>
+  <div id="convergenceplot" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container">
+        <div class="image-title">Convergence Max</div>
+        <img id="convImgMax" alt="Convergence Max" />
+        <div class="download-container">
+          <a id="downloadConvergencePlotMax" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">Convergence Min</div>
+        <img id="convImgMin" alt="Convergence Min" />
+        <div class="download-container">
+          <a id="downloadConvergencePlotMin" class="download-button" download>Download data</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- All d plots -->
+  <div class="toggle-button" data-toggle-target="alldplot">All d plots</div>
+  <div id="alldplot" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container">
+        <div class="image-title">All d Max</div>
+        <img id="cidImgMax" alt="CI Max" />
+        <div class="download-container">
+          <a id="downloadcidMax" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">All d Min</div>
+        <img id="cidImgMin" alt="CI Min" />
+        <div class="download-container">
+          <a id="downloadcidMin" class="download-button" download>Download data</a>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  <!-- Final Bounds -->
+  <div class="toggle-button" data-toggle-target="finalbounds">Final best bounds</div>
+  <div id="finalbounds" class="collapsible-content">
+    <div class="triplegrid">
+      <div class="image-container">
+        <img id="boundc0" alt="boundc0" />
+        <div class="download-container">
+          <a id="downloadboundc0" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container"> 
+        <img id="boundc2" alt="boundc2" />
+        <div class="download-container">
+          <a id="downloadboundc2" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <img id="boundc3" alt="boundc3" />
+        <div class="download-container">
+          <a id="downloadboundc3" class="download-button" download>Download data</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  <!-- Explanation -->
+  <div class="latex-explanation">
+    <h1>S-matrix primal bootstrap framework</h1>
+    <div id="latex-explanation"></div>
+  </div>
+
+  <!-- References -->
+  <div class="reference-container">
+    <h1>References</h1>
+    <ul>
+      <li>
+        <span class="title">An Analytical Toolkit for the S-matrix Bootstrap</span>
+        <a href="https://arxiv.org/abs/2006.08221" target="_blank">arXiv:2006.08221</a>
+      </li>
+      <li>
+        <span class="title">Bridging Positivity and S-matrix Bootstrap Bounds</span>
+        <a href="https://arxiv.org/abs/2210.01502" target="_blank">arXiv:2210.01502</a>
+      </li>
+      <li>
+        <span class="title">Nonperturbative Bounds on Scattering of Massive Scalar Particles in $d ≥ 2$</span>
+        <a href="https://arxiv.org/abs/2207.12448" target="_blank">arXiv:2207.12448</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Made by Simon Metayer — contact 
+    <a href="mailto:simonmetayer@neuf.fr">simonmetayer@neuf.fr</a> to request missing plots
+    <div id="last-update">Loading last update date...</div>
+    <div id="image-count">Loading plot count...</div>
+  </footer>
+
+  <!-- Logos -->
+  <div class="logo-container">
+    <div class="logo-box">
+      <img src="images/logo/cnrs-logo.png" alt="CNRS Logo" class="logo" />
+    </div>
+    <div class="logo-box">
+      <img src="images/logo/lapth-logo.png" alt="LAPTH Logo" class="logo" />
+    </div>
+    <div class="logo-box">
+      <img src="images/logo/duck.jpg" alt="Duck Logo" class="logo" />
+    </div>
+  </div>
+
+  <!-- Flag counter -->
+  <div class="flag-counter-container">
+    <a href="https://info.flagcounter.com/l2aE">
+      <img src="https://s01.flagcounter.com/count2/l2aE/bg_FFFFFF/txt_000000/border_CCCCCC/columns_3/maxflags_12/viewers_0/labels_0/pageviews_1/flags_0/percent_0/"
+           alt="Flag Counter" />
+    </a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
