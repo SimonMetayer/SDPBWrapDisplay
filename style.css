@@ -231,9 +231,15 @@ footer a:hover {
 /* toper */
 toper {
   margin-top: 600px;
+  margin-bottom: 60px;
   font-size: 0.9rem;
   color: #555;
   text-align: center;
+}
+
+toper a {
+  color: #0066cc;
+  text-decoration: none;
 }
 
 /* Flag counter wrapper */
