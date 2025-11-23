@@ -47,7 +47,7 @@ img.logo-inline {
 
 /* Headings */
 h1 {
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 /* Controls */
@@ -233,7 +233,7 @@ toper {
   font-size: 0.9rem;
   color: #100;
   text-align: center;
-  margin: 40px auto;    /* adds space above and below */
+  margin: 10px auto 50px auto; /* top 30px, right 0 auto, bottom 50px, left auto */
 }
 
 
