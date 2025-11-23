@@ -228,6 +228,14 @@ footer a:hover {
   text-decoration: underline;
 }
 
+/* toper */
+toper {
+  margin-top: 60px;
+  font-size: 0.9rem;
+  color: #555;
+  text-align: center;
+}
+
 /* Flag counter wrapper */
 .flag-counter-container {
   margin: 1em auto 0;
