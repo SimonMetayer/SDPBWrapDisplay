@@ -38,6 +38,49 @@ const configByD = {
   12 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, }
 };
 
+
+// ⭐ AUTO-MODE PATCH ------------------------------
+const improvByDimension = {
+  3: "TH, subTH, ftTH, SPC",
+  3.5: "TH, SPC",
+  4: "TH, SPC",
+  4.5: "TH, subTH, SPC",
+  5: "TH, subTH, ftTH, SPC",
+  5.5: "TH, subTH, SPC",
+  6: "TH, subTH, SPC",
+  6.5: "TH, subTH, SPC",
+  7: "TH, subTH, ftTH, SPC",
+  7.5: "TH, subTH, SPC",
+  8: "TH, subTH, SPC",
+  8.5: "TH, subTH, SPC",
+  9: "TH, subTH, ftTH, SPC",
+  9.5: "TH, subTH, SPC",
+  10: "TH, subTH, SPC",
+  12: "TH, subTH, SPC"
+};
+
+// Inject AUTO option if missing
+if (!Array.from(improvSelect.options).some(o => o.value === "AUTO")) {
+  const opt = document.createElement("option");
+  opt.value = "AUTO";
+  opt.textContent = "Automatic";
+  improvSelect.prepend(opt);
+}
+
+// Return mapped improvement but KEEP select value = "AUTO"
+function getEffectiveImprovement() {
+  const d = parseFloat(dSlider.value);
+
+  if (improvSelect.value === "AUTO") {
+    if (improvByDimension[d] !== undefined)
+      return improvByDimension[d];
+    return "SPC"; // fallback
+  }
+
+  return improvSelect.value;
+}
+
+
 function updateImages() {
   
   document.getElementById("valD").textContent = dSlider.value;
@@ -51,7 +94,9 @@ function updateImages() {
   const L = LSlider.value;
   const lmax = lmaxSlider.value;
   const Nmax = NmaxSlider.value;
-  const improv = improvSelect.value;
+  
+  // ⭐ AUTO-MODE PATCH
+  const improv = getEffectiveImprovement();
 
   const minmaxMax = `minmax=max_improv={${improv}}`;
   const minmaxMin = `minmax=min_improv={${improv}}`;
@@ -102,8 +147,26 @@ function updateImages() {
   downloadAlmond23.href = `data/Almond/Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
   downloadAlmond23.download = `$Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}_${minmaxMax}.txt`;
   
-  cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
-  cidImgMin.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
+  if (improvSelect.value === "AUTO") {
+      // Display special fixed CI images
+      cidImgMax.src = `images/BestCiplot/BestCiplot_ci=${ci}_minmax=max.png`;
+      cidImgMin.src = `images/BestCiplot/BestCiplot_ci=${ci}_minmax=min.png`;
+
+      downloadcidMax.href = `data/Special/ciplot_max.txt`;
+      downloadcidMax.download = `ciplot_max.txt`;
+      downloadcidMin.href = `data/Special/ciplot_min.txt`;
+      downloadcidMin.download = `ciplot_min.txt`;
+  } else {
+      // Normal mode
+      cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
+      cidImgMin.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
+
+      downloadcidMax.href = `data/ci(d)/${prefix3}_${minmaxMax}.txt`;
+      downloadcidMax.download = `${prefix3}_${minmaxMax}.txt`;  
+      downloadcidMin.href = `data/ci(d)/${prefix3}_${minmaxMin}.txt`;
+      downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
+  }
+
   
   downloadcidMax.href = `data/ci(d)/${prefix3}_${minmaxMax}.txt`;
   downloadcidMax.download = `${prefix3}_${minmaxMax}.txt`;
@@ -114,9 +177,33 @@ function updateImages() {
   const bestNmaxc2 = 10;
   const bestNmaxc3 = 10;
   
-  boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv={${improv}}.png`;
-  boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv={${improv}}.png`;
-  boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.png`;
+  if (improvSelect.value === "AUTO") {
+      // Special fixed best-bound plots
+      boundc0.src = `images/BestBoundTable/BestBoundTable_ci=0.png`;
+      boundc2.src = `images/BestBoundTable/BestBoundTable_ci=2.png`;
+      boundc3.src = `images/BestBoundTable/BestBoundTable_ci=3.png`;
+
+      downloadboundc0.href = `data/Special/bestbound0.txt`;
+      downloadboundc0.download = `bestbound0.txt`;
+      downloadboundc2.href = `data/Special/bestbound2.txt`;
+      downloadboundc2.download = `bestbound2.txt`;
+      downloadboundc3.href = `data/Special/bestbound3.txt`;
+      downloadboundc3.download = `bestbound3.txt`;
+  }
+  else {
+      // normal mode
+      boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv={${improv}}.png`;
+      boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv={${improv}}.png`;
+      boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.png`;
+
+      downloadboundc0.href = `data/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv={${improv}}.txt`;
+      downloadboundc0.download = `BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv={${improv}}.txt`;
+      downloadboundc2.href = `data/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv={${improv}}.txt`;
+      downloadboundc2.download = `BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv={${improv}}.txt`;
+      downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.txt`;
+      downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.txt`;
+  }
+
   
   
   downloadboundc0.href = `data/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv={${improv}}.txt`;
@@ -496,4 +583,6 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+
 
