@@ -228,12 +228,12 @@ footer a:hover {
   text-decoration: underline;
 }
 
-/* toper */
 toper {
+  display: block;       /* make it block-level so margins work */
   font-size: 0.9rem;
   color: #100;
   text-align: center;
-  margin: 0 auto;
+  margin: 40px auto;    /* adds space above and below */
 }
 
 
