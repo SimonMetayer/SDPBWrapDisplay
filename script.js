@@ -149,8 +149,8 @@ function updateImages() {
   
   if (improvSelect.value === "AUTO") {
       // Display special fixed CI images
-      cidImgMax.src = `images/BestCiplot/BestCiplot_ci=${ci}_minmax=max.png`;
-      cidImgMin.src = `images/BestCiplot/BestCiplot_ci=${ci}_minmax=min.png`;
+      cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.png`;
+      cidImgMin.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.png`;
 
       downloadcidMax.href = `data/Special/ciplot_max.txt`;
       downloadcidMax.download = `ciplot_max.txt`;
@@ -173,15 +173,15 @@ function updateImages() {
   downloadcidMin.href = `data/ci(d)/${prefix3}_${minmaxMin}.txt`;
   downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
   
-  const bestNmaxc0 = 19;
-  const bestNmaxc2 = 10;
+  const bestNmaxc0 = 11;
+  const bestNmaxc2 = 11;
   const bestNmaxc3 = 10;
   
   if (improvSelect.value === "AUTO") {
       // Special fixed best-bound plots
-      boundc0.src = `images/BestBoundTable/BestBoundTable_ci=0.png`;
-      boundc2.src = `images/BestBoundTable/BestBoundTable_ci=2.png`;
-      boundc3.src = `images/BestBoundTable/BestBoundTable_ci=3.png`;
+      boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv=best.png`;
+      boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv=best.png`;
+      boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv=best.png`;
 
       downloadboundc0.href = `data/Special/bestbound0.txt`;
       downloadboundc0.download = `bestbound0.txt`;
