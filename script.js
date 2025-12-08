@@ -412,15 +412,27 @@ fetch('explanation.tex')
     if (window.MathJax?.typeset) MathJax.typeset();
   });
 
-fetch('image_count.json')
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById('image-count').textContent = `Total plots: ${data.count}/18876`;
-    document.getElementById('last-update').textContent = `Last updated: ${new Date(data.last_updated).toLocaleString()}`;
-  })
-  .catch(error => {
-    console.error('Error loading image count:', error);
-  });
+
+
+// Safely read the generated data from image_count.js
+const data = window.imageInfo || {};
+
+// Update the image count
+const count = data.count ?? "N/A";
+document.getElementById("image-count").textContent =
+  `Total plots: ${count}/18876`;
+
+// Format the last update time
+const last = data.last_updated
+  ? new Date(data.last_updated).toLocaleString()
+  : "Unknown";
+
+// Update the last update info in the footer
+document.getElementById("last-update").textContent =
+  `Last updated: ${last}`;
+  
+  
+  
   
 document.querySelectorAll('[data-toggle-target]').forEach(button => {
   button.addEventListener('click', () => {

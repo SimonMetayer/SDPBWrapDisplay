@@ -1,5 +1,4 @@
 import os
-import json
 from datetime import datetime
 
 def count_images(image_dir='images'):
@@ -11,12 +10,17 @@ def count_images(image_dir='images'):
 
 if __name__ == '__main__':
     count = count_images()
-    last_updated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # or just '%Y-%m-%d' if you prefer
-    data = {
-        'count': count,
-        'last_updated': last_updated
-    }
-    with open('image_count.json', 'w') as f:
-        json.dump(data, f, indent=2)
-    print(f"Counted {count} images. Last updated: {last_updated}")
+    last_updated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    js_content = (
+        "window.imageInfo = {\n"
+        f"  count: {count},\n"
+        f"  last_updated: \"{last_updated}\"\n"
+        "};\n"
+    )
+
+    with open('image_count.js', 'w') as f:
+        f.write(js_content)
+
+    print(f"Generated image_count.js — {count} images, updated {last_updated}")
 
