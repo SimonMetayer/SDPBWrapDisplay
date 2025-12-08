@@ -246,7 +246,7 @@ toper {
 
 /* Collapsible sections */
 .collapsible-content {
-  display: block;
+  display: none;
   padding: 10px;
   border: 1px solid #ccc;
   margin-top: 5px;

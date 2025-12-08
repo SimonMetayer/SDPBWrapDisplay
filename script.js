@@ -38,6 +38,22 @@ const configByD = {
   12 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, }
 };
 
+document.querySelectorAll('.toggle-button').forEach(button => {
+  const targetId = button.getAttribute('data-toggle-target');
+  const content = document.getElementById(targetId);
+  if (!content) return; // safety check
+
+  // --- INITIAL STATE ---
+  const start = button.getAttribute('data-start'); // "open" or "closed"
+  content.style.display = start === "open" ? "block" : "none";
+
+  // --- TOGGLE ON CLICK ---
+  button.addEventListener('click', () => {
+    const isHidden = getComputedStyle(content).display === "none";
+    content.style.display = isHidden ? "block" : "none";
+  });
+});
+
 
 // ⭐ AUTO-MODE PATCH ------------------------------
 const improvByDimension = {
@@ -345,6 +361,8 @@ function snapToAllowed(val, allowed) {
   );
 }
 
+
+
 function updateSlider(sliderId, config) {
   const slider = document.getElementById(sliderId);
   const valSpan = document.getElementById(`val${sliderId.slice(5)}`);
@@ -432,18 +450,7 @@ document.getElementById("last-update").textContent =
   `Last updated: ${last}`;
   
   
-  
-  
-document.querySelectorAll('[data-toggle-target]').forEach(button => {
-  button.addEventListener('click', () => {
-    const targetId = button.getAttribute('data-toggle-target');
-    const content = document.getElementById(targetId);
-    if (content) {
-      const isHidden = getComputedStyle(content).display === "none";
-      content.style.display = isHidden ? "block" : "none";
-    }
-  });
-});
+
 
 function triggerDownload(filename, label) {
   const link = document.createElement("a");
