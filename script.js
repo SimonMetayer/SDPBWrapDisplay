@@ -152,10 +152,10 @@ function updateImages() {
       cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.png`;
       cidImgMin.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.png`;
 
-      downloadcidMax.href = `data/Special/ciplot_max.txt`;
-      downloadcidMax.download = `ciplot_max.txt`;
-      downloadcidMin.href = `data/Special/ciplot_min.txt`;
-      downloadcidMin.download = `ciplot_min.txt`;
+      downloadcidMax.href = `data/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.txt`;
+      downloadcidMax.download = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.txt`;
+      downloadcidMin.href = `data/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
+      downloadcidMin.download = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
   } else {
       // Normal mode
       cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
@@ -167,51 +167,33 @@ function updateImages() {
       downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
   }
 
-  
-  downloadcidMax.href = `data/ci(d)/${prefix3}_${minmaxMax}.txt`;
-  downloadcidMax.download = `${prefix3}_${minmaxMax}.txt`;
-  downloadcidMin.href = `data/ci(d)/${prefix3}_${minmaxMin}.txt`;
-  downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
-  
-  const bestNmaxc0 = 11;
-  const bestNmaxc2 = 11;
-  const bestNmaxc3 = 10;
-  
+
   if (improvSelect.value === "AUTO") {
       // Special fixed best-bound plots
-      boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv=best.png`;
-      boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv=best.png`;
-      boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv=best.png`;
+      boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv=best.png`;
+      boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv=best.png`;
+      boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.png`;
 
-      downloadboundc0.href = `data/Special/bestbound0.txt`;
-      downloadboundc0.download = `bestbound0.txt`;
-      downloadboundc2.href = `data/Special/bestbound2.txt`;
-      downloadboundc2.download = `bestbound2.txt`;
-      downloadboundc3.href = `data/Special/bestbound3.txt`;
-      downloadboundc3.download = `bestbound3.txt`;
+      downloadboundc0.href = `data/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv=best.txt`;
+      downloadboundc0.download = `BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv=best.txt`;
+      downloadboundc2.href = `data/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv=best.txt`;
+      downloadboundc2.download = `BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv=best.txt`;
+      downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.txt`;
+      downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.txt`;
   }
   else {
       // normal mode
-      boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv={${improv}}.png`;
-      boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv={${improv}}.png`;
-      boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.png`;
+      boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv={${improv}}.png`;
+      boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.png`;
+      boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.png`;
 
-      downloadboundc0.href = `data/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv={${improv}}.txt`;
-      downloadboundc0.download = `BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv={${improv}}.txt`;
-      downloadboundc2.href = `data/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv={${improv}}.txt`;
-      downloadboundc2.download = `BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv={${improv}}.txt`;
-      downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.txt`;
-      downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.txt`;
+      downloadboundc0.href = `data/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
+      downloadboundc0.download = `BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
+      downloadboundc2.href = `data/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
+      downloadboundc2.download = `BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
+      downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
+      downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
   }
-
-  
-  
-  downloadboundc0.href = `data/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv={${improv}}.txt`;
-  downloadboundc0.download = `$BoundTable_ci=0_lmax=16_Nmax=${bestNmaxc0}_improv={${improv}}.txt`;
-  downloadboundc2.href = `data/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv={${improv}}.txt`;
-  downloadboundc2.download = `$BoundTable_ci=2_lmax=16_Nmax=${bestNmaxc2}_improv={${improv}}.txt`;
-  downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.txt`;
-  downloadboundc3.download = `$BoundTable_ci=3_lmax=16_Nmax=${bestNmaxc3}_improv={${improv}}.txt`;
     
   img5.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
   img6.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
