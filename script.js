@@ -17,7 +17,7 @@ const cidImgMax = document.getElementById("cidImgMax");
 const cidImgMin = document.getElementById("cidImgMin");
 
 
-const allowedD = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 11, 12];
+const allowedD = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12];
 
 const configByD = {
   3  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
@@ -72,6 +72,9 @@ const improvByDimension = {
   9: "TH, subTH, ftTH, SPC",
   9.5: "TH, subTH, SPC",
   10: "TH, subTH, SPC",
+  10.5: "TH, subTH, SPC",
+  11: "TH, subTH, ftTH, SPC",
+  11.5: "TH, subTH, SPC",
   12: "TH, subTH, SPC"
 };
 
