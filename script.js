@@ -125,6 +125,7 @@ function updateImages() {
   const prefix3 = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
   const prefix4 = `M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
   const prefix5 = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
+  const prefix6 = `ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
   
   img1.src = `images/Amplitude/${prefix1}_${minmaxMax}.png`;
   img2.src = `images/Amplitude/${prefix1}_${minmaxMin}.png`;
@@ -175,6 +176,10 @@ function updateImages() {
       downloadcidMax.download = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.txt`;
       downloadcidMin.href = `data/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
       downloadcidMin.download = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
+      downloadcidfittedMax.href = `data/ci(d)fitted/ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.txt`;
+      downloadcidfittedMax.download = `ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.txt`;
+      downloadcidfittedMin.href = `data/ci(d)fitted/ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
+      downloadcidfittedMin.download = `ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
   } else {
       // Normal mode
       cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
@@ -184,6 +189,10 @@ function updateImages() {
       downloadcidMax.download = `${prefix3}_${minmaxMax}.txt`;  
       downloadcidMin.href = `data/ci(d)/${prefix3}_${minmaxMin}.txt`;
       downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
+      downloadcidfittedMax.href = `data/ci(d)fitted/${prefix6}_${minmaxMax}.txt`;
+      downloadcidfittedMax.download = `${prefix6}_${minmaxMax}.txt`;  
+      downloadcidfittedMin.href = `data/ci(d)fitted/${prefix6}_${minmaxMin}.txt`;
+      downloadcidfittedMin.download = `${prefix6}_${minmaxMin}.txt`;
   }
 
 
