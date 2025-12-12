@@ -123,41 +123,34 @@ function updateImages() {
   const minmaxMax = `minmax=max_improv={${improv}}`;
   const minmaxMin = `minmax=min_improv={${improv}}`;
   
-  const prefix1 = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
-  const prefix2 = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
-  const prefix3 = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
-  const prefix4 = `M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}`;
-  const prefix5 = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
-  const prefix6 = `ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}`;
+  img1.src = `images/Amplitude/Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.png`;
+  img2.src = `images/Amplitude/Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.png`;
   
-  img1.src = `images/Amplitude/${prefix1}_${minmaxMax}.png`;
-  img2.src = `images/Amplitude/${prefix1}_${minmaxMin}.png`;
+  downloadAmplitudeMax.href = `data/Amplitude/Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+  downloadAmplitudeMax.download = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+  downloadAmplitudeMin.href = `data/Amplitude/Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+  downloadAmplitudeMin.download = `Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
   
-  downloadAmplitudeMax.href = `data/Amplitude/${prefix1}_${minmaxMax}.txt`;
-  downloadAmplitudeMax.download = `${prefix1}_${minmaxMax}.txt`;
-  downloadAmplitudeMin.href = `data/Amplitude/${prefix1}_${minmaxMin}.txt`;
-  downloadAmplitudeMin.download = `${prefix1}_${minmaxMin}.txt`;
+  downloadMMax.href = `data/M/M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+  downloadMMax.download = `M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+  downloadMMin.href = `data/M/M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+  downloadMMin.download = `M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
   
-  downloadMMax.href = `data/M/${prefix4}_${minmaxMax}.txt`;
-  downloadMMax.download = `${prefix4}_${minmaxMax}.txt`;
-  downloadMMin.href = `data/M/${prefix4}_${minmaxMin}.txt`;
-  downloadMMin.download = `${prefix4}_${minmaxMin}.txt`;
+  img3.src = `images/ComplexAmplitude/ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
+  img4.src = `images/ComplexAmplitude/ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
   
-  img3.src = `images/ComplexAmplitude/${prefix2}_minmax=max_improv={${improv}}.png`;
-  img4.src = `images/ComplexAmplitude/${prefix2}_minmax=min_improv={${improv}}.png`;
-  
-  downloadComplexAmplitudeMax.href = `data/ComplexAmplitude/${prefix2}_${minmaxMax}.txt`;
-  downloadComplexAmplitudeMax.download = `${prefix2}_${minmaxMax}.txt`;
-  downloadComplexAmplitudeMin.href = `data/ComplexAmplitude/${prefix2}_${minmaxMin}.txt`;
-  downloadComplexAmplitudeMin.download = `${prefix2}_${minmaxMin}.txt`;
+  downloadComplexAmplitudeMax.href = `data/ComplexAmplitude/ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+  downloadComplexAmplitudeMax.download = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+  downloadComplexAmplitudeMin.href = `data/ComplexAmplitude/ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+  downloadComplexAmplitudeMin.download = `ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
     
-  convImgMax.src = `images/ConvergencePlot/${prefix5}_minmax=max_improv={${improv}}.png`;
-  convImgMin.src = `images/ConvergencePlot/${prefix5}_minmax=min_improv={${improv}}.png`;
+  convImgMax.src = `images/ConvergencePlot/ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
+  convImgMin.src = `images/ConvergencePlot/ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
   
-  downloadConvergencePlotMax.href = `data/ConvergencePlot/${prefix5}_${minmaxMax}.txt`;
-  downloadConvergencePlotMax.download = `${prefix5}_${minmaxMax}.txt`;
-  downloadConvergencePlotMin.href = `data/ConvergencePlot/${prefix5}_${minmaxMin}.txt`;
-  downloadConvergencePlotMin.download = `${prefix5}_${minmaxMin}.txt`;
+  downloadConvergencePlotMax.href = `data/ConvergencePlot/ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+  downloadConvergencePlotMax.download = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+  downloadConvergencePlotMin.href = `data/ConvergencePlot/ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+  downloadConvergencePlotMin.download = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
   
   almondImg1.src = `images/Almond/Almond_d=${d}_x=0_y=2_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
   almondImg2.src = `images/Almond/Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
@@ -188,14 +181,14 @@ function updateImages() {
       cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
       cidImgMin.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
 
-      downloadcidMax.href = `data/ci(d)/${prefix3}_${minmaxMax}.txt`;
-      downloadcidMax.download = `${prefix3}_${minmaxMax}.txt`;  
-      downloadcidMin.href = `data/ci(d)/${prefix3}_${minmaxMin}.txt`;
-      downloadcidMin.download = `${prefix3}_${minmaxMin}.txt`;
-      downloadcidfittedMax.href = `data/ci(d)fitted/${prefix6}_${minmaxMax}.txt`;
-      downloadcidfittedMax.download = `${prefix6}_${minmaxMax}.txt`;  
-      downloadcidfittedMin.href = `data/ci(d)fitted/${prefix6}_${minmaxMin}.txt`;
-      downloadcidfittedMin.download = `${prefix6}_${minmaxMin}.txt`;
+      downloadcidMax.href = `data/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+      downloadcidMax.download = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;  
+      downloadcidMin.href = `data/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+      downloadcidMin.download = `ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+      downloadcidfittedMax.href = `data/ci(d)fitted/ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+      downloadcidfittedMax.download = `ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;  
+      downloadcidfittedMin.href = `data/ci(d)fitted/ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+      downloadcidfittedMin.download = `ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
   }
 
 
