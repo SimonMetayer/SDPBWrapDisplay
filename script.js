@@ -594,4 +594,23 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 
+// ===== CLOSE ALL SECTIONS BUTTON =====
+document.getElementById("close-all").addEventListener("click", () => {
+  // Find all collapsible sections
+  document.querySelectorAll(".collapsible-content").forEach(section => {
+    section.style.display = "none";
+  });
+});
+
+// ===== OPEN ALL SECTIONS BUTTON =====
+document.getElementById("open-all").addEventListener("click", () => {
+  document.querySelectorAll(".collapsible-content").forEach(section => {
+    section.style.display = "block";
+  });
+});
+
+
+
+
+
 
