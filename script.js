@@ -53,7 +53,8 @@ document.querySelectorAll('.toggle-button').forEach(button => {
   // --- TOGGLE ON CLICK ---
   button.addEventListener('click', () => {
     const isHidden = getComputedStyle(content).display === "none";
-    content.style.display = isHidden ? "block" : "none";
+    //content.style.display = isHidden ? "block" : "none";
+    content.classList.toggle("collapsed");
   });
 });
 
@@ -596,20 +597,17 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // ===== CLOSE ALL SECTIONS BUTTON =====
 document.getElementById("close-all").addEventListener("click", () => {
-  // Find all collapsible sections
   document.querySelectorAll(".collapsible-content").forEach(section => {
-    section.style.display = "none";
+    section.classList.add("collapsed");
   });
 });
 
 // ===== OPEN ALL SECTIONS BUTTON =====
 document.getElementById("open-all").addEventListener("click", () => {
   document.querySelectorAll(".collapsible-content").forEach(section => {
-    section.style.display = "block";
+    section.classList.remove("collapsed");
   });
 });
-
-
 
 
 
