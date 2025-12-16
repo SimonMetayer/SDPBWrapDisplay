@@ -34,7 +34,7 @@ const configByD = {
   8.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
   9    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
   9.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  10   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  10   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 25, step: 1 }, },
   10.5 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 25, step: 1 }, },
   11   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 25, step: 1 }, },
   11.5 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 2, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 25, step: 1 }, },
