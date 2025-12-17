@@ -1,0 +1,2 @@
+Take[sg[300.`32.], 240]
+Take[Table[N[S[11.`32., 0, si, Removed["σgrid$33834"], Removed["pgrid$33834"]] /. Removed["αirep$33834"]], {si, sg[300.`32.]}], 240]
