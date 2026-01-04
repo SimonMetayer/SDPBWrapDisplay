@@ -13,6 +13,9 @@ const img4 = document.getElementById("img4");
 const convImgMax = document.getElementById("convImgMax");
 const convImgMin = document.getElementById("convImgMin");
 
+const convv2ImgMax = document.getElementById("convv2ImgMax");
+const convv2ImgMin = document.getElementById("convv2ImgMin");
+
 const cidImgMax = document.getElementById("cidImgMax");
 const cidImgMin = document.getElementById("cidImgMin");
 
@@ -152,7 +155,7 @@ function updateImages() {
   downloadConvergencePlotMax.download = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
   downloadConvergencePlotMin.href = `data/ConvergencePlot/ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
   downloadConvergencePlotMin.download = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
-  
+    
   almondImg1.src = `images/Almond/Almond_d=${d}_x=0_y=2_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
   almondImg2.src = `images/Almond/Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
   almondImg3.src = `images/Almond/Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
@@ -177,6 +180,26 @@ function updateImages() {
       downloadcidfittedMax.download = `ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.txt`;
       downloadcidfittedMin.href = `data/ci(d)fitted/ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
       downloadcidfittedMin.download = `ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
+      
+      cidv2ImgMax.src = `images/ci(d)v2/ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.png`;
+      cidv2ImgMin.src = `images/ci(d)v2/ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.png`;
+
+      downloadcidv2Max.href = `data/ci(d)v2/ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.txt`;
+      downloadcidv2Max.download = `ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.txt`;
+      downloadcidv2Min.href = `data/ci(d)v2/ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
+      downloadcidv2Min.download = `ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
+      downloadcidv2fittedMax.href = `data/ci(d)v2fitted/ci(d)v2fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.txt`;
+      downloadcidv2fittedMax.download = `ci(d)v2fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.txt`;
+      downloadcidv2fittedMin.href = `data/ci(d)v2fitted/ci(d)v2fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
+      downloadcidv2fittedMin.download = `ci(d)v2fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
+      
+      convv2ImgMax.src = `images/ConvergencePlotv2/ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.png`;
+      convv2ImgMin.src = `images/ConvergencePlotv2/ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.png`;
+      
+      downloadConvergencePlotv2Max.href = `data/ConvergencePlotv2/ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+      downloadConvergencePlotv2Max.download = `ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+      downloadConvergencePlotv2Min.href = `data/ConvergencePlotv2/ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+      downloadConvergencePlotv2Min.download = `ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
   } else {
       // Normal mode
       cidImgMax.src = `images/ci(d)/ci(d)_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
@@ -190,6 +213,19 @@ function updateImages() {
       downloadcidfittedMax.download = `ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;  
       downloadcidfittedMin.href = `data/ci(d)fitted/ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
       downloadcidfittedMin.download = `ci(d)fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+
+      cidv2ImgMax.src = `images/ci(d)v2/ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
+      cidv2ImgMin.src = `images/ci(d)v2/ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
+
+      downloadcidv2Max.href = `data/ci(d)v2/ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+      downloadcidv2Max.download = `ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;  
+      downloadcidv2Min.href = `data/ci(d)v2/ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+      downloadcidv2Min.download = `ci(d)v2_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+      downloadcidv2fittedMax.href = `data/ci(d)v2fitted/ci(d)v2fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+      downloadcidv2fittedMax.download = `ci(d)v2fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;  
+      downloadcidv2fittedMin.href = `data/ci(d)v2fitted/ci(d)v2fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+      downloadcidv2fittedMin.download = `ci(d)v2fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+      
   }
 
 

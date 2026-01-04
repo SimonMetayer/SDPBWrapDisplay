@@ -90,10 +90,10 @@
     </div>
 
     <div class="slider-container">
-      <label for="paramNmax">$N_\mathrm{max}=$ <span id="valNmax">10</span></label><br />
+      <label for="paramNmax">$N_\mathrm{max}=$ <span id="valNmax">20</span></label><br />
       <div class="slider-row">
         <button type="button" class="slider-btn" data-target="paramNmax" data-step="-1">−</button>
-        <input type="range" id="paramNmax" min="10" max="20" value="10" />
+        <input type="range" id="paramNmax" min="10" max="20" value="20" />
         <button type="button" class="slider-btn" data-target="paramNmax" data-step="1">+</button>
         <button type="button" class="autoPlayBtn" data-target="paramNmax" data-speed="500">▶</button>
       </div>
@@ -271,7 +271,7 @@
  
  
   <!-- Convergence plots -->
-  <div class="toggle-button" data-toggle-target="convergenceplot" data-start="open">Convergence plots</div>
+  <div class="toggle-button" data-toggle-target="convergenceplot" data-start="open">Convergence plots (fit method 1)</div>
   <div id="convergenceplot" class="collapsible-content">
     <div class="grid">
       <div class="image-container">
@@ -290,9 +290,9 @@
       </div>
     </div>
   </div>
-
+  
   <!-- All d plots -->
-  <div class="toggle-button" data-toggle-target="alldplot" data-start="open">All d plots</div>
+  <div class="toggle-button" data-toggle-target="alldplot" data-start="open">All d plots (fit method 1)</div>
   <div id="alldplot" class="collapsible-content">
     <div class="grid">
       <div class="image-container">
@@ -309,6 +309,50 @@
         <div class="download-container">
           <a id="downloadcidMin" class="download-button" download>Download data</a>
           <a id="downloadcidfittedMin" class="download-button" download>Download fitted data</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Convergence plots v2 -->
+  <div class="toggle-button" data-toggle-target="convergenceplotv2" data-start="open">Convergence plots (fit method 2)</div>
+  <div id="convergenceplotv2" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container">
+        <div class="image-title">Convergence Max</div>
+        <img id="convv2ImgMax" alt="Convergence Max v2" />
+        <div class="download-container">
+          <a id="downloadConvergencePlotv2Max" class="download-button" download>Download data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">Convergence Min</div>
+        <img id="convv2ImgMin" alt="Convergence Min v2" />
+        <div class="download-container">
+          <a id="downloadConvergencePlotv2Min" class="download-button" download>Download data</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- All d plots v2 -->
+  <div class="toggle-button" data-toggle-target="alldplotv2" data-start="open">All d plots (fit method 2)</div>
+  <div id="alldplotv2" class="collapsible-content">
+    <div class="grid">
+      <div class="image-container">
+        <div class="image-title">All d Max</div>
+        <img id="cidv2ImgMax" alt="CI Max v2" />
+        <div class="download-container">
+          <a id="downloadcidv2Max" class="download-button" download>Download data</a>
+          <a id="downloadcidv2fittedMax" class="download-button" download>Download fitted data</a>
+        </div>
+      </div>
+      <div class="image-container">
+        <div class="image-title">All d Min</div>
+        <img id="cidv2ImgMin" alt="CI Min" />
+        <div class="download-container">
+          <a id="downloadcidv2Min" class="download-button" download>Download data</a>
+          <a id="downloadcidv2fittedMin" class="download-button" download>Download fitted data</a>
         </div>
       </div>
     </div>
