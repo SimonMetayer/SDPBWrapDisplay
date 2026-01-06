@@ -193,8 +193,8 @@ function updateImages() {
       downloadcidv2fittedMin.href = `data/ci(d)v2fitted/ci(d)v2fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
       downloadcidv2fittedMin.download = `ci(d)v2fitted_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.txt`;
       
-      convv2ImgMax.src = `images/ConvergencePlotv2/ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv=best.png`;
-      convv2ImgMin.src = `images/ConvergencePlotv2/ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv=best.png`;
+      convv2ImgMax.src = `images/ConvergencePlotv2/ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
+      convv2ImgMin.src = `images/ConvergencePlotv2/ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
       
       downloadConvergencePlotv2Max.href = `data/ConvergencePlotv2/ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
       downloadConvergencePlotv2Max.download = `ConvergencePlotv2_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
