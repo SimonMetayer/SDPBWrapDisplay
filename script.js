@@ -483,7 +483,7 @@ const data = window.imageInfo || {};
 // Update the image count
 const count = data.count ?? "N/A";
 document.getElementById("image-count").textContent =
-  `Total plots: ${count}/18876`;
+  `Total plots: ${count}`;
 
 // Format the last update time
 const last = data.last_updated
