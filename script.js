@@ -23,25 +23,25 @@ const cidImgMin = document.getElementById("cidImgMin");
 const allowedD = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12];
 
 const configByD = {
-  3    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  3.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  4    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1, allowed: [1,2,3,4,10,11,12,13,14,15,16,17,18,19,20] }, },
-  4.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  5    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  5.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  6    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  6.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  7    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  7.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  8    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  8.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  9    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  9.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
-  10   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  10.5 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  11   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  11.5 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  12   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2,3] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, }
+  3    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  3.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  4    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  4.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  5    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  5.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  6    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  6.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  7    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  7.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  8    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  8.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  9    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  9.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 20, step: 1 }, },
+  10   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
+  10.5 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
+  11   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
+  11.5 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
+  12   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, }
 };
 
 document.querySelectorAll('.toggle-button').forEach(button => {
@@ -157,15 +157,15 @@ function updateImages() {
   downloadConvergencePlotMin.download = `ConvergencePlot_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
     
   almondImg1.src = `images/Almond/Almond_d=${d}_x=0_y=2_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
-  almondImg2.src = `images/Almond/Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
-  almondImg3.src = `images/Almond/Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
+  //almondImg2.src = `images/Almond/Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
+  //almondImg3.src = `images/Almond/Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.png`;
   
   downloadAlmond02.href = `data/Almond/Almond_d=${d}_x=0_y=2_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
   downloadAlmond02.download = `$Almond_d=${d}_x=0_y=2_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}_${minmaxMax}.txt`;
-  downloadAlmond03.href = `data/Almond/Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
-  downloadAlmond03.download = `$Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}_${minmaxMax}.txt`;
-  downloadAlmond23.href = `data/Almond/Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
-  downloadAlmond23.download = `$Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}_${minmaxMax}.txt`;
+  //downloadAlmond03.href = `data/Almond/Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
+  //downloadAlmond03.download = `$Almond_d=${d}_x=0_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}_${minmaxMax}.txt`;
+  //downloadAlmond23.href = `data/Almond/Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
+  //downloadAlmond23.download = `$Almond_d=${d}_x=2_y=3_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}_${minmaxMax}.txt`;
   
   if (improvSelect.value === "AUTO") {
       // Display special fixed CI images
@@ -233,27 +233,27 @@ function updateImages() {
       // Special fixed best-bound plots
       boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv=best.png`;
       boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv=best.png`;
-      boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.png`;
+      //boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.png`;
 
       downloadboundc0.href = `data/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv=best.txt`;
       downloadboundc0.download = `BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv=best.txt`;
       downloadboundc2.href = `data/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv=best.txt`;
       downloadboundc2.download = `BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv=best.txt`;
-      downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.txt`;
-      downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.txt`;
+      //downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.txt`;
+      //downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.txt`;
   }
   else {
       // normal mode
       boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv={${improv}}.png`;
       boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.png`;
-      boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.png`;
+      //boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.png`;
 
       downloadboundc0.href = `data/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
       downloadboundc0.download = `BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
-      downloadboundc2.href = `data/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
-      downloadboundc2.download = `BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
-      downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
-      downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
+      //downloadboundc2.href = `data/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
+      //downloadboundc2.download = `BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
+      //downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
+      //downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
   }
     
   img5.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
@@ -268,23 +268,23 @@ function updateImages() {
   `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`
   ];
   
-  const almond03FilesImg = [
-  `images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  `images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
-  `images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  `images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.tpngxt`,
-  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`
-  ];
+  //const almond03FilesImg = [
+  //`images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  //`images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
+  //`images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  //`images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.tpngxt`,
+  //`images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  //`images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`
+  //];
   
-  const almond23FilesImg = [
-  `images/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  `images/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
-  `images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  `images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
-  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
-  ];
+  //const almond23FilesImg = [
+  //`images/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  //`images/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
+  //`images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  //`images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
+  //`images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
+  //`images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
+  //];
   
    const almond02Names = [
   "Max c0",
@@ -295,23 +295,23 @@ function updateImages() {
   "Min midpoint"
   ];
   
-  const almond03Names = [
-  "Max c0",
-  "Min c0",
-  "Max c3",
-  "Min c3",
-  "Max midpoint",
-  "Min midpoint"
-  ];
+  //const almond03Names = [
+  //"Max c0",
+  //"Min c0",
+  //"Max c3",
+  //"Min c3",
+  //"Max midpoint",
+  //"Min midpoint"
+  //];
   
-  const almond23Names = [
-  "Max c2",
-  "Min c2",
-  "Max c3",
-  "Min c3",
-  "Max midpoint",
-  "Min midpoint"
-  ];
+  //const almond23Names = [
+  //"Max c2",
+  //"Min c2",
+  //"Max c3",
+  //"Min c3",
+  //"Max midpoint",
+  //"Min midpoint"
+  //];
 
   const almond02FilesTxt = [
   `data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
@@ -322,27 +322,27 @@ function updateImages() {
   `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`
   ];
   
-  const almond03FilesTxt = [
-  `data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  `data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  `data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  `data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`
-  ];
+  //const almond03FilesTxt = [
+  //`data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  //`data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
+  //`data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  //`data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
+  //`data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  //`data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`
+  //];
   
-  const almond23FilesTxt = [
-  `data/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  `data/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  `data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  `data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  ];
+  //const almond23FilesTxt = [
+  //`data/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  //`data/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
+  //`data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  //`data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
+  //`data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
+  //`data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
+  //];
   
   const slider02 = document.getElementById("paramAlmond02");
-  const slider03 = document.getElementById("paramAlmond03");
-  const slider23 = document.getElementById("paramAlmond23");
+  //const slider03 = document.getElementById("paramAlmond03");
+  //const slider23 = document.getElementById("paramAlmond23");
 
   slider02.oninput = function() {
     const index = parseInt(this.value);
@@ -359,39 +359,39 @@ function updateImages() {
     dlM.download = selectedTxt + ".txt"
   };
   
-  slider03.oninput = function() {
-    const index = parseInt(this.value);
-    const selectedImg = almond03FilesImg[index];
-    const selectedTxt = almond03FilesTxt[index];
-    const selectedName = almond03Names[index];
-    document.getElementById("valparamAlmond03").textContent = selectedName;
-    document.getElementById("almond03Image").src = selectedImg;
-    const dl = document.getElementById("downloadAlmond03Traveler");
-    const dlM = document.getElementById("downloadAlmond03TravelerM");
-    dl.href = selectedTxt;
-    dlM.href = selectedTxt;
-    dl.download = selectedTxt + ".txt"
-    dlM.download = selectedTxt + ".txt"
-  };
+  //slider03.oninput = function() {
+  //  const index = parseInt(this.value);
+  //  const selectedImg = almond03FilesImg[index];
+  //  const selectedTxt = almond03FilesTxt[index];
+  //  const selectedName = almond03Names[index];
+  //  document.getElementById("valparamAlmond03").textContent = selectedName;
+  //  document.getElementById("almond03Image").src = selectedImg;
+  //  const dl = document.getElementById("downloadAlmond03Traveler");
+  //  const dlM = document.getElementById("downloadAlmond03TravelerM");
+  //  dl.href = selectedTxt;
+  //  dlM.href = selectedTxt;
+  //  dl.download = selectedTxt + ".txt"
+  //  dlM.download = selectedTxt + ".txt"
+  //};
   
-  slider23.oninput = function() {
-    const index = parseInt(this.value);
-    const selectedImg = almond23FilesImg[index];
-    const selectedTxt = almond23FilesTxt[index];
-    const selectedName = almond23Names[index];
-    document.getElementById("valparamAlmond23").textContent = selectedName;
-    document.getElementById("almond23Image").src = selectedImg;
-    const dl = document.getElementById("downloadAlmond23Traveler");
-    const dlM = document.getElementById("downloadAlmond23TravelerM");
-    dl.href = selectedTxt;
-    dlM.href = selectedTxt;
-    dl.download = selectedTxt + ".txt"
-    dlM.download = selectedTxt + ".txt"
-  };
+  //slider23.oninput = function() {
+  //  const index = parseInt(this.value);
+  //  const selectedImg = almond23FilesImg[index];
+  //  const selectedTxt = almond23FilesTxt[index];
+  //  const selectedName = almond23Names[index];
+  //  document.getElementById("valparamAlmond23").textContent = selectedName;
+  //  document.getElementById("almond23Image").src = selectedImg;
+  //  const dl = document.getElementById("downloadAlmond23Traveler");
+  //  const dlM = document.getElementById("downloadAlmond23TravelerM");
+  //  dl.href = selectedTxt;
+  //  dlM.href = selectedTxt;
+  //  dl.download = selectedTxt + ".txt"
+  //  dlM.download = selectedTxt + ".txt"
+  //};
 
   slider02.oninput();
-  slider03.oninput();
-  slider23.oninput();
+  //slider03.oninput();
+  //slider23.oninput();
 }
 
 
