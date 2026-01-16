@@ -256,6 +256,7 @@ function updateImages() {
       //downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
   }
     
+    
   img5.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
   img6.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
  
