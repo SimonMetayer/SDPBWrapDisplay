@@ -41,7 +41,7 @@ const configByD = {
   10.5 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
   11   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
   11.5 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  12   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, }
+  12   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 40, step: 1 }, }
 };
 
 document.querySelectorAll('.toggle-button').forEach(button => {
