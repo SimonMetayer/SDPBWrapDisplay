@@ -140,6 +140,11 @@ function updateImages() {
   downloadMMin.href = `data/M/M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
   downloadMMin.download = `M_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
   
+  downloadSDPBMax.href = `data/SDPB/SDPB_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+  downloadSDPBMax.download = `SDPB_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMax}.txt`;
+  downloadSDPBMin.href = `data/SDPB/SDPB_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+  downloadSDPBMin.download = `SDPB_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_${minmaxMin}.txt`;
+  
   img3.src = `images/ComplexAmplitude/ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
   img4.src = `images/ComplexAmplitude/ComplexAmplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
   

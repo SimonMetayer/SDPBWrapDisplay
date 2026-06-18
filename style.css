@@ -300,7 +300,12 @@ toper {
 /* Download buttons */
 .download-container {
   text-align: left;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Ensures buttons wrap nicely on smaller screens */
+  gap: 10px; /* Adds consistent spacing between the 3 buttons */
   margin-top: 10px;
+  width: 100%;
 }
 
 .download-button {
