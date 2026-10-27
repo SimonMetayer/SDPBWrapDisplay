@@ -132,6 +132,109 @@ function attachPlotFallbacks() {
 
 attachPlotFallbacks();
 
+let almondTravelerRequestId = 0;
+let almondTravelerChoices = [];
+
+function parseAlmondPoint(line) {
+  const values = line.trim().replace(/[{}]/g, '').split(',');
+  if (values.length < 2) return null;
+
+  const point = values.slice(0, 2).map(value => Number(value.trim().replaceAll('*^', 'e')));
+  return point.every(Number.isFinite) ? point : null;
+}
+
+function sameAlmondPoint(a, b) {
+  return a && b && a.every((value, index) =>
+    Math.abs(value - b[index]) <= 1e-12 * Math.max(1, Math.abs(value), Math.abs(b[index]))
+  );
+}
+
+function makeAlmondTravelerChoices(d, L, lmax, Nmax, improv, pointCount) {
+  const extraPairCount = Math.max(0, Math.ceil((pointCount - 4) / 2));
+  const amplitudeChoice = (ci, minmax) => ({
+    name: `c${ci} ${minmax}`,
+    image: `images/Amplitude/Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.png`,
+    data: `data/Amplitude/Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`
+  });
+  const almondChoice = (label, minmax) => ({
+    name: `label ${label} ${minmax}`,
+    image: `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=${label}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.png`,
+    data: `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=${label}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`
+  });
+
+  const labelsMin = Array.from({ length: extraPairCount }, (_, i) => almondChoice(i, 'min'));
+  const labelsMax = Array.from({ length: extraPairCount }, (_, i) =>
+    almondChoice(extraPairCount - i - 1, 'max')
+  );
+  const clockwise = [
+    ...labelsMin,
+    amplitudeChoice(2, 'min'),
+    amplitudeChoice(0, 'max'),
+    ...labelsMax,
+    amplitudeChoice(2, 'max'),
+    amplitudeChoice(0, 'min')
+  ];
+
+  return clockwise.slice(0, pointCount);
+}
+
+function renderAlmondTraveler() {
+  const slider = document.getElementById('paramAlmond02');
+  const image = document.getElementById('almond02Image');
+  const label = document.getElementById('valparamAlmond02');
+  const download = document.getElementById('downloadAlmond02Traveler');
+  const downloadM = document.getElementById('downloadAlmond02TravelerM');
+  const selected = almondTravelerChoices[Number(slider.value)];
+
+  if (!selected || slider.disabled) return;
+
+  const position = Number(slider.value) + 1;
+  label.textContent = `Point ${position} / ${almondTravelerChoices.length} · ${selected.name}`;
+  image.src = selected.image;
+  image.alt = `Amplitude at almond point ${position}: ${selected.name}`;
+  for (const link of [download, downloadM]) {
+    link.href = selected.data;
+    link.download = selected.data.split('/').pop();
+  }
+}
+
+document.getElementById('paramAlmond02').addEventListener('input', renderAlmondTraveler);
+
+async function updateAlmondTraveler(dataUrl, d, L, lmax, Nmax, improv) {
+  const requestId = ++almondTravelerRequestId;
+  const slider = document.getElementById('paramAlmond02');
+  const label = document.getElementById('valparamAlmond02');
+  const image = document.getElementById('almond02Image');
+  slider.disabled = true;
+  label.textContent = 'Loading almond points…';
+
+  try {
+    const response = await fetch(dataUrl);
+    if (!response.ok) throw new Error(`Almond data request failed: ${response.status}`);
+    const rows = (await response.text()).split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+    const points = rows.map(parseAlmondPoint).filter(Boolean);
+    if (points.length > 1 && sameAlmondPoint(points[0], points[points.length - 1])) points.pop();
+    if (!points.length) throw new Error('Almond data contains no points');
+    if (requestId !== almondTravelerRequestId) return;
+
+    almondTravelerChoices = makeAlmondTravelerChoices(d, L, lmax, Nmax, improv, points.length);
+    slider.min = '0';
+    slider.max = String(almondTravelerChoices.length - 1);
+    slider.value = String(Math.min(Number(slider.value) || 0, almondTravelerChoices.length - 1));
+    slider.disabled = false;
+    renderAlmondTraveler();
+  } catch (error) {
+    if (requestId !== almondTravelerRequestId) return;
+    almondTravelerChoices = [];
+    slider.min = '0';
+    slider.max = '0';
+    slider.value = '0';
+    label.textContent = 'No almond data available';
+    slider.disabled = true;
+    image.removeAttribute('src');
+  }
+}
+
 function updateImages() {
   
   document.getElementById("valD").textContent = dSlider.value;
@@ -289,105 +392,8 @@ function updateImages() {
   img5.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
   img6.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
  
-  const almond02FilesImg = [
-  `images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  `images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
-  `images/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  `images/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
-  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`
-  ];
-  
-  //const almond03FilesImg = [
-  //`images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  //`images/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
-  //`images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  //`images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.tpngxt`,
-  //`images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  //`images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`
-  //];
-  
-  //const almond23FilesImg = [
-  //`images/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  //`images/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
-  //`images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  //`images/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
-  //`images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`,
-  //`images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`,
-  //];
-  
-   const almond02Names = [
-  "Max c0",
-  "Min c0",
-  "Max c2",
-  "Min c2",
-  "Max midpoint",
-  "Min midpoint"
-  ];
-  
-  //const almond03Names = [
-  //"Max c0",
-  //"Min c0",
-  //"Max c3",
-  //"Min c3",
-  //"Max midpoint",
-  //"Min midpoint"
-  //];
-  
-  //const almond23Names = [
-  //"Max c2",
-  //"Min c2",
-  //"Max c3",
-  //"Min c3",
-  //"Max midpoint",
-  //"Min midpoint"
-  //];
-
-  const almond02FilesTxt = [
-  `data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  `data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  `data/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  `data/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`
-  ];
-  
-  //const almond03FilesTxt = [
-  //`data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  //`data/Amplitude/Amplitude_d=${d}_ci=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  //`data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  //`data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  //`data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  //`data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`
-  //];
-  
-  //const almond23FilesTxt = [
-  //`data/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  //`data/Amplitude/Amplitude_d=${d}_ci=2_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  //`data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  //`data/Amplitude/Amplitude_d=${d}_ci=3_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  //`data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.txt`,
-  //`data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=2_y=3_label=0_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.txt`,
-  //];
-  
-  const slider02 = document.getElementById("paramAlmond02");
-  //const slider03 = document.getElementById("paramAlmond03");
-  //const slider23 = document.getElementById("paramAlmond23");
-
-  slider02.oninput = function() {
-    const index = parseInt(this.value);
-    const selectedImg = almond02FilesImg[index];
-    const selectedTxt = almond02FilesTxt[index];
-    const selectedName = almond02Names[index];
-    document.getElementById("valparamAlmond02").textContent = selectedName;
-    document.getElementById("almond02Image").src = selectedImg;
-    const dl = document.getElementById("downloadAlmond02Traveler");
-    const dlM = document.getElementById("downloadAlmond02TravelerM");
-    dl.href = selectedTxt;
-    dlM.href = selectedTxt;
-    dl.download = selectedTxt + ".txt"
-    dlM.download = selectedTxt + ".txt"
-  };
+  const almondDataUrl = `data/Almond/Almond_d=${d}_x=0_y=2_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
+  updateAlmondTraveler(almondDataUrl, d, L, lmax, Nmax, improv);
   
   //slider03.oninput = function() {
   //  const index = parseInt(this.value);
