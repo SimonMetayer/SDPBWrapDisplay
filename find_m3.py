@@ -18,7 +18,7 @@ args = parser.parse_args()
 d_values = [args.d] if args.d is not None else [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12]
 ci_values = [args.ci] if args.ci is not None else [0, 2]
 L_values = [args.L] if args.L is not None else [0, 2, 4, 6, 8, 10]
-Nmax_values = [args.Nmax] if args.Nmax is not None else list(range(10, 31))
+Nmax_values = [args.Nmax] if args.Nmax is not None else list(range(10, 30))
 minmax_values = [args.minmax] if args.minmax is not None else ["max", "min"]
 lmax = 16
 
