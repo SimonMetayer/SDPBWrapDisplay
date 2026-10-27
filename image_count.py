@@ -1,26 +1,75 @@
+#!/usr/bin/env python3
+"""Generate the small static metadata file used by the gallery footer."""
+
+from __future__ import annotations
+
+import argparse
+import json
 import os
-from datetime import datetime
+import tempfile
+from datetime import datetime, timezone
+from pathlib import Path
 
-def count_images(image_dir='images'):
-    exts = ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg')
-    count = 0
-    for root, dirs, files in os.walk(image_dir):
-        count += sum(1 for f in files if f.lower().endswith(exts))
-    return count
+IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"}
+EXCLUDED_DIRECTORIES = {"logo"}
+PROJECT_ROOT = Path(__file__).resolve().parent
 
-if __name__ == '__main__':
-    count = count_images()
-    last_updated = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    js_content = (
-        "window.imageInfo = {\n"
-        f"  count: {count},\n"
-        f"  last_updated: \"{last_updated}\"\n"
-        "};\n"
+def count_plots(image_dir: Path) -> int:
+    """Count plot assets, excluding branding images from the gallery total."""
+    if not image_dir.is_dir():
+        raise FileNotFoundError(f"Image directory does not exist: {image_dir}")
+
+    return sum(
+        1
+        for path in image_dir.rglob("*")
+        if path.is_file()
+        and path.suffix.lower() in IMAGE_EXTENSIONS
+        and not any(
+            part in EXCLUDED_DIRECTORIES
+            for part in path.relative_to(image_dir).parts[:-1]
+        )
     )
 
-    with open('image_count.js', 'w') as f:
-        f.write(js_content)
 
-    print(f"Generated image_count.js — {count} images, updated {last_updated}")
+def write_index(output: Path, count: int, generated_at: str) -> None:
+    payload = "window.imageInfo = " + json.dumps(
+        {"count": count, "last_updated": generated_at}, indent=2
+    ) + ";\n"
+    output.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary_name = tempfile.mkstemp(prefix=f".{output.name}.", dir=output.parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as stream:
+            stream.write(payload)
+        os.replace(temporary_name, output)
+    except BaseException:
+        try:
+            os.unlink(temporary_name)
+        except FileNotFoundError:
+            pass
+        raise
 
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=PROJECT_ROOT / "image_count.js",
+        help="output JavaScript metadata path (default: image_count.js beside this script)",
+    )
+    args = parser.parse_args()
+
+    count = count_plots(PROJECT_ROOT / "images")
+    generated_at = (
+        datetime.now(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
+    write_index(args.output.resolve(), count, generated_at)
+    print(f"Indexed {count:,} plot images at {generated_at} into {args.output}")
+
+
+if __name__ == "__main__":
+    main()

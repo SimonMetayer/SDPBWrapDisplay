@@ -22,42 +22,42 @@ const cidImgMin = document.getElementById("cidImgMin");
 
 const allowedD = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12];
 
-const configByD = {
-  3    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  3.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  4    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  4.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  5    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  5.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  6    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  6.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  7    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  7.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  8    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  8.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  9    : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  9.5  : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  10   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  10.5 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  11   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  11.5 : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 30, step: 1 }, },
-  12   : { paramCI: { min: 0, max: 3, step: 1, allowed: [0,2] }, paramL: { min: 0, max: 10, step: 2 }, paramLmax: { min: 16, max: 16, step: 2 }, paramNmax: { min: 10, max: 40, step: 1 }, }
+const dimensionDefaults = {
+  paramCI: { min: 0, max: 3, step: 1, allowed: [0, 2] },
+  paramL: { min: 0, max: 10, step: 2 },
+  paramLmax: { min: 16, max: 16, step: 2 },
+  paramNmax: { min: 10, max: 30, step: 1 }
 };
 
-document.querySelectorAll('.toggle-button').forEach(button => {
-  const targetId = button.getAttribute('data-toggle-target');
+const configByD = Object.fromEntries(
+  allowedD.map(dimension => [dimension, dimensionDefaults])
+);
+
+function setSectionOpen(button, open) {
+  const content = document.getElementById(button.dataset.toggleTarget);
+  if (!content) return;
+
+  content.classList.toggle("collapsed", !open);
+  button.setAttribute("aria-expanded", String(open));
+}
+
+document.querySelectorAll(".toggle-button").forEach(button => {
+  const targetId = button.dataset.toggleTarget;
   const content = document.getElementById(targetId);
-  if (!content) return; // safety check
+  if (!content) return;
 
-  // --- INITIAL STATE ---
-  const start = button.getAttribute('data-start'); // "open" or "closed"
-  content.style.display = start === "open" ? "block" : "none";
+  button.setAttribute("role", "button");
+  button.setAttribute("tabindex", "0");
+  button.setAttribute("aria-controls", targetId);
+  setSectionOpen(button, button.dataset.start === "open");
 
-  // --- TOGGLE ON CLICK ---
-  button.addEventListener('click', () => {
-    const isHidden = getComputedStyle(content).display === "none";
-    //content.style.display = isHidden ? "block" : "none";
-    content.classList.toggle("collapsed");
+  button.addEventListener("click", () => {
+    setSectionOpen(button, content.classList.contains("collapsed"));
+  });
+  button.addEventListener("keydown", event => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    setSectionOpen(button, content.classList.contains("collapsed"));
   });
 });
 
@@ -106,6 +106,31 @@ function getEffectiveImprovement() {
   return improvSelect.value;
 }
 
+
+function attachPlotFallbacks() {
+  document.querySelectorAll(".image-container img, .image-container-almond img").forEach(image => {
+    const container = image.closest(".image-container, .image-container-almond");
+    if (!container || container.querySelector(".plot-placeholder")) return;
+
+    const placeholder = document.createElement("div");
+    placeholder.className = "plot-placeholder";
+    placeholder.setAttribute("role", "status");
+    placeholder.hidden = true;
+    placeholder.textContent = "No saved plot is available for this selection.";
+    image.insertAdjacentElement("afterend", placeholder);
+
+    image.addEventListener("error", () => {
+      image.hidden = true;
+      placeholder.hidden = false;
+    });
+    image.addEventListener("load", () => {
+      image.hidden = false;
+      placeholder.hidden = true;
+    });
+  });
+}
+
+attachPlotFallbacks();
 
 function updateImages() {
   
@@ -482,22 +507,24 @@ fetch('explanation.tex')
 
 
 
-// Safely read the generated data from image_count.js
-const data = window.imageInfo || {};
+// Read the generated plot index without letting stale metadata break the page.
+const imageInfo = window.imageInfo ?? {};
+const plotCount = Number(imageInfo.count);
+document.getElementById("image-count").textContent = Number.isSafeInteger(plotCount)
+  ? `${plotCount.toLocaleString()} plots in the gallery`
+  : "Plot count unavailable";
 
-// Update the image count
-const count = data.count ?? "N/A";
-document.getElementById("image-count").textContent =
-  `Total plots: ${count}`;
-
-// Format the last update time
-const last = data.last_updated
-  ? new Date(data.last_updated).toLocaleString()
-  : "Unknown";
-
-// Update the last update info in the footer
-document.getElementById("last-update").textContent =
-  `Last updated: ${last}`;
+const generatedAt = Date.parse(imageInfo.last_updated ?? "");
+const formattedDate = Number.isNaN(generatedAt)
+  ? null
+  : new Intl.DateTimeFormat(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short",
+      timeZone: "UTC"
+    }).format(generatedAt);
+document.getElementById("last-update").textContent = formattedDate
+  ? `Index generated ${formattedDate} UTC`
+  : "Plot index timestamp unavailable";
   
   
 
@@ -636,18 +663,12 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// ===== CLOSE ALL SECTIONS BUTTON =====
 document.getElementById("close-all").addEventListener("click", () => {
-  document.querySelectorAll(".collapsible-content").forEach(section => {
-    section.classList.add("collapsed");
-  });
+  document.querySelectorAll(".toggle-button").forEach(button => setSectionOpen(button, false));
 });
 
-// ===== OPEN ALL SECTIONS BUTTON =====
 document.getElementById("open-all").addEventListener("click", () => {
-  document.querySelectorAll(".collapsible-content").forEach(section => {
-    section.classList.remove("collapsed");
-  });
+  document.querySelectorAll(".toggle-button").forEach(button => setSectionOpen(button, true));
 });
 
 
