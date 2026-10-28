@@ -109,23 +109,11 @@ function getEffectiveImprovement() {
 
 function attachPlotFallbacks() {
   document.querySelectorAll(".image-container img, .image-container-almond img").forEach(image => {
-    const container = image.closest(".image-container, .image-container-almond");
-    if (!container || container.querySelector(".plot-placeholder")) return;
-
-    const placeholder = document.createElement("div");
-    placeholder.className = "plot-placeholder";
-    placeholder.setAttribute("role", "status");
-    placeholder.hidden = true;
-    placeholder.textContent = "No saved plot is available for this selection.";
-    image.insertAdjacentElement("afterend", placeholder);
-
     image.addEventListener("error", () => {
       image.hidden = true;
-      placeholder.hidden = false;
     });
     image.addEventListener("load", () => {
       image.hidden = false;
-      placeholder.hidden = true;
     });
   });
 }
