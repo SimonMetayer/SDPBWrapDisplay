@@ -413,9 +413,6 @@ function updateImages() {
   //  dlM.download = selectedTxt + ".txt"
   //};
 
-  slider02.oninput();
-  //slider03.oninput();
-  //slider23.oninput();
 }
 
 
