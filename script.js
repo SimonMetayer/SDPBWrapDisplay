@@ -111,9 +111,15 @@ function attachPlotFallbacks() {
   document.querySelectorAll(".image-container img, .image-container-almond img").forEach(image => {
     image.addEventListener("error", () => {
       image.hidden = true;
+      if (image.id === "almondImg1") {
+        document.getElementById("almondPointOverlay").style.visibility = "hidden";
+      }
     });
     image.addEventListener("load", () => {
       image.hidden = false;
+      if (image.id === "almondImg1" && almondTravelerPoints.length) {
+        updateAlmondPointMarker(Number(document.getElementById("paramAlmond02").value));
+      }
     });
   });
 }
@@ -122,6 +128,7 @@ attachPlotFallbacks();
 
 let almondTravelerRequestId = 0;
 let almondTravelerChoices = [];
+let almondTravelerPoints = [];
 
 function parseAlmondPoint(line) {
   const values = line.trim().replace(/[{}]/g, '').split(',');
@@ -166,6 +173,26 @@ function makeAlmondTravelerChoices(d, L, lmax, Nmax, improv, pointCount) {
   return clockwise.slice(0, pointCount);
 }
 
+function updateAlmondPointMarker(index) {
+  const overlay = document.getElementById("almondPointOverlay");
+  const marker = document.getElementById("almondPointMarker");
+  const point = almondTravelerPoints[index];
+  const almondImage = document.getElementById("almondImg1");
+
+  if (!point || !almondImage.naturalWidth) {
+    overlay.style.visibility = "hidden";
+    return;
+  }
+
+  const xLimit = Math.max(10, 5 * Math.ceil(Math.max(...almondTravelerPoints.map(([x]) => Math.abs(x))) / 5));
+  const [x, y] = point;
+  const xPixel = 54 + ((x + xLimit) / (2 * xLimit)) * (526 - 54);
+  const yPixel = 49 + ((1.5 - y) / 2) * (427 - 49);
+  marker.setAttribute("cx", xPixel.toFixed(2));
+  marker.setAttribute("cy", yPixel.toFixed(2));
+  overlay.style.visibility = "visible";
+}
+
 function renderAlmondTraveler() {
   const slider = document.getElementById('paramAlmond02');
   const image = document.getElementById('almond02Image');
@@ -178,6 +205,7 @@ function renderAlmondTraveler() {
 
   const position = Number(slider.value) + 1;
   label.textContent = `Point ${position} / ${almondTravelerChoices.length} · ${selected.name}`;
+  updateAlmondPointMarker(Number(slider.value));
   image.src = selected.image;
   image.alt = `Amplitude at almond point ${position}: ${selected.name}`;
   for (const link of [download, downloadM]) {
@@ -194,6 +222,8 @@ async function updateAlmondTraveler(dataUrl, d, L, lmax, Nmax, improv) {
   const label = document.getElementById('valparamAlmond02');
   const image = document.getElementById('almond02Image');
   slider.disabled = true;
+  almondTravelerPoints = [];
+  document.getElementById('almondPointOverlay').style.visibility = 'hidden';
   label.textContent = 'Loading almond points…';
 
   try {
@@ -205,6 +235,7 @@ async function updateAlmondTraveler(dataUrl, d, L, lmax, Nmax, improv) {
     if (!points.length) throw new Error('Almond data contains no points');
     if (requestId !== almondTravelerRequestId) return;
 
+    almondTravelerPoints = points;
     almondTravelerChoices = makeAlmondTravelerChoices(d, L, lmax, Nmax, improv, points.length);
     slider.min = '0';
     slider.max = String(almondTravelerChoices.length - 1);
@@ -214,6 +245,8 @@ async function updateAlmondTraveler(dataUrl, d, L, lmax, Nmax, improv) {
   } catch (error) {
     if (requestId !== almondTravelerRequestId) return;
     almondTravelerChoices = [];
+    almondTravelerPoints = [];
+    document.getElementById('almondPointOverlay').style.visibility = 'hidden';
     slider.min = '0';
     slider.max = '0';
     slider.value = '0';
