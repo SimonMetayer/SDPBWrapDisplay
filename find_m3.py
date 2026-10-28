@@ -9,6 +9,8 @@ parser.add_argument("--ci", type=int, help="Target CI value (e.g., 0 or 2)")
 parser.add_argument("--L", type=int, help="Target Spin L (e.g., 0, 2, 4)")
 parser.add_argument("--Nmax", type=int, help="Target Nmax (e.g., 15, 30)")
 parser.add_argument("--minmax", type=str, choices=["max", "min"], help="Target minmax ('max' or 'min')")
+parser.add_argument("--category", type=str, choices=["Amplitude", "ComplexAmplitude", "ReggeTrajectories"], 
+                    help="Target a specific plot category")
 parser.add_argument("--format", type=str, choices=["params", "filenames"], default="params", 
                     help="Output style: 'params' for parameter lists (default) or 'filenames' for raw paths")
 
@@ -22,7 +24,7 @@ Nmax_values = [args.Nmax] if args.Nmax is not None else list(range(10, 30))
 minmax_values = [args.minmax] if args.minmax is not None else ["max", "min"]
 lmax = 16
 
-# 3. AUTO IMPROVEMENT MAPPINGS
+# 3. AUTO IMPROVEMENT MAPPINGS & CATEGORIES
 improv_by_d = {
     3: "TH, subTH, ftTH, SPC", 3.5: "TH, SPC", 4: "TH, SPC",
     4.5: "TH, subTH, SPC", 5: "TH, subTH, ftTH, SPC", 5.5: "TH, subTH, SPC",
