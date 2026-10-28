@@ -144,6 +144,28 @@ function sameAlmondPoint(a, b) {
   );
 }
 
+function orderAlmondPoints(points) {
+  if (points.length < 2) return points;
+
+  const center = points.reduce(([sumX, sumY], [x, y]) => [sumX + x, sumY + y], [0, 0])
+    .map(value => value / points.length);
+  const ordered = [...points].sort((a, b) =>
+    Math.atan2(a[1] - center[1], a[0] - center[0]) -
+    Math.atan2(b[1] - center[1], b[0] - center[0])
+  );
+
+  // Start at the c2 minimum, then follow the boundary counterclockwise. The
+  // input files can start at any vertex and may traverse the almond either way.
+  let start = 0;
+  for (let i = 1; i < ordered.length; i++) {
+    if (ordered[i][1] < ordered[start][1] ||
+        (ordered[i][1] === ordered[start][1] && ordered[i][0] < ordered[start][0])) {
+      start = i;
+    }
+  }
+  return ordered.slice(start).concat(ordered.slice(0, start));
+}
+
 function makeAlmondTravelerChoices(d, L, lmax, Nmax, improv, pointCount) {
   const extraPairCount = Math.max(0, Math.ceil((pointCount - 4) / 2));
   const amplitudeChoice = (ci, minmax) => ({
@@ -161,7 +183,7 @@ function makeAlmondTravelerChoices(d, L, lmax, Nmax, improv, pointCount) {
   const labelsMax = Array.from({ length: extraPairCount }, (_, i) =>
     almondChoice(extraPairCount - i - 1, 'max')
   );
-  const clockwise = [
+  const boundaryChoices = [
     ...labelsMin,
     amplitudeChoice(2, 'min'),
     amplitudeChoice(0, 'max'),
@@ -170,7 +192,10 @@ function makeAlmondTravelerChoices(d, L, lmax, Nmax, improv, pointCount) {
     amplitudeChoice(0, 'min')
   ];
 
-  return clockwise.slice(0, pointCount);
+  const choices = boundaryChoices.slice(0, pointCount);
+  const c2Minimum = choices.findIndex(choice => choice.name === 'c2 min');
+  if (c2Minimum > 0) return choices.slice(c2Minimum).concat(choices.slice(0, c2Minimum));
+  return choices;
 }
 
 function updateAlmondPointMarker(index) {
@@ -184,9 +209,9 @@ function updateAlmondPointMarker(index) {
     return;
   }
 
-  const xLimit = Math.max(10, 5 * Math.ceil(Math.max(...almondTravelerPoints.map(([x]) => Math.abs(x))) / 5));
   const [x, y] = point;
-  const xPixel = 54 + ((x + xLimit) / (2 * xLimit)) * (526 - 54);
+  // Almond plots use fixed axes: c0 in [-10, 10] and c2 in [-0.5, 1.5].
+  const xPixel = 54 + ((x + 10) / 20) * (526 - 54);
   const yPixel = 49 + ((1.5 - y) / 2) * (427 - 49);
   marker.setAttribute("cx", xPixel.toFixed(2));
   marker.setAttribute("cy", yPixel.toFixed(2));
@@ -230,13 +255,13 @@ async function updateAlmondTraveler(dataUrl, d, L, lmax, Nmax, improv) {
     const response = await fetch(dataUrl);
     if (!response.ok) throw new Error(`Almond data request failed: ${response.status}`);
     const rows = (await response.text()).split(/\r?\n/).map(line => line.trim()).filter(Boolean);
-    const points = rows.map(parseAlmondPoint).filter(Boolean);
-    if (points.length > 1 && sameAlmondPoint(points[0], points[points.length - 1])) points.pop();
-    if (!points.length) throw new Error('Almond data contains no points');
+    const rawPoints = rows.map(parseAlmondPoint).filter(Boolean);
+    if (rawPoints.length > 1 && sameAlmondPoint(rawPoints[0], rawPoints[rawPoints.length - 1])) rawPoints.pop();
+    if (!rawPoints.length) throw new Error('Almond data contains no points');
     if (requestId !== almondTravelerRequestId) return;
 
-    almondTravelerPoints = points;
-    almondTravelerChoices = makeAlmondTravelerChoices(d, L, lmax, Nmax, improv, points.length);
+    almondTravelerPoints = orderAlmondPoints(rawPoints);
+    almondTravelerChoices = makeAlmondTravelerChoices(d, L, lmax, Nmax, improv, almondTravelerPoints.length);
     slider.min = '0';
     slider.max = String(almondTravelerChoices.length - 1);
     slider.value = String(Math.min(Number(slider.value) || 0, almondTravelerChoices.length - 1));
