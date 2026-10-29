@@ -130,6 +130,7 @@ let almondTravelerRequestId = 0;
 let almondTravelerChoices = [];
 let almondTravelerPoints = [];
 let thresholdRequestId = 0;
+let boundTableRequestId = 0;
 
 function thresholdPowerTex(power) {
   const quarters = Math.round(power * 4);
@@ -198,33 +199,135 @@ function thresholdDelta(d, alpha) {
   return { factor: Math.sin(Math.PI * alpha), logPower: 0 };
 }
 
-function thresholdTermTex(coefficient, d, deltaFactor, maxMagnitude) {
+function thresholdTermTex(coefficient, d, deltaFactor) {
   const { group, index, value } = coefficient;
   const { power, logPower } = thresholdTermPower(d, group, index);
   const effectiveValue = value * deltaFactor;
   const coefficientLabel = `\\alpha_{0,0,${group},${index}}`;
-  const sigma = power > 0 ? `\\sigma^{-${thresholdPowerTex(power)}}` : "";
-  const log = logPower > 0 ? `\\log^{-${logPower}}` : "";
-  const nearZero = Math.abs(effectiveValue) <= Math.max(1, maxMagnitude) * 1e-8;
-  const state = nearZero ? `\\;\\color{#8a8f98}{\\text{≈ 0}}` : "";
-  return `\\underset{${coefficientLabel}}{${formatThresholdCoefficient(effectiveValue)}}${sigma}${log}${state}`;
+  const sigma = power > 0 ? `\\sigma_s^{-${thresholdPowerTex(power)}}` : "";
+  const log = logPower > 0 ? `\\log_s^{-${logPower}}` : "";
+  return `\\underset{${coefficientLabel}}{${formatThresholdCoefficient(effectiveValue)}}${sigma}${log}`;
 }
 
 function thresholdFormula(coefficients, d) {
   const alpha = (d - 3) / 2;
-  const { factor: deltaFactor, logPower } = thresholdDelta(d, alpha);
-  const groups = [0, 1].map(group => {
-    const selected = coefficients.filter(coefficient => coefficient.group === group);
-    if (!selected.length) return "";
-    const maxMagnitude = Math.max(...selected.map(coefficient => Math.abs(coefficient.value * deltaFactor)));
-    const label = group === 0 ? "\\text{TH}" : "\\text{subTH}";
-    const terms = selected.map(coefficient => thresholdTermTex(coefficient, d, deltaFactor, maxMagnitude));
-    return `\\begin{aligned}${label}:\\quad&${terms.join("\\;+\\;")}\\end{aligned}`;
-  }).filter(Boolean);
-  const deltaDescription = logPower > 0
-    ? `\\text{odd-dimension sign applied: }${deltaFactor < 0 ? "-1" : "1"}`
-    : `\\text{sin factor applied: }${formatThresholdCoefficient(deltaFactor)}`;
-  return `\\[${groups.join("\\qquad")}\\qquad ${deltaDescription}\\]`;
+  const { factor: deltaFactor } = thresholdDelta(d, alpha);
+  const terms = coefficients.map(coefficient => thresholdTermTex(coefficient, d, deltaFactor));
+  const crossed = [...terms, "(s\\to t)", "(s\\to u)"].join("+");
+  return `\\[A_{\\rm th}(s,t)=n_d\\left[${crossed}\\right],\\qquad \\sigma_x=\\frac{4-x}{4}\\]`;
+}
+
+function splitMathematicaFields(source) {
+  const fields = [];
+  let depth = 0;
+  let quoted = false;
+  let start = 0;
+  for (let index = 0; index < source.length; index += 1) {
+    const character = source[index];
+    if (character === '"' && source[index - 1] !== "\\") quoted = !quoted;
+    if (quoted) continue;
+    if ("[{(".includes(character)) depth += 1;
+    if ("]})".includes(character)) depth -= 1;
+    if (character === "," && depth === 0) {
+      fields.push(source.slice(start, index).trim());
+      start = index + 1;
+    }
+  }
+  fields.push(source.slice(start).trim());
+  return fields;
+}
+
+function parseBoundCell(source) {
+  const around = source.match(/^Around\[(.*)\]$/);
+  if (around) {
+    const [centerRaw, errorRaw] = splitMathematicaFields(around[1]);
+    const center = parseMathematicaNumber(centerRaw);
+    const error = parseMathematicaNumber(errorRaw);
+    return center === null ? null : { center, error: error === null ? null : Math.abs(error) };
+  }
+
+  const value = parseMathematicaNumber(source.replace(/^"|"$/g, ""));
+  return value === null ? null : { center: value, error: null };
+}
+
+function parseBestBoundTable(source) {
+  const rows = [];
+  for (const line of source.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith("{") || !trimmed.endsWith("}")) continue;
+    const fields = splitMathematicaFields(trimmed.slice(1, -1));
+    if (fields.length < 3) continue;
+    const label = fields[1].replace(/^"|"$/g, "");
+    const dimension = label.match(/\(([-+\d.]+)\)/);
+    if (!dimension) continue;
+    const min = parseBoundCell(fields[0]);
+    const max = parseBoundCell(fields[2]);
+    if (min && max) rows.push({ dimension: Number(dimension[1]), min, max });
+  }
+  return rows;
+}
+
+function formatBoundNumber(value, significantDigits = 3) {
+  if (value === 0) return "0";
+  const formatted = value.toPrecision(significantDigits).replace(/(?:\.0+|(\.\d*?)0+)(?=e|$)/, "$1");
+  const scientific = formatted.match(/^(-?\d+(?:\.\d+)?)[eE]([+-]?\d+)$/);
+  return scientific
+    ? `${scientific[1]}\\times 10^{${Number(scientific[2])}}`
+    : formatted;
+}
+
+function boundValueTex(bound) {
+  if (bound.error === null || bound.error === 0) return formatBoundNumber(bound.center, 4);
+  return `${formatBoundNumber(bound.center)}\\,\\pm\\,${formatBoundNumber(bound.error)}`;
+}
+
+function bestBoundTableTex(rows, coefficient) {
+  const body = rows.map(row =>
+    `${formatBoundNumber(row.dimension, 3)}&${boundValueTex(row.min)}&${boundValueTex(row.max)}\\\\`
+  ).join("");
+  return `\\[\\begin{array}{c|r|r}d&\\mathrm{Min}\;c_{${coefficient}}(d)&\\mathrm{Max}\;c_{${coefficient}}(d)\\\\\\hline${body}\\end{array}\\]`;
+}
+
+async function updateBestBoundTables(Nmax, improv, autoMode) {
+  const requestId = ++boundTableRequestId;
+  const targets = [
+    { ci: 0, element: document.getElementById("boundc0Table"), download: document.getElementById("downloadboundc0") },
+    { ci: 2, element: document.getElementById("boundc2Table"), download: document.getElementById("downloadboundc2") }
+  ];
+  const suffix = autoMode ? "best" : `{${improv}}`;
+
+  if (location.protocol === "file:") {
+    targets.forEach(({ element }) => {
+      window.MathJax?.typesetClear?.([element]);
+      element.textContent = "Run ./serve-local.sh in the repository folder, then open http://127.0.0.1:8000/ to load local data.";
+    });
+    return;
+  }
+
+  targets.forEach(({ element, ci }) => {
+    window.MathJax?.typesetClear?.([element]);
+    element.textContent = `Loading c${ci} bounds…`;
+  });
+
+  await Promise.all(targets.map(async ({ ci, element, download }) => {
+    const filename = `BoundTable_ci=${ci}_lmax=16_Nmax=${Nmax}_improv=${suffix}.txt`;
+    const url = `data/BoundTable/${filename}`;
+    download.href = url;
+    download.download = filename;
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("No saved bound table is available for this selection.");
+      const rows = parseBestBoundTable(await response.text());
+      if (requestId !== boundTableRequestId) return;
+      if (!rows.length) throw new Error("The saved bound table contains no readable rows.");
+      element.innerHTML = bestBoundTableTex(rows, ci);
+      if (window.MathJax?.typesetPromise) await window.MathJax.typesetPromise([element]);
+    } catch (error) {
+      if (requestId !== boundTableRequestId) return;
+      element.textContent = error.message;
+    }
+  }));
 }
 
 async function updateThreshold(d, ci, lmax, Nmax, improv) {
@@ -563,32 +666,7 @@ function updateImages() {
   }
 
 
-  if (improvSelect.value === "AUTO") {
-      // Special fixed best-bound plots
-      boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv=best.png`;
-      boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv=best.png`;
-      //boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.png`;
-
-      downloadboundc0.href = `data/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv=best.txt`;
-      downloadboundc0.download = `BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv=best.txt`;
-      downloadboundc2.href = `data/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv=best.txt`;
-      downloadboundc2.download = `BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv=best.txt`;
-      //downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.txt`;
-      //downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv=best.txt`;
-  }
-  else {
-      // normal mode
-      boundc0.src = `images/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv={${improv}}.png`;
-      boundc2.src = `images/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.png`;
-      //boundc3.src = `images/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.png`;
-
-      downloadboundc0.href = `data/BoundTable/BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
-      downloadboundc0.download = `BoundTable_ci=0_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
-      //downloadboundc2.href = `data/BoundTable/BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
-      //downloadboundc2.download = `BoundTable_ci=2_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
-      //downloadboundc3.href = `data/BoundTable/BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
-      //downloadboundc3.download = `BoundTable_ci=3_lmax=16_Nmax=${Nmax}_improv={${improv}}.txt`;
-  }
+  updateBestBoundTables(Nmax, improv, improvSelect.value === "AUTO");
     
   img5.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
   img6.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;

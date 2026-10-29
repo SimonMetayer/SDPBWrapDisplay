@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>S-matrix Bootstrap | Extremal Amplitudes Viewer</title>
   <link rel="icon" href="images/logo/favicon.ico" />
-  <link rel="stylesheet" href="style.css?v=threshold-3" />
+  <link rel="stylesheet" href="style.css?v=bound-tables-1" />
 
   <!-- MathJax configuration -->
   <script>
@@ -379,14 +379,16 @@
   <div class="toggle-button" data-toggle-target="finalbounds" data-start="open">Final best bounds</div>
   <div id="finalbounds" class="collapsible-content">
     <div class="doublegrid">
-      <div class="image-container">
-        <img id="boundc0" alt="boundc0" />
+      <div class="threshold-container bound-table-container">
+        <div class="image-title">Bounds on c₀(d)</div>
+        <div id="boundc0Table" class="bound-table" aria-live="polite">Loading bounds…</div>
         <div class="download-container">
           <a id="downloadboundc0" class="download-button" download>Download data</a>
         </div>
       </div>
-      <div class="image-container"> 
-        <img id="boundc2" alt="boundc2" />
+      <div class="threshold-container bound-table-container">
+        <div class="image-title">Bounds on c₂(d)</div>
+        <div id="boundc2Table" class="bound-table" aria-live="polite">Loading bounds…</div>
         <div class="download-container">
           <a id="downloadboundc2" class="download-button" download>Download data</a>
         </div>
@@ -462,7 +464,7 @@
   </div>
 
   <script src="image_count.js"></script>
-  <script src="script.js?v=threshold-3"></script>
+  <script src="script.js?v=bound-tables-2"></script>
 </body>
 </html>
 

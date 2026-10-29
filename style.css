@@ -258,6 +258,22 @@ select {
   text-align: center;
 }
 
+.bound-table-container {
+  align-items: stretch;
+}
+
+.bound-table {
+  width: 100%;
+  overflow-x: auto;
+  padding: 8px 4px;
+  color: var(--text, #203238);
+  text-align: center;
+}
+
+.bound-table mjx-container {
+  margin: 0 auto !important;
+}
+
 .image-title {
   margin: 2px 0 10px;
   color: var(--muted);
