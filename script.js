@@ -250,21 +250,18 @@ function parseBoundCell(source) {
   return value === null ? null : { center: value, error: null };
 }
 
-function parseBestBoundTable(source) {
-  const rows = [];
+function parseExtrapolationBounds(source) {
+  const bounds = new Map();
   for (const line of source.split(/\r?\n/)) {
     const trimmed = line.trim();
     if (!trimmed.startsWith("{") || !trimmed.endsWith("}")) continue;
     const fields = splitMathematicaFields(trimmed.slice(1, -1));
-    if (fields.length < 3) continue;
-    const label = fields[1].replace(/^"|"$/g, "");
-    const dimension = label.match(/\(([-+\d.]+)\)/);
-    if (!dimension) continue;
-    const min = parseBoundCell(fields[0]);
-    const max = parseBoundCell(fields[2]);
-    if (min && max) rows.push({ dimension: Number(dimension[1]), min, max });
+    if (fields.length < 2) continue;
+    const dimension = parseMathematicaNumber(fields[0]);
+    const bound = parseBoundCell(fields[1]);
+    if (dimension !== null && bound) bounds.set(dimension, bound);
   }
-  return rows;
+  return bounds;
 }
 
 function formatBoundNumber(value, significantDigits = 3) {
@@ -281,20 +278,21 @@ function boundValueTex(bound) {
   return `${formatBoundNumber(bound.center)}\\,\\pm\\,${formatBoundNumber(bound.error)}`;
 }
 
-function bestBoundTableTex(rows, coefficient) {
-  const body = rows.map(row =>
-    `${formatBoundNumber(row.dimension, 3)}&${boundValueTex(row.min)}&${boundValueTex(row.max)}\\\\`
-  ).join("");
+function bestBoundTableTex(minBounds, maxBounds, coefficient) {
+  const body = allowedD.map(dimension => {
+    const min = minBounds.has(dimension) ? boundValueTex(minBounds.get(dimension)) : "\\times";
+    const max = maxBounds.has(dimension) ? boundValueTex(maxBounds.get(dimension)) : "\\times";
+    return `${formatBoundNumber(dimension, 3)}&${min}&${max}\\\\`;
+  }).join("");
   return `\\[\\begin{array}{c|r|r}d&\\mathrm{Min}\;c_{${coefficient}}(d)&\\mathrm{Max}\;c_{${coefficient}}(d)\\\\\\hline${body}\\end{array}\\]`;
 }
 
-async function updateBestBoundTables(Nmax, improv, autoMode) {
+async function updateBestBoundTables(Nmax) {
   const requestId = ++boundTableRequestId;
   const targets = [
-    { ci: 0, element: document.getElementById("boundc0Table"), download: document.getElementById("downloadboundc0") },
-    { ci: 2, element: document.getElementById("boundc2Table"), download: document.getElementById("downloadboundc2") }
+    { ci: 0, element: document.getElementById("boundc0Table") },
+    { ci: 2, element: document.getElementById("boundc2Table") }
   ];
-  const suffix = autoMode ? "best" : `{${improv}}`;
 
   if (location.protocol === "file:") {
     targets.forEach(({ element }) => {
@@ -309,24 +307,24 @@ async function updateBestBoundTables(Nmax, improv, autoMode) {
     element.textContent = `Loading c${ci} bounds…`;
   });
 
-  await Promise.all(targets.map(async ({ ci, element, download }) => {
-    const filename = `BoundTable_ci=${ci}_lmax=16_Nmax=${Nmax}_improv=${suffix}.txt`;
-    const url = `data/BoundTable/${filename}`;
-    download.href = url;
-    download.download = filename;
-
+  const loadBounds = async url => {
     try {
       const response = await fetch(url);
-      if (!response.ok) throw new Error("No saved bound table is available for this selection.");
-      const rows = parseBestBoundTable(await response.text());
-      if (requestId !== boundTableRequestId) return;
-      if (!rows.length) throw new Error("The saved bound table contains no readable rows.");
-      element.innerHTML = bestBoundTableTex(rows, ci);
-      if (window.MathJax?.typesetPromise) await window.MathJax.typesetPromise([element]);
-    } catch (error) {
-      if (requestId !== boundTableRequestId) return;
-      element.textContent = error.message;
+      return response.ok ? parseExtrapolationBounds(await response.text()) : new Map();
+    } catch {
+      return new Map();
     }
+  };
+
+  await Promise.all(targets.map(async ({ ci, element }) => {
+    const root = `data/ci(d)v2fitted/ci(d)v2fitted_ci=${ci}_lmax=16_Nmax=${Nmax}`;
+    const [minBounds, maxBounds] = await Promise.all([
+      loadBounds(`${root}_minmax=min_improv=best.txt`),
+      loadBounds(`${root}_minmax=max_improv=best.txt`)
+    ]);
+    if (requestId !== boundTableRequestId) return;
+    element.innerHTML = bestBoundTableTex(minBounds, maxBounds, ci);
+    if (window.MathJax?.typesetPromise) await window.MathJax.typesetPromise([element]);
   }));
 }
 
@@ -666,7 +664,7 @@ function updateImages() {
   }
 
 
-  updateBestBoundTables(Nmax, improv, improvSelect.value === "AUTO");
+  updateBestBoundTables(Nmax);
     
   img5.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=max_improv={${improv}}.png`;
   img6.src = `images/ReggeTrajectories/ReggeTrajectories_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=min_improv={${improv}}.png`;
