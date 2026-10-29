@@ -156,46 +156,75 @@ function parseMathematicaNumber(raw) {
 }
 
 function parseThresholdCoefficients(sdpbText) {
-  const pattern = /Rule\[\s*\\\[Alpha\]0x0x0x(\d+),\s*([^\]]+)\]/g;
+  const pattern = /Rule\[\s*\\\[Alpha\]0x0x([01])x(\d+),\s*([^\]]+)\]/g;
   const coefficients = new Map();
   for (const match of sdpbText.matchAll(pattern)) {
-    const index = Number(match[1]);
-    const value = parseMathematicaNumber(match[2]);
-    if (value !== null) coefficients.set(index, value);
+    const group = Number(match[1]); // 0 = TH, 1 = subTH
+    const index = Number(match[2]);
+    const value = parseMathematicaNumber(match[3]);
+    if (value !== null) coefficients.set(`${group}:${index}`, { group, index, value });
   }
-  return [...coefficients.entries()].sort(([a], [b]) => a - b);
+  return [...coefficients.values()].sort((a, b) => a.group - b.group || a.index - b.index);
 }
 
 function formatThresholdCoefficient(value) {
-  return value.toPrecision(5).replace(/(?:\.0+|(\.\d*?)0+)(?=e|$)/, "$1");
+  const formatted = value.toPrecision(5).replace(/(?:\.0+|(\.\d*?)0+)(?=e|$)/, "$1");
+  const scientific = formatted.match(/^(-?\d+(?:\.\d+)?)[eE]([+-]?\d+)$/);
+  return scientific
+    ? `${scientific[1]}\\times 10^{${Number(scientific[2])}}`
+    : formatted;
 }
 
-function thresholdTermPower(d, index) {
+function thresholdTermPower(d, group, index) {
   const alpha = (d - 3) / 2;
   if (Number.isInteger(d) && d % 2 === 1) {
     const logBlockSize = Math.floor(alpha) + 1;
+    const localIndex = group === 0 ? index : index - 1;
     return {
-      power: Math.max(0, alpha - (index % logBlockSize)),
-      logPower: Math.floor(index / logBlockSize) + 1
+      power: Math.max(0, alpha - (localIndex % logBlockSize)),
+      logPower: group === 0 ? 1 : 2
     };
   }
 
   const step = Number.isInteger(d) ? 0.5 : 0.25;
-  return { power: Math.max(0, alpha - index * step), logPower: 0 };
+  const termIndex = group === 0 ? index : index;
+  return { power: Math.max(0, alpha - termIndex * step), logPower: 0 };
 }
 
-function thresholdTermTex(value, index, d, variable = "s") {
-  const { power, logPower } = thresholdTermPower(d, index);
-  const coefficient = `\\underset{\\alpha_{0,0,0,${index}}}{${formatThresholdCoefficient(value)}}`;
-  const sigma = power > 0 ? `\\sigma_${variable}^{-${thresholdPowerTex(power)}}` : "";
-  const log = logPower > 0 ? `\\log_${variable}^{-${logPower}}` : "";
-  return `${coefficient}${sigma}${log}`;
+function thresholdDelta(d, alpha) {
+  if (Number.isInteger(d) && d % 2 === 1) {
+    return { factor: Math.round(Math.cos(Math.PI * alpha)), logPower: 1 };
+  }
+  return { factor: Math.sin(Math.PI * alpha), logPower: 0 };
+}
+
+function thresholdTermTex(coefficient, d, deltaFactor, maxMagnitude) {
+  const { group, index, value } = coefficient;
+  const { power, logPower } = thresholdTermPower(d, group, index);
+  const effectiveValue = value * deltaFactor;
+  const coefficientLabel = `\\alpha_{0,0,${group},${index}}`;
+  const sigma = power > 0 ? `\\sigma^{-${thresholdPowerTex(power)}}` : "";
+  const log = logPower > 0 ? `\\log^{-${logPower}}` : "";
+  const nearZero = Math.abs(effectiveValue) <= Math.max(1, maxMagnitude) * 1e-8;
+  const state = nearZero ? `\\;\\color{#8a8f98}{\\text{≈ 0}}` : "";
+  return `\\underset{${coefficientLabel}}{${formatThresholdCoefficient(effectiveValue)}}${sigma}${log}${state}`;
 }
 
 function thresholdFormula(coefficients, d) {
-  const terms = coefficients.map(([index, value]) => thresholdTermTex(value, index, d));
-  const crossed = [...terms, "(s\\to t)", "(s\\to u)"].join("+");
-  return `\\[A_{\\rm th}(s,t)=n_d\\left[${crossed}\\right],\\qquad \\sigma_x=\\frac{4-x}{4}\\]`;
+  const alpha = (d - 3) / 2;
+  const { factor: deltaFactor, logPower } = thresholdDelta(d, alpha);
+  const groups = [0, 1].map(group => {
+    const selected = coefficients.filter(coefficient => coefficient.group === group);
+    if (!selected.length) return "";
+    const maxMagnitude = Math.max(...selected.map(coefficient => Math.abs(coefficient.value * deltaFactor)));
+    const label = group === 0 ? "\\text{TH}" : "\\text{subTH}";
+    const terms = selected.map(coefficient => thresholdTermTex(coefficient, d, deltaFactor, maxMagnitude));
+    return `\\begin{aligned}${label}:\\quad&${terms.join("\\;+\\;")}\\end{aligned}`;
+  }).filter(Boolean);
+  const deltaDescription = logPower > 0
+    ? `\\text{odd-dimension sign applied: }${deltaFactor < 0 ? "-1" : "1"}`
+    : `\\text{sin factor applied: }${formatThresholdCoefficient(deltaFactor)}`;
+  return `\\[${groups.join("\\qquad")}\\qquad ${deltaDescription}\\]`;
 }
 
 async function updateThreshold(d, ci, lmax, Nmax, improv) {
