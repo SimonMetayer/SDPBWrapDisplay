@@ -238,7 +238,8 @@ select {
 }
 
 .image-container,
-.image-container-almond {
+.image-container-almond,
+.threshold-container {
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -247,6 +248,14 @@ select {
   border: 1px solid #e5ebed;
   border-radius: 12px;
   background: var(--surface);
+}
+
+.threshold-formula {
+  width: 100%;
+  overflow-x: auto;
+  padding: 14px 10px;
+  color: var(--text, #203238);
+  text-align: center;
 }
 
 .image-title {

@@ -129,6 +129,100 @@ attachPlotFallbacks();
 let almondTravelerRequestId = 0;
 let almondTravelerChoices = [];
 let almondTravelerPoints = [];
+let thresholdRequestId = 0;
+
+function thresholdExponentTex(d) {
+  let numerator = Math.round(2 * (3 - d));
+  let denominator = 4;
+  if (numerator % 2 === 0) {
+    numerator /= 2;
+    denominator /= 2;
+  }
+  const sign = numerator < 0 ? "-" : "";
+  const magnitude = Math.abs(numerator);
+  const exponent = denominator === 1
+    ? `${sign}${magnitude}`
+    : `${sign}\\frac{${magnitude}}{${denominator}}`;
+  return `\\left(\\frac{4-x}{4}\\right)^{${exponent}}`;
+}
+
+function parseMathematicaNumber(raw) {
+  const normalized = raw.trim().replace(/`[0-9.]*/g, "").replace(/\*\^/g, "e");
+  const value = Number(normalized);
+  return Number.isFinite(value) ? value : null;
+}
+
+function parseThresholdCoefficient(sdpbText) {
+  const match = sdpbText.match(/Rule\[\s*\\\[Alpha\]0x0x0x0,\s*([^\]]+)\]/);
+  return match ? parseMathematicaNumber(match[1]) : null;
+}
+
+function formatThresholdCoefficient(value) {
+  return value.toPrecision(5).replace(/(?:\.0+|(\.\d*?)0+)(?=e|$)/, "$1");
+}
+
+async function updateThreshold(d, ci, lmax, Nmax, improv) {
+  const requestId = ++thresholdRequestId;
+  const maxTarget = document.getElementById("thresholdMaxFormula");
+  const minTarget = document.getElementById("thresholdMinFormula");
+  const hasThresholdImprovement = /\bTH(?:fixed)?\b/.test(improv);
+
+  if (!hasThresholdImprovement) {
+    [maxTarget, minTarget].forEach(target => {
+      target.textContent = "No threshold term is included in this improvement.";
+    });
+    return;
+  }
+
+  [maxTarget, minTarget].forEach(target => {
+    target.textContent = "Loading threshold terms…";
+  });
+
+  const buildUrls = minmax => ({
+    amplitude: `data/M/M_d=${d}_ci=${ci}_L=${LSlider.value}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`,
+    solution: `data/SDPB/SDPB_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`
+  });
+
+  const power = thresholdExponentTex(Number(d));
+  const oddDimension = Number.isInteger(Number(d)) && Number(d) % 2 === 1;
+  const thresholdFactor = oddDimension
+    ? `${power}\\,\\frac{(-1)^{(${d}-3)/2}\\pi}{\\log\\left(\\frac{4-x}{4}\\right)}`
+    : `${power}\\,\\sin\\left(\\pi\\frac{${d}-3}{2}\\right)`;
+  const expression = value =>
+    `\\[\\alpha_{0000}=${formatThresholdCoefficient(value)},\\qquad ` +
+    `M_{\\rm TH}(s,t,u)=\\alpha_{0000}n_d\\left[\\begin{aligned} ` +
+    `&${thresholdFactor.replaceAll("x", "s")}\\\\` +
+    `+&${thresholdFactor.replaceAll("x", "t")}\\\\` +
+    `+&${thresholdFactor.replaceAll("x", "u")} ` +
+    `\\end{aligned}\\right]\\]`;
+
+  for (const [minmax, target] of [["max", maxTarget], ["min", minTarget]]) {
+    try {
+      const urls = buildUrls(minmax);
+      const [amplitudeResponse, solutionResponse] = await Promise.all([
+        fetch(urls.amplitude),
+        fetch(urls.solution)
+      ]);
+      if (!amplitudeResponse.ok || !solutionResponse.ok) {
+        throw new Error("No saved amplitude or optimization result is available for this selection.");
+      }
+      const [amplitudeText, solutionText] = await Promise.all([
+        amplitudeResponse.text(),
+        solutionResponse.text()
+      ]);
+      if (requestId !== thresholdRequestId) return;
+      if (!amplitudeText.trim()) throw new Error("The saved amplitude is empty.");
+      const coefficient = parseThresholdCoefficient(solutionText);
+      if (coefficient === null) throw new Error("The optimization output has no α₀₀₀₀ coefficient.");
+      window.MathJax?.typesetClear?.([target]);
+      target.innerHTML = expression(coefficient);
+      if (window.MathJax?.typesetPromise) await window.MathJax.typesetPromise([target]);
+    } catch (error) {
+      if (requestId !== thresholdRequestId) return;
+      target.textContent = error.message;
+    }
+  }
+}
 
 function parseAlmondPoint(line) {
   const values = line.trim().replace(/[{}]/g, '').split(',');
@@ -440,6 +534,7 @@ function updateImages() {
  
   const almondDataUrl = `data/Almond/Almond_d=${d}_x=0_y=2_lmax=${lmax}_Nmax=${Nmax}_improv={${improv}}.txt`;
   updateAlmondTraveler(almondDataUrl, d, L, lmax, Nmax, improv);
+  updateThreshold(d, ci, lmax, Nmax, improv);
   
   //slider03.oninput = function() {
   //  const index = parseInt(this.value);

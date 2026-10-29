@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>S-matrix Bootstrap | Extremal Amplitudes Viewer</title>
   <link rel="icon" href="images/logo/favicon.ico" />
-  <link rel="stylesheet" href="style.css?v=almond-marker-1" />
+  <link rel="stylesheet" href="style.css?v=threshold-1" />
 
   <!-- MathJax configuration -->
   <script>
@@ -144,6 +144,21 @@
           <a id="downloadMMin" class="download-button" download>Download M(s,t,u)</a>
           <a id="downloadSDPBMin" class="download-button" download>Download SDPB output</a>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Threshold -->
+  <div class="toggle-button" data-toggle-target="Threshold" data-start="open">Threshold</div>
+  <div id="Threshold" class="collapsible-content">
+    <div class="grid">
+      <div class="threshold-container">
+        <div class="image-title">Threshold Max</div>
+        <div id="thresholdMaxFormula" class="threshold-formula" aria-live="polite">Loading threshold terms…</div>
+      </div>
+      <div class="threshold-container">
+        <div class="image-title">Threshold Min</div>
+        <div id="thresholdMinFormula" class="threshold-formula" aria-live="polite">Loading threshold terms…</div>
       </div>
     </div>
   </div>
@@ -447,7 +462,7 @@
   </div>
 
   <script src="image_count.js"></script>
-  <script src="script.js?v=subthcorr2-1"></script>
+  <script src="script.js?v=threshold-1"></script>
 </body>
 </html>
 
