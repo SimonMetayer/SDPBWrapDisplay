@@ -255,7 +255,12 @@ select {
   overflow-x: auto;
   padding: 14px 10px;
   color: var(--text, #203238);
-  text-align: center;
+  text-align: left;
+}
+
+.threshold-formula mjx-container[display="true"] {
+  margin-left: 0 !important;
+  text-align: left;
 }
 
 .bound-table-container {
