@@ -132,6 +132,20 @@ let almondTravelerPoints = [];
 let thresholdRequestId = 0;
 let boundTableRequestId = 0;
 
+function parseMathematicaNumber(raw) {
+  const normalized = raw.trim().replace(/`[0-9.]*/g, "").replace(/\*\^/g, "e");
+  const value = Number(normalized);
+  return Number.isFinite(value) ? value : null;
+}
+
+function formatThresholdCoefficient(value) {
+  const formatted = value.toPrecision(5).replace(/(?:\.0+|(\.\d*?)0+)(?=e|$)/, "$1");
+  const scientific = formatted.match(/^(-?\d+(?:\.\d+)?)[eE]([+-]?\d+)$/);
+  return scientific
+    ? `${scientific[1]}\\times 10^{${Number(scientific[2])}}`
+    : formatted;
+}
+
 function thresholdPowerTex(power) {
   const quarters = Math.round(power * 4);
   let numerator = quarters;
@@ -150,71 +164,457 @@ function thresholdPowerTex(power) {
   return `${sign}\\frac{${magnitude}}{${denominator}}`;
 }
 
-function parseMathematicaNumber(raw) {
-  const normalized = raw.trim().replace(/`[0-9.]*/g, "").replace(/\*\^/g, "e");
-  const value = Number(normalized);
-  return Number.isFinite(value) ? value : null;
-}
-
-function parseThresholdCoefficients(sdpbText) {
-  const pattern = /Rule\[\s*\\\[Alpha\]0x0x([01])x(\d+),\s*([^\]]+)\]/g;
-  const coefficients = new Map();
-  for (const match of sdpbText.matchAll(pattern)) {
-    const group = Number(match[1]); // 0 = TH, 1 = subTH
-    const index = Number(match[2]);
-    const value = parseMathematicaNumber(match[3]);
-    if (value !== null) coefficients.set(`${group}:${index}`, { group, index, value });
+function thresholdCompactPowerTex(power) {
+  const quarters = Math.round(power * 4);
+  let numerator = quarters;
+  let denominator = 4;
+  if (numerator % 2 === 0) {
+    numerator /= 2;
+    denominator /= 2;
   }
-  return [...coefficients.values()].sort((a, b) => a.group - b.group || a.index - b.index);
+  if (numerator % 2 === 0 && denominator === 2) {
+    numerator /= 2;
+    denominator = 1;
+  }
+  const sign = numerator < 0 ? "-" : "";
+  const magnitude = Math.abs(numerator);
+  return denominator === 1 ? `${sign}${magnitude}` : `${sign}${magnitude}/${denominator}`;
 }
 
-function formatThresholdCoefficient(value) {
-  const formatted = value.toPrecision(5).replace(/(?:\.0+|(\.\d*?)0+)(?=e|$)/, "$1");
-  const scientific = formatted.match(/^(-?\d+(?:\.\d+)?)[eE]([+-]?\d+)$/);
-  return scientific
-    ? `${scientific[1]}\\times 10^{${Number(scientific[2])}}`
-    : formatted;
+function parseMathematicaExpression(source) {
+  const normalized = source.replace(/`[0-9.]*/g, "").replace(/\*\^([+-]?\d+)/g, "e$1");
+  const tokenPattern = /\s*(?:(\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|([A-Za-z][A-Za-z0-9]*)|([()+\-*/^\[\],]))/gy;
+  const tokens = [];
+  let offset = 0;
+  while (offset < normalized.length) {
+    tokenPattern.lastIndex = offset;
+    const match = tokenPattern.exec(normalized);
+    if (!match) throw new Error(`Cannot parse Mathematica expression near character ${offset}.`);
+    offset = tokenPattern.lastIndex;
+    if (match[1]) tokens.push({ type: "number", value: Number(match[0].trim()) });
+    else if (match[2]) tokens.push({ type: "identifier", value: match[2] });
+    else tokens.push({ type: "operator", value: match[3] });
+  }
+
+  let cursor = 0;
+  const peek = () => tokens[cursor];
+  const take = () => tokens[cursor++];
+  const parsePrimary = () => {
+    const token = take();
+    if (!token) throw new Error("Unexpected end of Mathematica expression.");
+    if (token.value === "+" || token.value === "-") {
+      return { type: "unary", op: token.value, child: parsePrimary() };
+    }
+    if (token.value === "(") {
+      const expression = parseExpression(0);
+      if (take()?.value !== ")") throw new Error("Unclosed parenthesis in Mathematica expression.");
+      return expression;
+    }
+    if (token.type === "number") return { type: "number", value: token.value };
+    if (token.type === "identifier") {
+      if (peek()?.value === "[") {
+        take();
+        const args = [];
+        while (peek() && peek().value !== "]") {
+          args.push(parseExpression(0));
+          if (peek()?.value === ",") take();
+          else break;
+        }
+        if (take()?.value !== "]") throw new Error(`Unclosed ${token.value} call.`);
+        return { type: "call", name: token.value, args };
+      }
+      return { type: "variable", name: token.value };
+    }
+    throw new Error(`Unexpected token ${token.value} in Mathematica expression.`);
+  };
+  const precedence = { "+": 1, "-": 1, "*": 2, "/": 2, "^": 3 };
+  const parseExpression = minimumPrecedence => {
+    let left = parsePrimary();
+    while (peek() && precedence[peek().value] >= minimumPrecedence) {
+      const operator = take().value;
+      const nextMinimum = precedence[operator] + (operator === "^" ? 0 : 1);
+      const right = parseExpression(nextMinimum);
+      left = { type: "binary", op: operator, left, right };
+    }
+    return left;
+  };
+
+  const expression = parseExpression(0);
+  if (cursor !== tokens.length) throw new Error("Unexpected trailing Mathematica tokens.");
+  return expression;
 }
 
-function thresholdTermPower(d, group, index) {
-  const alpha = (d - 3) / 2;
-  if (Number.isInteger(d) && d % 2 === 1) {
-    const logBlockSize = Math.floor(alpha) + 1;
-    const localIndex = group === 0 ? index : index - 1;
+function constantValue(node) {
+  if (!node) return null;
+  if (node.type === "number") return node.value;
+  if (node.type === "unary") {
+    const value = constantValue(node.child);
+    return value === null ? null : node.op === "-" ? -value : value;
+  }
+  if (node.type !== "binary") return null;
+  const left = constantValue(node.left);
+  const right = constantValue(node.right);
+  if (left === null || right === null) return null;
+  switch (node.op) {
+    case "+": return left + right;
+    case "-": return left - right;
+    case "*": return left * right;
+    case "/": return right === 0 ? null : left / right;
+    case "^": return left ** right;
+    default: return null;
+  }
+}
+
+function isUnitVariable(node, channel) {
+  if (node.type === "variable") return node.name === channel;
+  if (node.type !== "binary" || node.op !== "*") return false;
+  return (constantValue(node.left) === 1 && isUnitVariable(node.right, channel)) ||
+    (constantValue(node.right) === 1 && isUnitVariable(node.left, channel));
+}
+
+function isFourMinusChannel(node, channel) {
+  return node.type === "binary" && node.op === "-" &&
+    Math.abs((constantValue(node.left) ?? NaN) - 4) < 1e-12 && isUnitVariable(node.right, channel);
+}
+
+function expressionChildren(node) {
+  if (node.type === "unary") return [node.child];
+  if (node.type === "binary") return [node.left, node.right];
+  if (node.type === "call") return node.args;
+  return [];
+}
+
+function expressionVariables(node, variables = new Set()) {
+  if (node.type === "variable") variables.add(node.name);
+  expressionChildren(node).forEach(child => expressionVariables(child, variables));
+  return variables;
+}
+
+function containsFourMinus(node, channel) {
+  if (isFourMinusChannel(node, channel)) return true;
+  return expressionChildren(node).some(child => containsFourMinus(child, channel));
+}
+
+function hasThresholdBasis(node) {
+  if (node.type === "binary" && node.op === "^" && isFourMinusChannel(node.left, "s")) {
+    const exponent = constantValue(node.right);
+    if (exponent !== null && exponent < 0) return true;
+  }
+  if (node.type === "call" && node.name === "Log" && containsFourMinus(node.args[0], "s")) return true;
+  if (node.type === "binary" && node.op === "/") {
+    const denominator = node.right;
+    if (denominator.type === "call" && denominator.name === "Sqrt" &&
+        isFourMinusChannel(denominator.args[0], "s")) return true;
+    const isPowerDenominator = denominator.type === "binary" && denominator.op === "^" &&
+      isFourMinusChannel(denominator.left, "s") && (constantValue(denominator.right) ?? 0) > 0;
+    if (isPowerDenominator && expressionVariables(node).size === 1) return true;
+  }
+  return expressionChildren(node).some(hasThresholdBasis);
+}
+
+function flattenProduct(node) {
+  return node.type === "binary" && node.op === "*"
+    ? [...flattenProduct(node.left), ...flattenProduct(node.right)]
+    : [node];
+}
+
+function flattenSum(node, sign = 1) {
+  if (node.type === "binary" && node.op === "+") {
+    return [...flattenSum(node.left, sign), ...flattenSum(node.right, sign)];
+  }
+  if (node.type === "binary" && node.op === "-") {
+    return [...flattenSum(node.left, sign), ...flattenSum(node.right, -sign)];
+  }
+  if (node.type === "unary") return flattenSum(node.child, sign * (node.op === "-" ? -1 : 1));
+  return [{ node, sign }];
+}
+
+function multiplyNodes(nodes) {
+  return nodes.reduce((product, node) => product ? { type: "binary", op: "*", left: product, right: node } : node, null);
+}
+
+function extractThresholdSChannel(expression) {
+  const terms = [];
+  const collect = (node, sign = 1) => {
+    if (!hasThresholdBasis(node)) return;
+
+    if (node.type === "binary" && (node.op === "+" || node.op === "-")) {
+      flattenSum(node).forEach(part => collect(part.node, sign * part.sign));
+      return;
+    }
+    if (node.type === "unary") {
+      collect(node.child, sign * (node.op === "-" ? -1 : 1));
+      return;
+    }
+
+    if (node.type === "binary" && node.op === "*") {
+      const factors = flattenProduct(node);
+      const additiveIndex = factors.findIndex(factor =>
+        factor.type === "binary" && ["+", "-"].includes(factor.op) && hasThresholdBasis(factor)
+      );
+      if (additiveIndex >= 0) {
+        const additive = factors[additiveIndex];
+        const remaining = factors.filter((_, index) => index !== additiveIndex);
+        flattenSum(additive).forEach(part => {
+          collect(multiplyNodes([...remaining, part.node]), sign * part.sign);
+        });
+        return;
+      }
+    }
+    if (node.type === "binary" && node.op === "/" &&
+        node.left.type === "binary" && ["+", "-"].includes(node.left.op) && hasThresholdBasis(node.left)) {
+      flattenSum(node.left).forEach(part => {
+        collect({ type: "binary", op: "/", left: part.node, right: node.right }, sign * part.sign);
+      });
+      return;
+    }
+
+    const variables = expressionVariables(node);
+    if (variables.size === 1 && variables.has("s")) {
+      terms.push({ node, sign });
+      return;
+    }
+
+    expressionChildren(node).forEach(child => collect(child, sign));
+  };
+  collect(expression);
+  return terms;
+}
+
+function extractNumericFactors(node) {
+  const constant = constantValue(node);
+  if (constant !== null) return { coefficient: constant, basis: null };
+  if (node.type === "unary") {
+    const result = extractNumericFactors(node.child);
+    return { coefficient: result.coefficient * (node.op === "-" ? -1 : 1), basis: result.basis };
+  }
+  if (node.type === "binary" && node.op === "*") {
+    const left = extractNumericFactors(node.left);
+    const right = extractNumericFactors(node.right);
+    return { coefficient: left.coefficient * right.coefficient, basis: combineBasis("*", left.basis, right.basis) };
+  }
+  if (node.type === "binary" && node.op === "/") {
+    const numerator = extractNumericFactors(node.left);
+    const denominator = extractNumericFactors(node.right);
+    if (denominator.coefficient === 0) return { coefficient: NaN, basis: node };
     return {
-      power: Math.max(0, alpha - (localIndex % logBlockSize)),
-      logPower: group === 0 ? 1 : 2
+      coefficient: numerator.coefficient / denominator.coefficient,
+      basis: combineBasis("/", numerator.basis, denominator.basis)
     };
   }
-
-  const step = Number.isInteger(d) ? 0.5 : 0.25;
-  const termIndex = group === 0 ? index : index;
-  return { power: Math.max(0, alpha - termIndex * step), logPower: 0 };
+  return { coefficient: 1, basis: node };
 }
 
-function thresholdDelta(d, alpha) {
-  if (Number.isInteger(d) && d % 2 === 1) {
-    return { factor: Math.round(Math.cos(Math.PI * alpha)), logPower: 1 };
+function combineBasis(operator, left, right) {
+  if (!left && !right) return null;
+  if (!left) return operator === "*" ? right : { type: "binary", op: "/", left: { type: "number", value: 1 }, right };
+  if (!right) return left;
+  return { type: "binary", op: operator, left, right };
+}
+
+function normalizeThresholdBasis(node) {
+  if (!node) return null;
+  if (node.type === "binary" && node.op === "/" && constantValue(node.left) === 1 &&
+      node.right.type === "call" && node.right.name === "Sqrt" && isFourMinusChannel(node.right.args[0], "s")) {
+    return { type: "binary", op: "^", left: node.right.args[0], right: { type: "number", value: -0.5 } };
   }
-  return { factor: Math.sin(Math.PI * alpha), logPower: 0 };
+  if (node.type === "binary" && node.op === "/" && constantValue(node.left) === 1 &&
+      node.right.type === "binary" && node.right.op === "^" && isFourMinusChannel(node.right.left, "s")) {
+    const power = constantValue(node.right.right);
+    if (power !== null) return { type: "binary", op: "^", left: node.right.left, right: { type: "number", value: -power } };
+  }
+  return node;
 }
 
-function thresholdTermTex(coefficient, d, deltaFactor) {
-  const { group, index, value } = coefficient;
-  const { power, logPower } = thresholdTermPower(d, group, index);
-  const effectiveValue = value * deltaFactor;
-  const coefficientLabel = `\\alpha_{0,0,${group},${index}}`;
-  const sigma = power > 0 ? `\\sigma_s^{-${thresholdPowerTex(power)}}` : "";
-  const log = logPower > 0 ? `\\log_s^{-${logPower}}` : "";
-  return `\\underset{${coefficientLabel}}{${formatThresholdCoefficient(effectiveValue)}}${sigma}${log}`;
+function mathematicaNumberTex(value) {
+  return formatThresholdCoefficient(value);
 }
 
-function thresholdFormula(coefficients, d) {
-  const alpha = (d - 3) / 2;
-  const { factor: deltaFactor } = thresholdDelta(d, alpha);
-  const terms = coefficients.map(coefficient => thresholdTermTex(coefficient, d, deltaFactor));
-  const crossed = [...terms, "(s\\to t)", "(s\\to u)"].join("+");
-  return `\\[A_{\\rm th}(s,t)=n_d\\left[${crossed}\\right],\\qquad \\sigma_x=\\frac{4-x}{4}\\]`;
+function mathematicaExpressionTex(node) {
+  if (node.type === "number") return mathematicaNumberTex(node.value);
+  if (node.type === "variable") return node.name;
+  if (node.type === "unary") return `${node.op === "-" ? "-" : ""}${mathematicaExpressionTex(node.child)}`;
+  if (node.type === "call") {
+    const argument = mathematicaExpressionTex(node.args[0]);
+    return node.name === "Sqrt" ? `\\sqrt{${argument}}` : `\\log\\left(${argument}\\right)`;
+  }
+  if (node.type !== "binary") return "";
+  if (node.op === "-" && ["s", "t", "u"].some(channel => isFourMinusChannel(node, channel))) {
+    const channel = ["s", "t", "u"].find(candidate => isFourMinusChannel(node, candidate));
+    return `4-${channel}`;
+  }
+  if (node.op === "^") {
+    const base = isFourMinusChannel(node.left, "s") ? "\\left(4-s\\right)" : `\\left(${mathematicaExpressionTex(node.left)}\\right)`;
+    const exponent = constantValue(node.right);
+    const exponentTex = exponent === null ? mathematicaExpressionTex(node.right) : thresholdPowerTex(exponent);
+    return `${base}^{${exponentTex}}`;
+  }
+  if (node.op === "/") return `\\frac{${mathematicaExpressionTex(node.left)}}{${mathematicaExpressionTex(node.right)}}`;
+  if (node.op === "*") {
+    if (constantValue(node.left) === 1) return mathematicaExpressionTex(node.right);
+    if (constantValue(node.right) === 1) return mathematicaExpressionTex(node.left);
+    return `${mathematicaExpressionTex(node.left)}\\,${mathematicaExpressionTex(node.right)}`;
+  }
+  if (node.op === "-") return `\\left(${mathematicaExpressionTex(node.left)}-${mathematicaExpressionTex(node.right)}\\right)`;
+  return `${mathematicaExpressionTex(node.left)}+${mathematicaExpressionTex(node.right)}`;
+}
+
+function thresholdTermPower(node) {
+  if (node.type === "binary" && node.op === "^" && isFourMinusChannel(node.left, "s")) {
+    return Math.max(0, -(constantValue(node.right) ?? 0));
+  }
+  if (node.type === "call" && node.name === "Sqrt" && isFourMinusChannel(node.args[0], "s")) return -0.5;
+  if (node.type === "binary" && node.op === "/" && node.right.type === "call" && node.right.name === "Sqrt" &&
+      isFourMinusChannel(node.right.args[0], "s")) return 0.5;
+  if (node.type === "binary" && node.op === "/" && node.right.type === "binary" && node.right.op === "^" &&
+      isFourMinusChannel(node.right.left, "s")) return constantValue(node.right.right) ?? 0;
+  return expressionChildren(node).reduce((largest, child) => Math.max(largest, thresholdTermPower(child)), 0);
+}
+
+function logGamma(value) {
+  const coefficients = [
+    676.5203681218851, -1259.1392167224028, 771.3234287776531,
+    -176.6150291621406, 12.507343278686905, -0.13857109526572012,
+    9.984369578019572e-6, 1.5056327351493116e-7
+  ];
+  if (value < 0.5) return Math.log(Math.PI) - Math.log(Math.sin(Math.PI * value)) - logGamma(1 - value);
+  const shifted = value - 1;
+  let series = 0.99999999999980993;
+  coefficients.forEach((coefficient, index) => { series += coefficient / (shifted + index + 1); });
+  const t = shifted + coefficients.length - 0.5;
+  return 0.5 * Math.log(2 * Math.PI) + (shifted + 0.5) * Math.log(t) - t + Math.log(series);
+}
+
+function thresholdNormalization(d) {
+  return Math.exp(
+    (5 - d) * Math.log(2) + (d / 2) * Math.log(4 * Math.PI) +
+    logGamma(d - 2) - Math.log(Math.PI) - logGamma((d - 2) / 2)
+  );
+}
+
+function collectRationalFactors(node, exponent = 1, factors = []) {
+  if (node.type === "binary" && node.op === "*") {
+    collectRationalFactors(node.left, exponent, factors);
+    collectRationalFactors(node.right, exponent, factors);
+  } else if (node.type === "binary" && node.op === "/") {
+    collectRationalFactors(node.left, exponent, factors);
+    collectRationalFactors(node.right, -exponent, factors);
+  } else if (node.type === "binary" && node.op === "^") {
+    const power = constantValue(node.right);
+    if (power !== null) factors.push({ node: node.left, exponent: exponent * power });
+    else factors.push({ node, exponent });
+  } else {
+    factors.push({ node, exponent });
+  }
+  return factors;
+}
+
+function isThresholdLog(node) {
+  return node.type === "call" && node.name === "Log" && containsFourMinus(node.args[0], "s");
+}
+
+function evaluateAtThreshold(node) {
+  if (node.type === "number") return node.value;
+  if (node.type === "variable") return node.name === "s" ? 4 : null;
+  if (node.type === "unary") {
+    const value = evaluateAtThreshold(node.child);
+    return value === null ? null : node.op === "-" ? -value : value;
+  }
+  if (node.type === "call") {
+    if (isThresholdLog(node)) return 1; // Keep its logarithmic power separately.
+    if (node.name === "Sqrt" && isFourMinusChannel(node.args[0], "s")) return 0;
+    const value = evaluateAtThreshold(node.args[0]);
+    if (value === null) return null;
+    if (node.name === "Sqrt") return Math.sqrt(value);
+    return null;
+  }
+  if (node.type !== "binary") return null;
+  if (isFourMinusChannel(node, "s")) return 1; // Keep its singular power separately.
+  const left = evaluateAtThreshold(node.left);
+  const right = evaluateAtThreshold(node.right);
+  if (left === null || right === null) return null;
+  switch (node.op) {
+    case "+": return left + right;
+    case "-": return left - right;
+    case "*": return left * right;
+    case "/": return right === 0 ? null : left / right;
+    case "^": return left ** right;
+    default: return null;
+  }
+}
+
+function oddThresholdPresentation(basis) {
+  const factors = collectRationalFactors(basis);
+  const exponentFor = predicate => factors
+    .filter(({ node }) => predicate(node))
+    .reduce((total, factor) => total + factor.exponent, 0);
+  const logPower = exponentFor(isThresholdLog);
+  const thresholdPower = -exponentFor(node => isFourMinusChannel(node, "s"));
+  const regularFactor = evaluateAtThreshold(basis);
+  if (regularFactor === null || !Number.isFinite(regularFactor) || logPower > 0) return null;
+
+  const inverseLogPower = -logPower;
+  const scale = regularFactor / ((4 ** thresholdPower) * (Math.PI ** inverseLogPower));
+  const thresholdDenominator = thresholdPower
+    ? `\\sigma_s^{${thresholdCompactPowerTex(thresholdPower)}}`
+    : "";
+  const logDenominator = inverseLogPower
+    ? `\\log_s${inverseLogPower === 1 ? "" : `^{${thresholdPowerTex(inverseLogPower)}}`}`
+    : "";
+  return {
+    scale,
+    power: thresholdPower,
+    denominator: [thresholdDenominator, logDenominator].filter(Boolean).join("\\,")
+  };
+}
+
+function evenThresholdPresentation(basis) {
+  if (basis?.type !== "binary" || basis.op !== "^" || !isFourMinusChannel(basis.left, "s")) return null;
+  const exponent = constantValue(basis.right);
+  if (exponent === null || exponent >= 0) return null;
+
+  const power = -exponent;
+  return {
+    scale: 4 ** -power,
+    power,
+    denominator: `\\sigma_s^{${thresholdCompactPowerTex(power)}}`
+  };
+}
+
+function thresholdFormulaFromAmplitude(amplitudeText, d) {
+  // Mathematica occasionally appends an unevaluated bookkeeping rule after
+  // the saved expression. It is metadata, not part of M(s,t,u).
+  const source = amplitudeText.replace(/\s*\/\.\s*Removed\["[^"]*"\]\s*$/, "");
+  const expression = parseMathematicaExpression(source);
+  const dimension = Number(d);
+  const nd = thresholdNormalization(dimension);
+  const oddDimension = Number.isInteger(dimension) && dimension % 2 === 1;
+  const terms = extractThresholdSChannel(expression).map(({ node, sign }) => {
+    const { coefficient, basis } = extractNumericFactors(node);
+    const normalizedBasis = normalizeThresholdBasis(basis ?? node);
+    const presentation = oddDimension
+      ? oddThresholdPresentation(normalizedBasis)
+      : evenThresholdPresentation(normalizedBasis);
+    const signedCoefficient = coefficient * sign / nd * (presentation?.scale ?? 1);
+    return {
+      coefficient: signedCoefficient,
+      power: presentation?.power ?? Math.abs(thresholdTermPower(normalizedBasis)),
+      denominator: presentation?.denominator ?? null,
+      tex: presentation?.denominator ? null : mathematicaExpressionTex(normalizedBasis)
+    };
+  }).filter(term => Number.isFinite(term.coefficient) && (term.denominator || term.tex));
+
+  terms.sort((a, b) => b.power - a.power);
+  if (!terms.length) throw new Error("No explicit threshold terms were found in the saved amplitude.");
+  const formula = terms.map((term, index) => {
+    const sign = term.coefficient < 0 ? "-" : index === 0 ? "" : "+";
+    const coefficient = formatThresholdCoefficient(Math.abs(term.coefficient));
+    const expression = term.denominator
+      ? `\\frac{${coefficient}}{${term.denominator}}`
+      : `${coefficient}\\,${term.tex}`;
+    return `${sign}${expression}`;
+  }).join("");
+  return `\\[M_{\\rm th}(s)=n_d\\left(${formula}\\right)\\]`;
 }
 
 function splitMathematicaFields(source) {
@@ -332,6 +732,16 @@ async function updateThreshold(d, ci, lmax, Nmax, improv) {
   const requestId = ++thresholdRequestId;
   const maxTarget = document.getElementById("thresholdMaxFormula");
   const minTarget = document.getElementById("thresholdMinFormula");
+  const downloadTargets = {
+    max: document.getElementById("downloadThresholdMax"),
+    min: document.getElementById("downloadThresholdMin")
+  };
+  Object.values(downloadTargets).forEach(link => {
+    if (link.dataset.objectUrl) URL.revokeObjectURL(link.dataset.objectUrl);
+    link.dataset.objectUrl = "";
+    link.removeAttribute("href");
+    link.hidden = true;
+  });
   const hasThresholdImprovement = /\bTH(?:fixed)?\b/.test(improv);
 
   if (location.protocol === "file:") {
@@ -355,30 +765,24 @@ async function updateThreshold(d, ci, lmax, Nmax, improv) {
     target.textContent = "Loading threshold terms…";
   });
 
-  const buildUrls = minmax => ({
-    amplitude: `data/M/M_d=${d}_ci=${ci}_L=${LSlider.value}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`,
-    solution: `data/SDPB/SDPB_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`
-  });
+  const buildUrl = minmax =>
+    `data/M/M_d=${d}_ci=${ci}_L=${LSlider.value}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`;
 
   for (const [minmax, target] of [["max", maxTarget], ["min", minTarget]]) {
     try {
-      const urls = buildUrls(minmax);
-      const [amplitudeResponse, solutionResponse] = await Promise.all([
-        fetch(urls.amplitude),
-        fetch(urls.solution)
-      ]);
-      if (!amplitudeResponse.ok || !solutionResponse.ok) {
-        throw new Error("No saved amplitude or optimization result is available for this selection.");
-      }
-      const [amplitudeText, solutionText] = await Promise.all([
-        amplitudeResponse.text(),
-        solutionResponse.text()
-      ]);
+      const response = await fetch(buildUrl(minmax));
+      if (!response.ok) throw new Error("No saved amplitude is available for this selection.");
+      const amplitudeText = await response.text();
       if (requestId !== thresholdRequestId) return;
       if (!amplitudeText.trim()) throw new Error("The saved amplitude is empty.");
-      const coefficients = parseThresholdCoefficients(solutionText);
-      if (!coefficients.length) throw new Error("The optimization output contains no threshold coefficients.");
-      target.innerHTML = thresholdFormula(coefficients, Number(d));
+      const tex = thresholdFormulaFromAmplitude(amplitudeText, d);
+      target.innerHTML = tex;
+      const link = downloadTargets[minmax];
+      const objectUrl = URL.createObjectURL(new Blob([tex], { type: "application/x-tex;charset=utf-8" }));
+      link.dataset.objectUrl = objectUrl;
+      link.href = objectUrl;
+      link.download = `threshold-d${d}-ci${ci}-L${LSlider.value}-lmax${lmax}-Nmax${Nmax}-${minmax}.tex`;
+      link.hidden = false;
       if (window.MathJax?.typesetPromise) await window.MathJax.typesetPromise([target]);
     } catch (error) {
       if (requestId !== thresholdRequestId) return;

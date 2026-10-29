@@ -69,6 +69,16 @@ toper {
   margin: 10px auto 0;
 }
 
+.featured-publication {
+  margin: 8px auto 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.featured-publication a {
+  color: var(--accent);
+}
+
 .eyebrow {
   margin: 0 0 5px;
   color: var(--accent);
@@ -251,16 +261,41 @@ select {
 }
 
 .threshold-formula {
+  align-self: stretch;
   width: 100%;
+  height: auto;
+  max-height: none;
   overflow-x: auto;
+  overflow-y: hidden;
   padding: 14px 10px;
   color: var(--text, #203238);
   text-align: left;
 }
 
+.threshold-definitions {
+  margin: 0 0 14px;
+  color: var(--muted, #52636a);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
 .threshold-formula mjx-container[display="true"] {
-  margin-left: 0 !important;
-  text-align: left;
+  margin: 0 !important;
+  text-align: left !important;
+}
+
+.threshold-log-definition {
+  margin: 0 auto 14px;
+  text-align: center;
+}
+
+.threshold-download-button {
+  margin: 0 10px 8px;
+}
+
+.download-button[hidden] {
+  display: none;
 }
 
 .bound-table-container {
