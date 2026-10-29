@@ -21,6 +21,7 @@ const cidImgMin = document.getElementById("cidImgMin");
 
 
 const allowedD = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12];
+const availableNmaxByDimension = window.imageInfo?.available_nmax_by_dimension ?? {};
 
 const dimensionDefaults = {
   paramCI: { min: 0, max: 3, step: 1, allowed: [0, 2] },
@@ -30,7 +31,17 @@ const dimensionDefaults = {
 };
 
 const configByD = Object.fromEntries(
-  allowedD.map(dimension => [dimension, dimensionDefaults])
+  allowedD.map(dimension => {
+    const available = (availableNmaxByDimension[dimension] ?? [])
+      .map(Number)
+      .filter(value => value >= dimensionDefaults.paramNmax.min);
+    const paramNmax = {
+      ...dimensionDefaults.paramNmax,
+      max: available.length ? available[available.length - 1] : dimensionDefaults.paramNmax.max,
+      ...(available.length ? { allowed: available } : {})
+    };
+    return [dimension, { ...dimensionDefaults, paramNmax }];
+  })
 );
 
 function setSectionOpen(button, open) {
@@ -1110,6 +1121,12 @@ function updateImages() {
 }
 
 
+NmaxSlider.addEventListener("input", () => {
+  const allowed = configByD[Number(dSlider.value)]?.paramNmax?.allowed;
+  if (!allowed?.length) return;
+  NmaxSlider.value = snapToAllowed(Number(NmaxSlider.value), allowed);
+});
+
 [dSlider, LSlider, lmaxSlider, NmaxSlider, improvSelect].forEach(el =>
   el.addEventListener("input", updateImages)
 );
@@ -1131,10 +1148,7 @@ function updateSlider(sliderId, config) {
   slider.max = config.max;
   slider.step = config.step;
 
-  let newVal = +slider.value;
-  if (newVal < config.min || newVal > config.max) {
-    newVal = config.min;
-  }
+  let newVal = Math.max(config.min, Math.min(config.max, +slider.value));
 
   if ((sliderId === "paramCI" || sliderId === "paramNmax") && config.allowed) {
     newVal = snapToAllowed(newVal, config.allowed);
@@ -1144,18 +1158,21 @@ function updateSlider(sliderId, config) {
   valSpan.textContent = newVal;
 }
 
+function updateControlsForDimension(dimension) {
+  const config = configByD[dimension];
+  if (!config) return;
+  for (const [id, sliderConfig] of Object.entries(config)) {
+    updateSlider(id, sliderConfig);
+  }
+}
+
 document.getElementById("paramD").addEventListener("input", function () {
   let d = Number(this.value);
   d = snapToAllowed(d, allowedD);
   this.value = d;
   document.getElementById("valD").textContent = d;
 
-  const config = configByD[d];
-  if (!config) return;
-
-  for (const [id, conf] of Object.entries(config)) {
-    updateSlider(id, conf);
-  }
+  updateControlsForDimension(d);
 
   updateImages();
 });
@@ -1179,6 +1196,7 @@ ciSlider.addEventListener("input", () => {
   });
 });
 
+updateControlsForDimension(Number(dSlider.value));
 updateImages();
 
 fetch('explanation.tex')
