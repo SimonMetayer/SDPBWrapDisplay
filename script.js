@@ -614,7 +614,7 @@ function thresholdFormulaFromAmplitude(amplitudeText, d) {
       : `${coefficient}\\,${term.tex}`;
     return `${sign}${expression}`;
   }).join("");
-  return `\\[M_{\\rm th}(s)=n_d\\left(${formula}\\right)\\]`;
+  return `\\[\\notag M_{\\rm th}(s)=n_d\\left(${formula}\\right)\\]`;
 }
 
 function splitMathematicaFields(source) {
@@ -684,7 +684,7 @@ function bestBoundTableTex(minBounds, maxBounds, coefficient) {
     const max = maxBounds.has(dimension) ? boundValueTex(maxBounds.get(dimension)) : "\\times";
     return `${formatBoundNumber(dimension, 3)}&${min}&${max}\\\\`;
   }).join("");
-  return `\\[\\begin{array}{c|r|r}d&\\mathrm{Min}\;c_{${coefficient}}(d)&\\mathrm{Max}\;c_{${coefficient}}(d)\\\\\\hline${body}\\end{array}\\]`;
+  return `\\[\\notag \\begin{array}{c|r|r}d&\\mathrm{Min}\;c_{${coefficient}}(d)&\\mathrm{Max}\;c_{${coefficient}}(d)\\\\\\hline${body}\\end{array}\\]`;
 }
 
 async function updateBestBoundTables(Nmax) {
