@@ -131,19 +131,22 @@ let almondTravelerChoices = [];
 let almondTravelerPoints = [];
 let thresholdRequestId = 0;
 
-function thresholdExponentTex(d) {
-  let numerator = Math.round(2 * (3 - d));
+function thresholdPowerTex(power) {
+  const quarters = Math.round(power * 4);
+  let numerator = quarters;
   let denominator = 4;
   if (numerator % 2 === 0) {
     numerator /= 2;
     denominator /= 2;
   }
+  if (numerator % 2 === 0 && denominator === 2) {
+    numerator /= 2;
+    denominator = 1;
+  }
   const sign = numerator < 0 ? "-" : "";
   const magnitude = Math.abs(numerator);
-  const exponent = denominator === 1
-    ? `${sign}${magnitude}`
-    : `${sign}\\frac{${magnitude}}{${denominator}}`;
-  return `\\left(\\frac{4-x}{4}\\right)^{${exponent}}`;
+  if (denominator === 1) return `${sign}${magnitude}`;
+  return `${sign}\\frac{${magnitude}}{${denominator}}`;
 }
 
 function parseMathematicaNumber(raw) {
@@ -152,13 +155,47 @@ function parseMathematicaNumber(raw) {
   return Number.isFinite(value) ? value : null;
 }
 
-function parseThresholdCoefficient(sdpbText) {
-  const match = sdpbText.match(/Rule\[\s*\\\[Alpha\]0x0x0x0,\s*([^\]]+)\]/);
-  return match ? parseMathematicaNumber(match[1]) : null;
+function parseThresholdCoefficients(sdpbText) {
+  const pattern = /Rule\[\s*\\\[Alpha\]0x0x0x(\d+),\s*([^\]]+)\]/g;
+  const coefficients = new Map();
+  for (const match of sdpbText.matchAll(pattern)) {
+    const index = Number(match[1]);
+    const value = parseMathematicaNumber(match[2]);
+    if (value !== null) coefficients.set(index, value);
+  }
+  return [...coefficients.entries()].sort(([a], [b]) => a - b);
 }
 
 function formatThresholdCoefficient(value) {
   return value.toPrecision(5).replace(/(?:\.0+|(\.\d*?)0+)(?=e|$)/, "$1");
+}
+
+function thresholdTermPower(d, index) {
+  const alpha = (d - 3) / 2;
+  if (Number.isInteger(d) && d % 2 === 1) {
+    const logBlockSize = Math.floor(alpha) + 1;
+    return {
+      power: Math.max(0, alpha - (index % logBlockSize)),
+      logPower: Math.floor(index / logBlockSize) + 1
+    };
+  }
+
+  const step = Number.isInteger(d) ? 0.5 : 0.25;
+  return { power: Math.max(0, alpha - index * step), logPower: 0 };
+}
+
+function thresholdTermTex(value, index, d, variable = "s") {
+  const { power, logPower } = thresholdTermPower(d, index);
+  const coefficient = `\\underset{\\alpha_{0,0,0,${index}}}{${formatThresholdCoefficient(value)}}`;
+  const sigma = power > 0 ? `\\sigma_${variable}^{-${thresholdPowerTex(power)}}` : "";
+  const log = logPower > 0 ? `\\log_${variable}^{-${logPower}}` : "";
+  return `${coefficient}${sigma}${log}`;
+}
+
+function thresholdFormula(coefficients, d) {
+  const terms = coefficients.map(([index, value]) => thresholdTermTex(value, index, d));
+  const crossed = [...terms, "(s\\to t)", "(s\\to u)"].join("+");
+  return `\\[A_{\\rm th}(s,t)=n_d\\left[${crossed}\\right],\\qquad \\sigma_x=\\frac{4-x}{4}\\]`;
 }
 
 async function updateThreshold(d, ci, lmax, Nmax, improv) {
@@ -167,14 +204,24 @@ async function updateThreshold(d, ci, lmax, Nmax, improv) {
   const minTarget = document.getElementById("thresholdMinFormula");
   const hasThresholdImprovement = /\bTH(?:fixed)?\b/.test(improv);
 
+  if (location.protocol === "file:") {
+    [maxTarget, minTarget].forEach(target => {
+      window.MathJax?.typesetClear?.([target]);
+      target.textContent = "Local data is blocked when index.html is opened directly. Run ./serve-local.sh in this folder, then open http://127.0.0.1:8000/.";
+    });
+    return;
+  }
+
   if (!hasThresholdImprovement) {
     [maxTarget, minTarget].forEach(target => {
+      window.MathJax?.typesetClear?.([target]);
       target.textContent = "No threshold term is included in this improvement.";
     });
     return;
   }
 
   [maxTarget, minTarget].forEach(target => {
+    window.MathJax?.typesetClear?.([target]);
     target.textContent = "Loading threshold terms…";
   });
 
@@ -182,19 +229,6 @@ async function updateThreshold(d, ci, lmax, Nmax, improv) {
     amplitude: `data/M/M_d=${d}_ci=${ci}_L=${LSlider.value}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`,
     solution: `data/SDPB/SDPB_d=${d}_ci=${ci}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`
   });
-
-  const power = thresholdExponentTex(Number(d));
-  const oddDimension = Number.isInteger(Number(d)) && Number(d) % 2 === 1;
-  const thresholdFactor = oddDimension
-    ? `${power}\\,\\frac{(-1)^{(${d}-3)/2}\\pi}{\\log\\left(\\frac{4-x}{4}\\right)}`
-    : `${power}\\,\\sin\\left(\\pi\\frac{${d}-3}{2}\\right)`;
-  const expression = value =>
-    `\\[\\alpha_{0000}=${formatThresholdCoefficient(value)},\\qquad ` +
-    `M_{\\rm TH}(s,t,u)=\\alpha_{0000}n_d\\left[\\begin{aligned} ` +
-    `&${thresholdFactor.replaceAll("x", "s")}\\\\` +
-    `+&${thresholdFactor.replaceAll("x", "t")}\\\\` +
-    `+&${thresholdFactor.replaceAll("x", "u")} ` +
-    `\\end{aligned}\\right]\\]`;
 
   for (const [minmax, target] of [["max", maxTarget], ["min", minTarget]]) {
     try {
@@ -212,10 +246,9 @@ async function updateThreshold(d, ci, lmax, Nmax, improv) {
       ]);
       if (requestId !== thresholdRequestId) return;
       if (!amplitudeText.trim()) throw new Error("The saved amplitude is empty.");
-      const coefficient = parseThresholdCoefficient(solutionText);
-      if (coefficient === null) throw new Error("The optimization output has no α₀₀₀₀ coefficient.");
-      window.MathJax?.typesetClear?.([target]);
-      target.innerHTML = expression(coefficient);
+      const coefficients = parseThresholdCoefficients(solutionText);
+      if (!coefficients.length) throw new Error("The optimization output contains no threshold coefficients.");
+      target.innerHTML = thresholdFormula(coefficients, Number(d));
       if (window.MathJax?.typesetPromise) await window.MathJax.typesetPromise([target]);
     } catch (error) {
       if (requestId !== thresholdRequestId) return;
@@ -223,7 +256,6 @@ async function updateThreshold(d, ci, lmax, Nmax, improv) {
     }
   }
 }
-
 function parseAlmondPoint(line) {
   const values = line.trim().replace(/[{}]/g, '').split(',');
   if (values.length < 2) return null;
