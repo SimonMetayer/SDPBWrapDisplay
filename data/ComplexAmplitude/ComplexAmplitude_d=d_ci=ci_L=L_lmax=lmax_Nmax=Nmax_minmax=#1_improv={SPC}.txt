@@ -1,0 +1,2 @@
+Table[ReIm[s + I*ss], ReIm[{s, 0.001, 110., 100./Floor[Sqrt[smax]]}], ReIm[{ss, 0.001, 110., m$16042}]]
+Log[Abs[Table[N[N[SLowPrec[d, L, si, σgrid$14414, pgrid$14936]] /. αirep$14414], {si, Table[s + I*ss, {s, 0.001, 110., 100./Floor[Sqrt[smax]]}, {ss, 0.001, 110., m$16042}]}]]]
