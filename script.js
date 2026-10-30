@@ -92,7 +92,7 @@ const improvByDimension = {
   10: "TH, subTH, SPC",
   10.5: "TH, subTH, SPC",
   11: "TH, subTH, ftTH, SPC",
-  11.5: "TH, subTH, subTHcorr, SPC",
+  11.5: "TH, subTH, subTHcorr, subTHcorr2, SPC",
   12: "TH, subTH, SPC"
 };
 
