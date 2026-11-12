@@ -4,7 +4,35 @@
   <meta charset="UTF-8" />
   <title>S-matrix Bootstrap | Extremal Amplitudes Viewer</title>
   <link rel="icon" href="images/logo/favicon.ico" />
-  <link rel="stylesheet" href="style.css?v=threshold-defs-6" />
+  <script>
+    (() => {
+      const key = "gallery-theme";
+      const root = document.documentElement;
+      try {
+        const savedTheme = localStorage.getItem(key);
+        if (savedTheme === "light" || savedTheme === "dark") root.dataset.theme = savedTheme;
+      } catch {
+        // The system theme remains available if storage is blocked.
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const picker = document.getElementById("galleryTheme");
+        picker.value = root.dataset.theme ?? "system";
+        picker.addEventListener("change", () => {
+          if (picker.value === "system") delete root.dataset.theme;
+          else root.dataset.theme = picker.value;
+          try {
+            if (picker.value === "system") localStorage.removeItem(key);
+            else localStorage.setItem(key, picker.value);
+          } catch {
+            // The selection still applies to the current page.
+          }
+        });
+        picker.hidden = false;
+      });
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css?v=gallery-theme-2" />
 
   <!-- MathJax configuration -->
   <script>
@@ -126,6 +154,11 @@
   <div class="single-button">
     <button id="open-all" class="global-toggle">Open all</button>
     <button id="close-all" class="global-toggle">Close all</button>
+    <select id="galleryTheme" class="theme-picker" aria-label="Color theme" hidden>
+      <option value="system">System theme</option>
+      <option value="light">Light theme</option>
+      <option value="dark">Dark theme</option>
+    </select>
   </div>
   
   <!-- Amplitudes -->

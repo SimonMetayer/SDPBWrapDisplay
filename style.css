@@ -1,14 +1,28 @@
 :root {
-  color-scheme: light;
-  --ink: #20303b;
-  --muted: #60717c;
-  --accent: #176b70;
-  --accent-dark: #105458;
-  --line: #dce5e8;
-  --surface: #ffffff;
-  --canvas: #f3f7f7;
-  --soft: #eaf2f2;
-  --shadow: 0 8px 24px rgba(24, 54, 62, 0.07);
+  color-scheme: light dark;
+  --ink: light-dark(#20303b, #e1e9ed);
+  --muted: light-dark(#60717c, #aabdc7);
+  --accent: light-dark(#176b70, #83d2d3);
+  --accent-dark: light-dark(#105458, #a0e2e3);
+  --on-accent: light-dark(#fff, #102325);
+  --line: light-dark(#dce5e8, #394d57);
+  --surface: light-dark(#ffffff, #202d35);
+  --canvas: light-dark(#f3f7f7, #151e25);
+  --soft: light-dark(#eaf2f2, #2a3a43);
+  --shadow: 0 8px 24px light-dark(rgba(24, 54, 62, 0.07), rgba(0, 0, 0, 0.22));
+}
+
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) :is(.grid, .doublegrid, .triplegrid, .image-container, .image-container-almond) img {
+    filter: brightness(0.82);
+  }
+}
+
+:root[data-theme="dark"] :is(.grid, .doublegrid, .triplegrid, .image-container, .image-container-almond) img {
+  filter: brightness(0.82);
 }
 
 * { box-sizing: border-box; }
@@ -64,7 +78,7 @@ img.logo-inline {
 toper {
   display: block;
   font-size: 0.9rem;
-  color: #100;
+  color: var(--ink);
   text-align: center;
   margin: 10px auto 0;
 }
@@ -154,7 +168,7 @@ button {
   padding: 4px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #f7fafa;
+  background: light-dark(#f7fafa, #283740);
   cursor: pointer;
   transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
 }
@@ -162,7 +176,7 @@ button {
 .slider-btn:hover,
 .autoPlayBtn:hover,
 .global-toggle:hover {
-  border-color: #aac7c8;
+  border-color: light-dark(#aac7c8, #66858c);
   background: var(--soft);
 }
 
@@ -191,6 +205,7 @@ select {
 
 .single-button {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
   width: min(100%, 1100px);
@@ -198,6 +213,12 @@ select {
 }
 
 .global-toggle { padding: 7px 16px; }
+
+.theme-picker {
+  width: auto;
+  min-height: 34px;
+  background: light-dark(#f7fafa, #283740);
+}
 
 .toggle-button {
   max-width: 1200px;
@@ -215,8 +236,8 @@ select {
 }
 
 .toggle-button:hover {
-  border-color: #b8d0d1;
-  background: #e0eeee;
+  border-color: light-dark(#b8d0d1, #66858c);
+  background: light-dark(#e0eeee, #354b55);
 }
 
 .collapsible-content {
@@ -225,7 +246,7 @@ select {
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.72);
+  background: light-dark(rgba(255, 255, 255, 0.72), #1a262e);
 }
 
 .collapsed { display: none !important; }
@@ -255,7 +276,7 @@ select {
   flex-direction: column;
   align-items: center;
   padding: 12px;
-  border: 1px solid #e5ebed;
+  border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--surface);
 }
@@ -268,7 +289,7 @@ select {
   overflow-x: auto;
   overflow-y: hidden;
   padding: 14px 10px;
-  color: var(--text, #203238);
+  color: var(--ink);
   text-align: left;
 }
 
@@ -306,7 +327,7 @@ select {
   width: 100%;
   overflow-x: auto;
   padding: 8px 4px;
-  color: var(--text, #203238);
+  color: var(--ink);
   text-align: center;
 }
 
@@ -378,7 +399,7 @@ select {
   border: 1px solid var(--accent);
   border-radius: 8px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-size: 0.8rem;
   text-decoration: none;
   transition: background-color 140ms ease, border-color 140ms ease;
@@ -414,7 +435,7 @@ select {
   gap: 6px 12px;
   margin: 0;
   padding: 11px 0;
-  border-bottom: 1px solid #edf1f2;
+  border-bottom: 1px solid var(--line);
   line-height: 1.5;
 }
 .reference-container li:last-child { border-bottom: 0; }
