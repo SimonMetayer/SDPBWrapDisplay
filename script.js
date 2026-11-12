@@ -845,16 +845,19 @@ function orderAlmondPoints(points) {
 
 function makeAlmondTravelerChoices(d, L, lmax, Nmax, improv, pointCount) {
   const extraPairCount = Math.max(0, Math.ceil((pointCount - 4) / 2));
-  const amplitudeChoice = (ci, minmax) => ({
-    name: `c${ci} ${minmax}`,
-    image: `images/Amplitude/Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.png`,
-    data: `data/Amplitude/Amplitude_d=${d}_ci=${ci}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`
-  });
-  const almondChoice = (label, minmax) => ({
-    name: `label ${label} ${minmax}`,
-    image: `images/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=${label}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.png`,
-    data: `data/AlmondAmplitude/AlmondAmplitude_d=${d}_x=0_y=2_label=${label}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}.txt`
-  });
+  const makeChoice = (name, kind, point, minmax) => {
+    const suffix = `d=${d}_${point}_L=${L}_lmax=${lmax}_Nmax=${Nmax}_minmax=${minmax}_improv={${improv}}`;
+    return {
+      name,
+      image: `images/${kind}/${kind}_${suffix}.png`,
+      data: `data/${kind}/${kind}_${suffix}.txt`,
+      symbolic: `data/M/M_${suffix}.txt`
+    };
+  };
+  const amplitudeChoice = (ci, minmax) =>
+    makeChoice(`c${ci} ${minmax}`, 'Amplitude', `ci=${ci}`, minmax);
+  const almondChoice = (label, minmax) =>
+    makeChoice(`label ${label} ${minmax}`, 'AlmondAmplitude', `x=0_y=2_label=${label}`, minmax);
 
   const labelsMin = Array.from({ length: extraPairCount }, (_, i) => almondChoice(i, 'min'));
   const labelsMax = Array.from({ length: extraPairCount }, (_, i) =>
@@ -910,9 +913,9 @@ function renderAlmondTraveler() {
   updateAlmondPointMarker(Number(slider.value));
   image.src = selected.image;
   image.alt = `Amplitude at almond point ${position}: ${selected.name}`;
-  for (const link of [download, downloadM]) {
-    link.href = selected.data;
-    link.download = selected.data.split('/').pop();
+  for (const [link, path] of [[download, selected.data], [downloadM, selected.symbolic]]) {
+    link.href = path;
+    link.download = path.split('/').pop();
   }
 }
 
@@ -927,6 +930,8 @@ async function updateAlmondTraveler(dataUrl, d, L, lmax, Nmax, improv) {
   almondTravelerPoints = [];
   document.getElementById('almondPointOverlay').style.visibility = 'hidden';
   label.textContent = 'Loading almond points…';
+  document.getElementById('downloadAlmond02Traveler').removeAttribute('href');
+  document.getElementById('downloadAlmond02TravelerM').removeAttribute('href');
 
   try {
     const response = await fetch(dataUrl);
