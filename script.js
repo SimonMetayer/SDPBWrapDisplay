@@ -30,15 +30,21 @@ const dimensionDefaults = {
   paramNmax: { min: 10, max: 30, step: 1 }
 };
 
+const { min: minNmax, max: defaultMaxNmax } = dimensionDefaults.paramNmax;
+const defaultNmaxValues = Array.from(
+  { length: defaultMaxNmax - minNmax + 1 },
+  (_, index) => minNmax + index
+);
+
 const configByD = Object.fromEntries(
   allowedD.map(dimension => {
-    const available = (availableNmaxByDimension[dimension] ?? [])
+    const higherNmaxValues = (availableNmaxByDimension[dimension] ?? [])
       .map(Number)
-      .filter(value => value >= dimensionDefaults.paramNmax.min);
+      .filter(value => value > defaultMaxNmax);
     const paramNmax = {
       ...dimensionDefaults.paramNmax,
-      max: available.length ? available[available.length - 1] : dimensionDefaults.paramNmax.max,
-      ...(available.length ? { allowed: available } : {})
+      max: Math.max(defaultMaxNmax, ...higherNmaxValues),
+      allowed: [...defaultNmaxValues, ...higherNmaxValues]
     };
     return [dimension, { ...dimensionDefaults, paramNmax }];
   })
